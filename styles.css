@@ -699,20 +699,24 @@ section[id] {
 .task-slide {
   flex: 0 0 min(1160px, calc(100% - 132px));
   min-width: 0;
-  padding: 18px;
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
+  padding: 20px;
+  border: 0;
+  border-radius: 10px;
   background: var(--surface);
-  box-shadow: 0 2px 12px rgba(32, 33, 36, 0.08);
+  box-shadow: 0 5px 18px rgba(32, 33, 36, 0.08);
   opacity: 0.45;
   transform: scale(0.985);
   transform-origin: center;
   transition:
+    box-shadow 260ms ease,
     opacity 260ms ease,
     transform 260ms ease;
 }
 
 .task-slide.is-active {
+  box-shadow:
+    0 14px 34px rgba(32, 33, 36, 0.11),
+    0 1px 3px rgba(32, 33, 36, 0.08);
   opacity: 1;
   transform: none;
 }
@@ -727,8 +731,9 @@ section[id] {
   display: grid;
   grid-template-rows: auto minmax(0, 1fr);
   min-width: 0;
-  border: 2px solid var(--line);
-  border-radius: 7px;
+  padding: 8px;
+  border: 0;
+  border-radius: 11px;
   background: #ffffff;
   overflow: hidden;
   opacity: 0.6;
@@ -744,13 +749,12 @@ section[id] {
 }
 
 .comparison-panel.is-playing {
-  border-color: #2f3842;
   opacity: 1;
   filter: none;
   transform: translateY(-5px);
   box-shadow:
-    0 18px 38px rgba(32, 33, 36, 0.18),
-    0 0 0 4px rgba(73, 111, 158, 0.16);
+    0 18px 36px rgba(32, 33, 36, 0.16),
+    0 4px 12px rgba(32, 33, 36, 0.1);
 }
 
 .comparison-panel.is-complete {
@@ -765,15 +769,14 @@ section[id] {
   justify-content: space-between;
   gap: 12px;
   min-height: 50px;
-  padding: 10px 14px;
-  border-bottom: 1px solid var(--line);
+  padding: 6px 6px 10px;
+  border-bottom: 0;
   color: var(--ink);
-  background: #f7f7f7;
+  background: transparent;
 }
 
 .comparison-panel.is-playing .comparison-label {
-  border-bottom-color: #cad3dc;
-  background: #eef2f7;
+  background: transparent;
 }
 
 .comparison-label span {
@@ -797,8 +800,20 @@ section[id] {
 }
 
 .comparison-media {
+  position: relative;
   aspect-ratio: 16 / 9;
+  border-radius: 8px;
   background: #101614;
+  box-shadow:
+    0 0 0 1px rgba(32, 33, 36, 0.08),
+    0 8px 18px rgba(32, 33, 36, 0.08);
+  overflow: hidden;
+}
+
+.comparison-panel.is-playing .comparison-media {
+  box-shadow:
+    0 0 0 1px rgba(32, 33, 36, 0.16),
+    0 12px 28px rgba(32, 33, 36, 0.12);
 }
 
 .carousel-controls {
