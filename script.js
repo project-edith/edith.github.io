@@ -36,41 +36,41 @@ if ("IntersectionObserver" in window && sections.length) {
 const demos = {
   gaze: {
     kicker: "Demo 01",
-    title: "Gaze-anchored context tracking",
+    title: "Egocentric context and gaze",
     description:
-      "EDITH uses user attention and egocentric context to decide which scene elements should influence the next robot response.",
+      "EDITH streams the human's first-person view and gaze so brief nonverbal signals can ground underspecified language.",
     src: "assets/videos/eye-tracking-demo.mp4",
     poster: "assets/posters/eye-tracking-demo.jpg",
     trace: [
-      "Observe user focus and object layout.",
-      "Bind ambiguous references to likely targets.",
-      "Update the interaction state for the robot policy.",
+      "Capture first-person RGB frames from smart glasses.",
+      "Overlay gaze markers on the egocentric context.",
+      "Pair the context stream with the user's utterance.",
     ],
   },
   object: {
     kicker: "Demo 02",
-    title: "Object-centered collaboration",
+    title: "Subtask execution",
     description:
-      "The system keeps track of object state and task progress while the robot coordinates with a person around a shared workspace.",
+      "The low-level policy executes each queued subtask from a fine-grained instruction and keyframe.",
     src: "assets/videos/tumbler-demo.mp4",
     poster: "assets/posters/tumbler-demo.jpg",
     trace: [
-      "Detect the active object and manipulation phase.",
-      "Predict the next useful assistance point.",
-      "Execute or explain the robot action with context.",
+      "Condition on the robot observation and current subtask.",
+      "Predict a robot action and completion probability.",
+      "Pop the next subtask once the current one is complete.",
     ],
   },
   tool: {
     kicker: "Demo 03",
-    title: "Tool-use assistance",
+    title: "Tool-passing interaction",
     description:
-      "EDITH represents tool affordances and user intent so the robot can support multi-step activity instead of reacting to isolated commands.",
+      "EDITH handles tool-passing tasks where language alone is underspecified and gaze identifies the target.",
     src: "assets/videos/tool-demo.mp4",
     poster: "assets/posters/tool-demo.jpg",
     trace: [
-      "Parse the tool, target, and user motion.",
-      "Maintain a short-horizon plan across steps.",
-      "Recover when the observed action diverges from expectation.",
+      "Infer intent from verbal and nonverbal human signals.",
+      "Create instruction-keyframe subtasks.",
+      "Execute the subtasks with the VLA low-level policy.",
     ],
   },
 };
@@ -127,37 +127,37 @@ if (demoVideo && progressBar) {
 }
 
 const methodContent = {
-  perception: {
-    kicker: "Module 01",
-    title: "Grounding user intent in the current scene.",
+  signals: {
+    kicker: "Hardware System",
+    title: "Capturing human signals via smart glasses.",
     description:
-      "EDITH starts by aligning user attention, body motion, and object state so that ambiguous language can be resolved against the actual interaction context.",
+      "EDITH streams the human's first-person view, gaze, and speech in real time, then synchronizes these human signals with robot observations.",
     points: [
-      "Tracks salient objects and user focus over time.",
-      "Builds a task-conditioned scene representation.",
-      "Flags low-confidence observations before acting.",
+      "Project Aria glasses capture first-person RGB, gaze, and speech.",
+      "Speech is transcribed into language instructions.",
+      "Human signals and robot observations are aligned by timestamp.",
     ],
   },
-  memory: {
-    kicker: "Module 02",
-    title: "Maintaining interaction memory across turns.",
+  "high-level": {
+    kicker: "High-level Policy",
+    title: "Inferring intent from egocentric context and language.",
     description:
-      "The system stores recent instructions, corrections, object changes, and uncertainty signals so each response is conditioned on the evolving task.",
+      "The high-level policy πh periodically processes C^ego_{t-H:t} and language instructions ℓ_{t-H:t} to produce subtasks.",
     points: [
-      "Links dialogue references to persistent scene entities.",
-      "Stores corrections as constraints for future actions.",
-      "Separates task progress from transient visual observations.",
+      "Each subtask pairs a fine-grained instruction [TASK] with a keyframe C^key.",
+      "The keyframe captures the moment when the human's nonverbal signal is clearest.",
+      "New subtasks are appended to the task queue Q for sequential execution.",
     ],
   },
-  policy: {
-    kicker: "Module 03",
-    title: "Choosing when to ask, explain, or act.",
+  "low-level": {
+    kicker: "Low-level Policy",
+    title: "Executing queued subtasks with a VLA policy.",
     description:
-      "EDITH uses the grounded state and interaction memory to decide whether the robot should clarify intent, communicate uncertainty, or execute an action.",
+      "The low-level policy πl takes the robot observation ot, [TASK], and C^key, then produces a robot action and completion probability.",
     points: [
-      "Balances action confidence against clarification cost.",
-      "Generates context-aware robot responses.",
-      "Recovers from mismatch between predicted and observed outcomes.",
+      "Predicts at and pt for the current subtask.",
+      "Moves to the next queued subtask when pt exceeds a threshold.",
+      "Uses a fine-tuned VLA model with an added completion head.",
     ],
   },
 };
@@ -188,7 +188,7 @@ function setMethod(step) {
   }
 }
 
-document.querySelectorAll(".method-tab, .method-node, .arch-module, .arch-memory").forEach((element) => {
+document.querySelectorAll(".method-tab, .method-node, .arch-policy, .arch-subtasks, .arch-context-strip, .arch-robot-observations").forEach((element) => {
   element.addEventListener("click", () => setMethod(element.dataset.step));
 });
 

@@ -72,11 +72,12 @@
         <div class="section-inner summary-grid">
           <article>
             <p class="section-kicker">Project Snapshot</p>
-            <h2>From passive robot demos to inspectable interaction traces.</h2>
+            <h2>Hierarchical policies from verbal and egocentric human signals.</h2>
             <p>
               This page is structured like a modern research showcase: short
               autoplaying demos, a focused video viewer, and a method diagram that
-              exposes how perception, language, memory, and robot actions connect.
+              connects egocentric context, language instructions, subtasks, and
+              robot actions.
             </p>
           </article>
           <dl class="quick-facts">
@@ -141,15 +142,15 @@
               </div>
               <div class="demo-caption">
                 <p class="section-kicker" id="demo-kicker">Demo 01</p>
-                <h3 id="demo-title">Gaze-anchored context tracking</h3>
+                <h3 id="demo-title">Egocentric context and gaze</h3>
                 <p id="demo-description">
-                  EDITH uses user attention and egocentric context to decide
-                  which scene elements should influence the next robot response.
+                  EDITH streams the human's first-person view and gaze so brief
+                  nonverbal signals can ground underspecified language.
                 </p>
                 <ol class="trace-list" id="demo-trace">
-                  <li>Observe user focus and object layout.</li>
-                  <li>Bind ambiguous references to likely targets.</li>
-                  <li>Update the interaction state for the robot policy.</li>
+                  <li>Capture first-person RGB frames from smart glasses.</li>
+                  <li>Overlay gaze markers on the egocentric context.</li>
+                  <li>Pair the context stream with the user's utterance.</li>
                 </ol>
               </div>
             </div>
@@ -191,188 +192,161 @@
         <div class="section-inner">
           <div class="section-heading wide">
             <p class="section-kicker">System Architecture</p>
-            <h2>A shape-based architecture canvas for EDITH.</h2>
+            <h2>EDITH policy input-output architecture.</h2>
             <p>
-              This is drawn with real webpage shapes, SVG arrows, and embedded
-              image tiles instead of a flattened GIF. The module labels can be
-              replaced with final paper terminology when the manuscript is ready.
+              Egocentric context, language, and robot observations are organized
+              into high-level task planning and low-level robot control.
             </p>
           </div>
 
           <div class="architecture-scroll">
-            <div class="architecture-canvas" aria-label="EDITH system architecture diagram">
-              <svg class="arch-arrows" viewBox="0 0 1180 720" aria-hidden="true">
+            <div class="architecture-canvas" aria-label="EDITH policy input-output architecture diagram">
+              <svg class="arch-arrows" viewBox="0 0 1073 427" aria-hidden="true">
                 <defs>
-                  <marker
-                    id="arrow-teal"
-                    markerHeight="12"
-                    markerWidth="12"
-                    orient="auto"
-                    refX="9"
-                    refY="3"
-                    viewBox="0 0 10 6"
-                  >
-                    <path d="M0 0 L10 3 L0 6 Z" fill="#00736e"></path>
+                  <marker id="arrow-black" markerHeight="8" markerUnits="userSpaceOnUse" markerWidth="8" orient="auto" refX="7" refY="4" viewBox="0 0 8 8">
+                    <path d="M0 0 L8 4 L0 8 Z" fill="#111111"></path>
                   </marker>
-                  <marker
-                    id="arrow-amber"
-                    markerHeight="12"
-                    markerWidth="12"
-                    orient="auto"
-                    refX="9"
-                    refY="3"
-                    viewBox="0 0 10 6"
-                  >
-                    <path d="M0 0 L10 3 L0 6 Z" fill="#c56b28"></path>
+                  <marker id="arrow-soft" markerHeight="8" markerUnits="userSpaceOnUse" markerWidth="8" orient="auto" refX="7" refY="4" viewBox="0 0 8 8">
+                    <path d="M0 0 L8 4 L0 8 Z" fill="#a4c2f4"></path>
                   </marker>
-                  <marker
-                    id="arrow-blue"
-                    markerHeight="12"
-                    markerWidth="12"
-                    orient="auto"
-                    refX="9"
-                    refY="3"
-                    viewBox="0 0 10 6"
-                  >
-                    <path d="M0 0 L10 3 L0 6 Z" fill="#496f9e"></path>
+                  <marker id="arrow-pale" markerHeight="8" markerUnits="userSpaceOnUse" markerWidth="8" orient="auto" refX="7" refY="4" viewBox="0 0 8 8">
+                    <path d="M0 0 L8 4 L0 8 Z" fill="#eeeeee"></path>
                   </marker>
                 </defs>
-                <path class="arrow teal" d="M205 316 C255 316 277 210 344 210"></path>
-                <path class="arrow teal" d="M562 274 L562 432"></path>
-                <path class="arrow blue" d="M562 430 L562 482"></path>
-                <path class="arrow amber" d="M666 382 C720 382 752 382 805 382"></path>
-                <path class="arrow blue" d="M1002 158 L1002 276"></path>
-                <path class="arrow blue" d="M1002 382 L936 538"></path>
-                <path class="arrow blue" d="M1002 382 L1084 538"></path>
-                <path class="arrow amber loop" d="M1048 594 H162 C120 594 104 570 104 532 V338 C104 304 128 288 172 288"></path>
+                <line class="arch-divider" x1="636" y1="22" x2="636" y2="130"></line>
+                <line class="arch-divider" x1="636" y1="382" x2="636" y2="422"></line>
+                <path class="arch-flow pale" d="M210 205 H244"></path>
+                <path class="arch-flow black" d="M378 121 V162"></path>
+                <path class="arch-flow soft" d="M378 243 V276"></path>
+                <path class="arch-flow black" d="M503 333 H536"></path>
+                <path class="arch-flow black" d="M742 203 H759"></path>
+                <path class="arch-flow black" d="M896 124 V163"></path>
+                <path class="arch-flow soft" d="M825 243 V304"></path>
+                <path class="arch-flow soft" d="M963 243 V304"></path>
               </svg>
 
-              <div class="arch-lane label-context">Context</div>
-              <div class="arch-lane label-intent">Intent</div>
-              <div class="arch-lane label-policy">Policy</div>
-              <div class="arch-lane label-action">Action</div>
+              <div class="arch-gaze-cone" aria-hidden="true"></div>
+              <img class="arch-user" src="assets/user.png" alt="User wearing smart glasses">
 
-              <article class="arch-human">
-                <div class="human-avatar" aria-hidden="true">
-                  <span></span>
+              <div class="arch-speech">
+                "Pass me that driver and that metal profile"
+              </div>
+              <div class="arch-language">
+                Language <span>&ell;<sub>t-H:t</sub></span>
+              </div>
+
+              <div class="arch-label arch-context-title">
+                Egocentric context <span>C<sup>ego</sup><sub>t-H:t</sub></span>
+              </div>
+              <div class="arch-context-strip is-active" data-step="signals">
+                <div class="arch-frame">
+                  <img src="assets/architecture/context-overview.jpg" alt="">
+                  <span class="gaze-dot"></span>
                 </div>
-                <div class="speech-bubble">
-                  "Pass me the driver and the metal profile"
+                <div class="arch-frame is-selected">
+                  <img src="assets/architecture/context-hands-01.jpg" alt="">
+                  <span class="gaze-dot"></span>
                 </div>
-                <p>Language + user gaze</p>
+                <div class="arch-frame">
+                  <img src="assets/architecture/context-hands-02.jpg" alt="">
+                  <span class="gaze-dot"></span>
+                </div>
+                <div class="arch-frame">
+                  <img src="assets/architecture/context-hands-03.jpg" alt="">
+                  <span class="gaze-dot"></span>
+                </div>
+                <div class="arch-frame">
+                  <img src="assets/architecture/context-robot.jpg" alt="">
+                  <span class="gaze-dot"></span>
+                </div>
+              </div>
+
+              <button class="arch-policy arch-policy-high" type="button" data-step="high-level">
+                <span>High-level policy &pi;<sub>h</sub></span>
+                <strong>(VLM)</strong>
+              </button>
+
+              <article class="arch-subtasks" data-step="high-level">
+                <div class="arch-subtask-card">
+                  <div class="arch-keyframe-head">
+                    Keyframe C<sup>key</sup>
+                  </div>
+                  <img src="assets/architecture/subtask-keyframe.jpg" alt="">
+                  <span class="gaze-dot"></span>
+                </div>
+                <div class="arch-subtask-card task-text">
+                  <strong>[TASK]</strong>
+                  <p>"Pick up the smallest profile and pass it to human."</p>
+                </div>
+              </article>
+              <div class="arch-caption subtasks-caption">Subtasks</div>
+
+              <div class="arch-queue-title">
+                Task queue <span>Q</span>
+              </div>
+              <article class="arch-task-queue">
+                <div class="arch-queue-item">
+                  <img src="assets/architecture/task-keyframe.jpg" alt="">
+                  <p>"Pick up the driver on the leftmost side and pass it to human."</p>
+                </div>
+                <div class="arch-queue-dots">...</div>
+                <div class="arch-queue-item">
+                  <img src="assets/architecture/task-profile.jpg" alt="">
+                  <p>"Pick up the smallest profile and pass it to human."</p>
+                </div>
               </article>
 
-              <article class="arch-strip">
-                <span class="arch-tag">Egocentric Context</span>
-                <div class="thumb-row">
-                  <span class="thumb-tile">
-                    <img src="assets/posters/eye-tracking-demo.jpg" alt="">
-                    <i></i>
-                  </span>
-                  <span class="thumb-tile is-selected">
-                    <img src="assets/posters/tumbler-demo.jpg" alt="">
-                    <i></i>
-                  </span>
-                  <span class="thumb-tile">
-                    <img src="assets/posters/tool-demo.jpg" alt="">
-                    <i></i>
-                  </span>
-                  <span class="thumb-tile">
-                    <img src="assets/hero-edith.png" alt="">
-                    <i></i>
-                  </span>
+              <article class="arch-robot-observations" data-step="low-level">
+                <div class="arch-robot-title">
+                  Robot observations <span>O<sub>t</sub></span>
                 </div>
-              </article>
-
-              <article class="arch-observation">
-                <span class="arch-tag">Robot Observations</span>
-                <div class="obs-grid">
-                  <img src="assets/posters/tumbler-demo.jpg" alt="">
-                  <img src="assets/posters/tool-demo.jpg" alt="">
+                <div class="arch-robot-grid">
+                  <img src="assets/architecture/robot-overview.jpg" alt="">
+                  <img src="assets/architecture/robot-observation.jpg" alt="">
                   <div>Robot<br>state</div>
                 </div>
               </article>
 
-              <button class="arch-module high is-active" type="button" data-step="perception">
-                <span>01</span>
-                <strong>High-level Policy</strong>
-                <em>VLM grounded reasoning</em>
+              <button class="arch-policy arch-policy-low" type="button" data-step="low-level">
+                <span>Low-level policy &pi;<sub>l</sub></span>
+                <strong>(VLA)</strong>
               </button>
 
-              <div class="arch-token token-language">Language token</div>
-              <div class="arch-token token-gaze">Gaze token</div>
-              <div class="arch-token token-scene">Scene embedding</div>
-              <div class="arch-token token-robot">Robot state</div>
-
-              <article class="arch-memory" data-step="memory">
-                <span class="arch-tag">Interaction Memory</span>
-                <div class="memory-cards">
-                  <div>
-                    <img src="assets/posters/tumbler-demo.jpg" alt="">
-                    <strong>Keyframe</strong>
-                  </div>
-                  <div>
-                    <strong>[Task]</strong>
-                    <p>Pick the target object and pass it safely.</p>
-                  </div>
-                </div>
-              </article>
-
-              <article class="arch-queue">
-                <span class="arch-tag">Task Queue</span>
-                <div class="queue-item">
-                  <img src="assets/posters/tumbler-demo.jpg" alt="">
-                  <p>Pick up the selected object and pass it to the user.</p>
-                </div>
-                <div class="queue-item">
-                  <img src="assets/posters/tool-demo.jpg" alt="">
-                  <p>Recover if the observed handover changes.</p>
-                </div>
-              </article>
-
-              <button class="arch-module low" type="button" data-step="policy">
-                <span>03</span>
-                <strong>Low-level Policy</strong>
-                <em>Robot action controller</em>
-              </button>
-
-              <div class="arch-output output-completion">
+              <div class="arch-output arch-completion">
                 <span>Completion</span>
-                <strong>p in [0, 1]</strong>
+                <strong>p<sub>t</sub> &isin; [0, 1]</strong>
               </div>
-              <div class="arch-output output-action">
+              <div class="arch-output arch-action">
                 <span>Action</span>
-                <strong>a_t</strong>
+                <strong>a<sub>t</sub></strong>
               </div>
-              <div class="arch-loss">Recovery / clarification signal</div>
             </div>
           </div>
 
           <div class="method-layout">
-            <div class="method-panel">
-              <div class="method-controls" role="tablist" aria-label="Method details">
-                <button class="method-tab is-active" type="button" data-step="perception">
-                  Perception
+              <div class="method-panel">
+                <div class="method-controls" role="tablist" aria-label="Method details">
+                <button class="method-tab is-active" type="button" data-step="signals">
+                  Human Signals
                 </button>
-                <button class="method-tab" type="button" data-step="memory">
-                  Memory
+                <button class="method-tab" type="button" data-step="high-level">
+                  High-level Policy
                 </button>
-                <button class="method-tab" type="button" data-step="policy">
-                  Policy
+                <button class="method-tab" type="button" data-step="low-level">
+                  Low-level Policy
                 </button>
               </div>
               <article class="method-copy">
-                <p class="section-kicker" id="method-kicker">Module 01</p>
-                <h3 id="method-title">Grounding user intent in the current scene.</h3>
+                <p class="section-kicker" id="method-kicker">Hardware System</p>
+                <h3 id="method-title">Capturing human signals via smart glasses.</h3>
                 <p id="method-description">
-                  EDITH starts by aligning user attention, body motion, and object
-                  state so that ambiguous language can be resolved against the
-                  actual interaction context.
+                  EDITH streams the human's first-person view, gaze, and speech
+                  in real time, then synchronizes them with robot observations.
                 </p>
                 <ul id="method-points">
-                  <li>Tracks salient objects and user focus over time.</li>
-                  <li>Builds a task-conditioned scene representation.</li>
-                  <li>Flags low-confidence observations before acting.</li>
+                  <li>Uses Project Aria glasses to capture first-person RGB, gaze, and speech.</li>
+                  <li>Transcribes speech into language instructions &ell;<sub>t</sub>.</li>
+                  <li>Aligns human signals with robot observations o<sub>t</sub> by timestamp.</li>
                 </ul>
               </article>
             </div>
@@ -392,19 +366,19 @@
           </div>
           <div class="result-grid">
             <article class="result-card">
-              <p class="metric-label">Task Success</p>
+              <p class="metric-label">Success Rate (SR)</p>
               <p class="metric-value">TBD</p>
               <p>Primary task completion score or benchmark outcome.</p>
             </article>
             <article class="result-card">
-              <p class="metric-label">Clarification Cost</p>
+              <p class="metric-label">Instruction Workload</p>
               <p class="metric-value">TBD</p>
-              <p>Dialogue turns, corrections, and intervention rate.</p>
+              <p>User effort to convey intent to the robot.</p>
             </article>
             <article class="result-card">
-              <p class="metric-label">Robustness</p>
+              <p class="metric-label">Task Progress (TP)</p>
               <p class="metric-value">TBD</p>
-              <p>Performance under ambiguous references and changed context.</p>
+              <p>Average fraction of subtasks completed per trial.</p>
             </article>
           </div>
         </div>
