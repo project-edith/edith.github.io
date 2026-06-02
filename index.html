@@ -863,62 +863,161 @@
                   <span>Appendix D</span>
                   <h3>Per-item workload also drops across tasks.</h3>
                 </div>
-                <div class="chart-legend method-legend" aria-label="Appendix workload legend">
-                  <span class="legend-ablation">&pi;<sub>h</sub><sup>lang</sup> + &pi;<sub>l</sub><sup>lang</sup></span>
-                  <span class="legend-edith">EDITH</span>
-                </div>
+                <strong>Lower workload is better</strong>
               </div>
 
-              <div class="appendix-workload-grid" role="img" aria-label="Appendix Figure 21 mean workload per item on a 7-point Likert scale. Lower is better.">
-                <article class="appendix-workload-task">
+              <div class="likert-distribution-chart" role="img" aria-label="Appendix Figure 21 distribution of 7-point Likert workload responses for Serving Muffins and Passing Tools.">
+                <article class="likert-task">
                   <h4>Serving Muffins</h4>
-                  <div class="appendix-likert-axis" aria-hidden="true"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span></div>
-                  <div class="appendix-question">
-                    <strong>Q1 Mental effort</strong>
-                    <div class="appendix-mean baseline"><span style="--bar: 69.8%"><b>5.19</b></span></div>
-                    <div class="appendix-mean edith"><span style="--bar: 24.0%"><b>2.44</b></span></div>
+                  <div class="likert-header" aria-hidden="true">
+                    <span></span>
+                    <span>Number of Responses</span>
+                    <span>Mean(SD)</span>
                   </div>
-                  <div class="appendix-question">
-                    <strong>Q2 Convey intent</strong>
-                    <div class="appendix-mean baseline"><span style="--bar: 69.8%"><b>5.19</b></span></div>
-                    <div class="appendix-mean edith"><span style="--bar: 24.0%"><b>2.44</b></span></div>
+
+                  <div class="likert-question">
+                    <h5>Q1. Expressing my intention to the robot required a lot of mental effort.</h5>
+                    <span class="likert-method">&pi;<sub>h</sub><sup>lang</sup> + &pi;<sub>l</sub><sup>lang</sup></span>
+                    <div class="likert-stack" aria-label="Serving Muffins Q1 baseline responses">
+                      <i class="likert-1" style="--w: 6.25%">1</i><i class="likert-3" style="--w: 12.5%">2</i><i class="likert-4" style="--w: 6.25%">1</i><i class="likert-5" style="--w: 25%">4</i><i class="likert-6" style="--w: 31.25%">5</i><i class="likert-7" style="--w: 18.75%">3</i>
+                    </div>
+                    <span class="likert-mean">5.19(1.52)</span>
+                    <span class="likert-sig" aria-hidden="true">***</span>
+                    <span class="likert-method">EDITH</span>
+                    <div class="likert-stack" aria-label="Serving Muffins Q1 EDITH responses">
+                      <i class="likert-1" style="--w: 37.5%">6</i><i class="likert-2" style="--w: 18.75%">3</i><i class="likert-3" style="--w: 25%">4</i><i class="likert-5" style="--w: 18.75%">3</i>
+                    </div>
+                    <span class="likert-mean">2.44(1.50)</span>
                   </div>
-                  <div class="appendix-question">
-                    <strong>Q3 Effort</strong>
-                    <div class="appendix-mean baseline"><span style="--bar: 66.7%"><b>5.00</b></span></div>
-                    <div class="appendix-mean edith"><span style="--bar: 25.0%"><b>2.50</b></span></div>
+
+                  <div class="likert-question">
+                    <h5>Q2. It was difficult to successfully convey what I wanted to the robot.</h5>
+                    <span class="likert-method">&pi;<sub>h</sub><sup>lang</sup> + &pi;<sub>l</sub><sup>lang</sup></span>
+                    <div class="likert-stack" aria-label="Serving Muffins Q2 baseline responses">
+                      <i class="likert-1" style="--w: 6.25%">1</i><i class="likert-3" style="--w: 6.25%">1</i><i class="likert-5" style="--w: 50%">8</i><i class="likert-6" style="--w: 18.75%">3</i><i class="likert-7" style="--w: 18.75%">3</i>
+                    </div>
+                    <span class="likert-mean">5.19(1.52)</span>
+                    <span class="likert-sig" aria-hidden="true">**</span>
+                    <span class="likert-method">EDITH</span>
+                    <div class="likert-stack" aria-label="Serving Muffins Q2 EDITH responses">
+                      <i class="likert-1" style="--w: 37.5%">6</i><i class="likert-2" style="--w: 31.25%">5</i><i class="likert-3" style="--w: 6.25%">1</i><i class="likert-5" style="--w: 25%">4</i>
+                    </div>
+                    <span class="likert-mean">2.44(1.63)</span>
                   </div>
-                  <div class="appendix-question">
-                    <strong>Q4 Frustration</strong>
-                    <div class="appendix-mean baseline"><span style="--bar: 49.0%"><b>3.94</b></span></div>
-                    <div class="appendix-mean edith"><span style="--bar: 20.8%"><b>2.25</b></span></div>
+
+                  <div class="likert-question">
+                    <h5>Q3. I had to put in a lot of effort to get the robot to perform the behavior I wanted.</h5>
+                    <span class="likert-method">&pi;<sub>h</sub><sup>lang</sup> + &pi;<sub>l</sub><sup>lang</sup></span>
+                    <div class="likert-stack" aria-label="Serving Muffins Q3 baseline responses">
+                      <i class="likert-1" style="--w: 6.25%">1</i><i class="likert-3" style="--w: 18.75%">3</i><i class="likert-4" style="--w: 6.25%">1</i><i class="likert-5" style="--w: 25%">4</i><i class="likert-6" style="--w: 25%">4</i><i class="likert-7" style="--w: 18.75%">3</i>
+                    </div>
+                    <span class="likert-mean">5.00(1.59)</span>
+                    <span class="likert-sig" aria-hidden="true">**</span>
+                    <span class="likert-method">EDITH</span>
+                    <div class="likert-stack" aria-label="Serving Muffins Q3 EDITH responses">
+                      <i class="likert-1" style="--w: 37.5%">6</i><i class="likert-2" style="--w: 25%">4</i><i class="likert-3" style="--w: 18.75%">3</i><i class="likert-5" style="--w: 12.5%">2</i><i class="likert-7" style="--w: 6.25%">1</i>
+                    </div>
+                    <span class="likert-mean">2.50(1.79)</span>
                   </div>
+
+                  <div class="likert-question">
+                    <h5>Q4. I felt frustrated, annoyed, or irritated while expressing my intention to the robot.</h5>
+                    <span class="likert-method">&pi;<sub>h</sub><sup>lang</sup> + &pi;<sub>l</sub><sup>lang</sup></span>
+                    <div class="likert-stack" aria-label="Serving Muffins Q4 baseline responses">
+                      <i class="likert-1" style="--w: 12.5%">2</i><i class="likert-2" style="--w: 12.5%">2</i><i class="likert-3" style="--w: 25%">4</i><i class="likert-4" style="--w: 6.25%">1</i><i class="likert-5" style="--w: 12.5%">2</i><i class="likert-6" style="--w: 25%">4</i><i class="likert-7" style="--w: 6.25%">1</i>
+                    </div>
+                    <span class="likert-mean">3.94(1.95)</span>
+                    <span class="likert-sig" aria-hidden="true">**</span>
+                    <span class="likert-method">EDITH</span>
+                    <div class="likert-stack" aria-label="Serving Muffins Q4 EDITH responses">
+                      <i class="likert-1" style="--w: 43.75%">7</i><i class="likert-2" style="--w: 25%">4</i><i class="likert-3" style="--w: 6.25%">1</i><i class="likert-4" style="--w: 12.5%">2</i><i class="likert-5" style="--w: 12.5%">2</i>
+                    </div>
+                    <span class="likert-mean">2.25(1.48)</span>
+                  </div>
+
+                  <div class="likert-count-axis" aria-hidden="true"><span>0</span><span>4</span><span>8</span><span>12</span><span>16</span></div>
                 </article>
 
-                <article class="appendix-workload-task">
+                <article class="likert-task">
                   <h4>Passing Tools</h4>
-                  <div class="appendix-likert-axis" aria-hidden="true"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span></div>
-                  <div class="appendix-question">
-                    <strong>Q1 Mental effort</strong>
-                    <div class="appendix-mean baseline"><span style="--bar: 59.3%"><b>4.56</b></span></div>
-                    <div class="appendix-mean edith"><span style="--bar: 19.8%"><b>2.19</b></span></div>
+                  <div class="likert-header" aria-hidden="true">
+                    <span></span>
+                    <span>Number of Responses</span>
+                    <span>Mean(SD)</span>
                   </div>
-                  <div class="appendix-question">
-                    <strong>Q2 Convey intent</strong>
-                    <div class="appendix-mean baseline"><span style="--bar: 59.3%"><b>4.56</b></span></div>
-                    <div class="appendix-mean edith"><span style="--bar: 20.8%"><b>2.25</b></span></div>
+
+                  <div class="likert-question">
+                    <h5>Q1. Expressing my intention to the robot required a lot of mental effort.</h5>
+                    <span class="likert-method">&pi;<sub>h</sub><sup>lang</sup> + &pi;<sub>l</sub><sup>lang</sup></span>
+                    <div class="likert-stack" aria-label="Passing Tools Q1 baseline responses">
+                      <i class="likert-1" style="--w: 6.25%">1</i><i class="likert-2" style="--w: 6.25%">1</i><i class="likert-3" style="--w: 6.25%">1</i><i class="likert-4" style="--w: 12.5%">2</i><i class="likert-5" style="--w: 43.75%">7</i><i class="likert-6" style="--w: 25%">4</i>
+                    </div>
+                    <span class="likert-mean">4.56(1.46)</span>
+                    <span class="likert-sig" aria-hidden="true">**</span>
+                    <span class="likert-method">EDITH</span>
+                    <div class="likert-stack" aria-label="Passing Tools Q1 EDITH responses">
+                      <i class="likert-1" style="--w: 31.25%">5</i><i class="likert-2" style="--w: 37.5%">6</i><i class="likert-3" style="--w: 25%">4</i><i class="likert-6" style="--w: 6.25%">1</i>
+                    </div>
+                    <span class="likert-mean">2.19(1.28)</span>
                   </div>
-                  <div class="appendix-question">
-                    <strong>Q3 Effort</strong>
-                    <div class="appendix-mean baseline"><span style="--bar: 56.3%"><b>4.38</b></span></div>
-                    <div class="appendix-mean edith"><span style="--bar: 23.0%"><b>2.38</b></span></div>
+
+                  <div class="likert-question">
+                    <h5>Q2. It was difficult to successfully convey what I wanted to the robot.</h5>
+                    <span class="likert-method">&pi;<sub>h</sub><sup>lang</sup> + &pi;<sub>l</sub><sup>lang</sup></span>
+                    <div class="likert-stack" aria-label="Passing Tools Q2 baseline responses">
+                      <i class="likert-2" style="--w: 12.5%">2</i><i class="likert-3" style="--w: 6.25%">1</i><i class="likert-4" style="--w: 25%">4</i><i class="likert-5" style="--w: 31.25%">5</i><i class="likert-6" style="--w: 18.75%">3</i><i class="likert-7" style="--w: 6.25%">1</i>
+                    </div>
+                    <span class="likert-mean">4.56(1.41)</span>
+                    <span class="likert-sig" aria-hidden="true">**</span>
+                    <span class="likert-method">EDITH</span>
+                    <div class="likert-stack" aria-label="Passing Tools Q2 EDITH responses">
+                      <i class="likert-1" style="--w: 31.25%">5</i><i class="likert-2" style="--w: 43.75%">7</i><i class="likert-3" style="--w: 12.5%">2</i><i class="likert-5" style="--w: 6.25%">1</i><i class="likert-6" style="--w: 6.25%">1</i>
+                    </div>
+                    <span class="likert-mean">2.25(1.44)</span>
                   </div>
-                  <div class="appendix-question">
-                    <strong>Q4 Frustration</strong>
-                    <div class="appendix-mean baseline"><span style="--bar: 44.8%"><b>3.69</b></span></div>
-                    <div class="appendix-mean edith"><span style="--bar: 16.7%"><b>2.00</b></span></div>
+
+                  <div class="likert-question">
+                    <h5>Q3. I had to put in a lot of effort to get the robot to perform the behavior I wanted.</h5>
+                    <span class="likert-method">&pi;<sub>h</sub><sup>lang</sup> + &pi;<sub>l</sub><sup>lang</sup></span>
+                    <div class="likert-stack" aria-label="Passing Tools Q3 baseline responses">
+                      <i class="likert-1" style="--w: 6.25%">1</i><i class="likert-3" style="--w: 25%">4</i><i class="likert-4" style="--w: 18.75%">3</i><i class="likert-5" style="--w: 25%">4</i><i class="likert-6" style="--w: 25%">4</i>
+                    </div>
+                    <span class="likert-mean">4.38(1.31)</span>
+                    <span class="likert-sig" aria-hidden="true">**</span>
+                    <span class="likert-method">EDITH</span>
+                    <div class="likert-stack" aria-label="Passing Tools Q3 EDITH responses">
+                      <i class="likert-1" style="--w: 37.5%">6</i><i class="likert-2" style="--w: 31.25%">5</i><i class="likert-3" style="--w: 6.25%">1</i><i class="likert-4" style="--w: 12.5%">2</i><i class="likert-5" style="--w: 6.25%">1</i><i class="likert-6" style="--w: 6.25%">1</i>
+                    </div>
+                    <span class="likert-mean">2.38(1.59)</span>
                   </div>
+
+                  <div class="likert-question">
+                    <h5>Q4. I felt frustrated, annoyed, or irritated while expressing my intention to the robot.</h5>
+                    <span class="likert-method">&pi;<sub>h</sub><sup>lang</sup> + &pi;<sub>l</sub><sup>lang</sup></span>
+                    <div class="likert-stack" aria-label="Passing Tools Q4 baseline responses">
+                      <i class="likert-1" style="--w: 18.75%">3</i><i class="likert-2" style="--w: 6.25%">1</i><i class="likert-3" style="--w: 25%">4</i><i class="likert-4" style="--w: 6.25%">1</i><i class="likert-5" style="--w: 25%">4</i><i class="likert-6" style="--w: 18.75%">3</i>
+                    </div>
+                    <span class="likert-mean">3.69(1.82)</span>
+                    <span class="likert-sig" aria-hidden="true">**</span>
+                    <span class="likert-method">EDITH</span>
+                    <div class="likert-stack" aria-label="Passing Tools Q4 EDITH responses">
+                      <i class="likert-1" style="--w: 56.25%">9</i><i class="likert-2" style="--w: 12.5%">2</i><i class="likert-3" style="--w: 12.5%">2</i><i class="likert-4" style="--w: 12.5%">2</i><i class="likert-5" style="--w: 6.25%">1</i>
+                    </div>
+                    <span class="likert-mean">2.00(1.37)</span>
+                  </div>
+
+                  <div class="likert-count-axis" aria-hidden="true"><span>0</span><span>4</span><span>8</span><span>12</span><span>16</span></div>
                 </article>
+
+                <div class="likert-legend" aria-label="Likert response scale legend">
+                  <span><i class="likert-1"></i>1 Strongly disagree</span>
+                  <span><i class="likert-2"></i>2 Disagree</span>
+                  <span><i class="likert-3"></i>3 Slightly disagree</span>
+                  <span><i class="likert-4"></i>4 Neutral</span>
+                  <span><i class="likert-5"></i>5 Slightly agree</span>
+                  <span><i class="likert-6"></i>6 Agree</span>
+                  <span><i class="likert-7"></i>7 Strongly agree</span>
+                </div>
               </div>
             </article>
           </div>
