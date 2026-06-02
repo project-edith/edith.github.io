@@ -29,9 +29,9 @@
       <nav class="site-nav" aria-label="Primary navigation">
         <a href="#overview">Overview</a>
         <a href="#method">Method</a>
+        <a href="#demos">Demos</a>
         <a href="#tasks">Tasks</a>
         <a href="#results">Results</a>
-        <a href="#demos">Demos</a>
         <a href="#resources">Resources</a>
       </nav>
     </header>
@@ -450,37 +450,81 @@
                 <strong>p &lt; 0.001</strong>
               </div>
 
-              <div
-                class="slope-chart"
-                role="img"
-                aria-label="Muffin-Serving workload drops from 4.83 to 2.41, and Tool-Passing workload drops from 4.30 to 2.20."
-              >
-                <div class="slope-labels">
-                  <span>Language-only hierarchy</span>
-                  <span>EDITH</span>
+              <div class="workload-bar-chart" aria-label="Instruction workload on a 7-point Likert scale. Lower is better.">
+                <article
+                  class="workload-task"
+                  role="img"
+                  aria-label="Muffin-Serving: language-only hierarchy 4.83, EDITH 2.41."
+                >
+                  <h4>Muffin-Serving</h4>
+                  <div class="workload-bars">
+                    <div class="workload-row baseline">
+                      <span class="workload-label">Baseline</span>
+                      <div class="workload-track">
+                        <span class="workload-bar" style="--bar: 63.8%"></span>
+                        <i style="--err-left: 56.7%; --err-width: 30%"></i>
+                        <b class="workload-value" style="--value-left: 87.5%">4.83</b>
+                      </div>
+                    </div>
+                    <div class="workload-row edith">
+                      <span class="workload-label">EDITH</span>
+                      <div class="workload-track">
+                        <span class="workload-bar" style="--bar: 23.5%"></span>
+                        <i style="--err-left: 16.7%; --err-width: 30%"></i>
+                        <b class="workload-value" style="--value-left: 48%">2.41</b>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="workload-task-axis" aria-hidden="true">
+                    <span>1</span>
+                    <span>2</span>
+                    <span>3</span>
+                    <span>4</span>
+                    <span>5</span>
+                    <span>6</span>
+                    <span>7</span>
+                  </div>
+                </article>
+
+                <article
+                  class="workload-task"
+                  role="img"
+                  aria-label="Tool-Passing: language-only hierarchy 4.30, EDITH 2.20."
+                >
+                  <h4>Tool-Passing</h4>
+                  <div class="workload-bars">
+                    <div class="workload-row baseline">
+                      <span class="workload-label">Baseline</span>
+                      <div class="workload-track">
+                        <span class="workload-bar" style="--bar: 55%"></span>
+                        <i style="--err-left: 41.7%; --err-width: 35%"></i>
+                        <b class="workload-value" style="--value-left: 78%">4.30</b>
+                      </div>
+                    </div>
+                    <div class="workload-row edith">
+                      <span class="workload-label">EDITH</span>
+                      <div class="workload-track">
+                        <span class="workload-bar" style="--bar: 20%"></span>
+                        <i style="--err-left: 13.3%; --err-width: 28.3%"></i>
+                        <b class="workload-value" style="--value-left: 43%">2.20</b>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="workload-task-axis" aria-hidden="true">
+                    <span>1</span>
+                    <span>2</span>
+                    <span>3</span>
+                    <span>4</span>
+                    <span>5</span>
+                    <span>6</span>
+                    <span>7</span>
+                  </div>
+                </article>
+
+                <div class="workload-legend" aria-hidden="true">
+                  <span class="baseline">&pi;<sub>h</sub><sup>lang</sup> + &pi;<sub>l</sub><sup>lang</sup></span>
+                  <span class="edith">EDITH</span>
                 </div>
-                <svg viewBox="0 0 500 230" aria-hidden="true">
-                  <defs>
-                    <linearGradient id="workload-gradient" x1="0" y1="0" x2="1" y2="0">
-                      <stop offset="0%" stop-color="#f4c078"></stop>
-                      <stop offset="100%" stop-color="#afd1e8"></stop>
-                    </linearGradient>
-                  </defs>
-                  <line class="slope-axis" x1="88" y1="28" x2="88" y2="188"></line>
-                  <line class="slope-axis" x1="412" y1="28" x2="412" y2="188"></line>
-                  <path class="slope-line muffin" d="M88 34 L412 124"></path>
-                  <path class="slope-line tool" d="M88 61 L412 139"></path>
-                  <circle class="slope-point baseline" cx="88" cy="34" r="8"></circle>
-                  <circle class="slope-point edith" cx="412" cy="124" r="8"></circle>
-                  <circle class="slope-point baseline" cx="88" cy="61" r="8"></circle>
-                  <circle class="slope-point edith" cx="412" cy="139" r="8"></circle>
-                  <text x="76" y="27" text-anchor="end">4.83</text>
-                  <text x="424" y="130">2.41</text>
-                  <text x="76" y="67" text-anchor="end">4.30</text>
-                  <text x="424" y="145">2.20</text>
-                  <text class="slope-name" x="178" y="83">Muffin-Serving</text>
-                  <text class="slope-name" x="178" y="121">Tool-Passing</text>
-                </svg>
               </div>
             </article>
 
@@ -545,8 +589,8 @@
             <p class="section-kicker">Qualitative Demos</p>
             <h2>Interactive videos show how EDITH uses egocentric signals during collaboration.</h2>
             <p>
-              The demo viewer is kept after the method and results so the page
-              reads like the paper first, then lets viewers inspect example interactions.
+              The demo viewer appears before evaluation so visitors can inspect
+              the interactions before reading the task and result sections.
             </p>
           </div>
 

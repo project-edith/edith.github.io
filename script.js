@@ -37,6 +37,38 @@ if ("IntersectionObserver" in window && sections.length) {
 
 const animatedElements = Array.from(document.querySelectorAll("[data-animate]"));
 if ("IntersectionObserver" in window && animatedElements.length) {
+  const revealVisibleAnimatedElements = () => {
+    const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+
+    animatedElements.forEach((element) => {
+      if (element.classList.contains("is-visible")) return;
+
+      const rect = element.getBoundingClientRect();
+      if (rect.top < viewportHeight * 0.92 && rect.bottom > viewportHeight * 0.08) {
+        element.classList.add("is-visible");
+      }
+    });
+  };
+
+  let revealAttempts = 0;
+  let revealTimer = 0;
+  const revealVisibleAnimatedElementsSoon = () => {
+    revealVisibleAnimatedElements();
+    revealAttempts += 1;
+
+    if (revealAttempts < 24) {
+      revealTimer = window.setTimeout(revealVisibleAnimatedElementsSoon, 100);
+    } else {
+      revealTimer = 0;
+    }
+  };
+
+  const scheduleAnimatedElementReveal = () => {
+    revealAttempts = 0;
+    if (revealTimer) window.clearTimeout(revealTimer);
+    requestAnimationFrame(revealVisibleAnimatedElementsSoon);
+  };
+
   const animationObserver = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
@@ -52,6 +84,13 @@ if ("IntersectionObserver" in window && animatedElements.length) {
   );
 
   animatedElements.forEach((element) => animationObserver.observe(element));
+  scheduleAnimatedElementReveal();
+  window.addEventListener(
+    "scroll",
+    scheduleAnimatedElementReveal,
+    { passive: true },
+  );
+  window.addEventListener("resize", revealVisibleAnimatedElements);
 } else {
   animatedElements.forEach((element) => element.classList.add("is-visible"));
 }
