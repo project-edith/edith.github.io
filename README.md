@@ -12,9 +12,9 @@ Then open `http://localhost:8000`.
 
 ## Files
 
-- `index.html`: GitHub Pages entry point, interactive demos, method sections, resources
+- `index.html`: GitHub Pages entry point, interactive demos, architecture canvas, resources
 - `styles.css`: visual design and responsive layout
-- `script.js`: demo switching, method tabs, active navigation, BibTeX copy button
+- `script.js`: demo switching, architecture/method tabs, active navigation, BibTeX copy button
 - `assets/hero-edith.png`: temporary hero image generated for the page
 - `assets/favicon.svg`: small browser icon
 - `assets/videos/*.mp4`: compressed demo previews for the interactive gallery

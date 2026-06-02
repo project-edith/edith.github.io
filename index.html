@@ -29,7 +29,7 @@
       <nav class="site-nav" aria-label="Primary navigation">
         <a href="#overview">Overview</a>
         <a href="#demos">Demos</a>
-        <a href="#method">Method</a>
+        <a href="#architecture">Architecture</a>
         <a href="#experiments">Experiments</a>
         <a href="#resources">Resources</a>
       </nav>
@@ -47,7 +47,7 @@
           </p>
           <div class="hero-actions" aria-label="Project links">
             <a class="button primary" href="#demos">Watch Demos</a>
-            <a class="button secondary" href="#method">Explore Method</a>
+            <a class="button secondary" href="#architecture">Explore Architecture</a>
             <a class="button secondary" href="#resources">Paper Soon</a>
           </div>
         </div>
@@ -187,39 +187,168 @@
         </div>
       </section>
 
-      <section class="section method-section" id="method">
+      <section class="section method-section" id="architecture">
         <div class="section-inner">
           <div class="section-heading wide">
-            <p class="section-kicker">Method</p>
-            <h2>Inspectable interaction pipeline.</h2>
+            <p class="section-kicker">System Architecture</p>
+            <h2>A shape-based architecture canvas for EDITH.</h2>
             <p>
-              The method section is built as a live diagram, not a static block of
-              text. Replace these labels with final module names, ablations, or
-              paper figure terminology when the manuscript is ready.
+              This is drawn with real webpage shapes, SVG arrows, and embedded
+              image tiles instead of a flattened GIF. The module labels can be
+              replaced with final paper terminology when the manuscript is ready.
             </p>
           </div>
 
-          <div class="method-layout">
-            <div class="method-map" aria-label="EDITH method pipeline">
-              <div class="method-node is-active" data-step="perception">
-                <span>01</span>
-                <strong>Multimodal Perception</strong>
-                <p>Gaze, hands, objects, spatial state</p>
-              </div>
-              <div class="method-connector" aria-hidden="true"></div>
-              <div class="method-node" data-step="memory">
-                <span>02</span>
-                <strong>Interaction Memory</strong>
-                <p>Task progress, corrections, uncertainty</p>
-              </div>
-              <div class="method-connector" aria-hidden="true"></div>
-              <div class="method-node" data-step="policy">
-                <span>03</span>
-                <strong>Dialogue + Robot Policy</strong>
-                <p>Clarify, explain, execute, recover</p>
-              </div>
-            </div>
+          <div class="architecture-scroll">
+            <div class="architecture-canvas" aria-label="EDITH system architecture diagram">
+              <svg class="arch-arrows" viewBox="0 0 1180 720" aria-hidden="true">
+                <defs>
+                  <marker
+                    id="arrow-teal"
+                    markerHeight="12"
+                    markerWidth="12"
+                    orient="auto"
+                    refX="9"
+                    refY="3"
+                    viewBox="0 0 10 6"
+                  >
+                    <path d="M0 0 L10 3 L0 6 Z" fill="#00736e"></path>
+                  </marker>
+                  <marker
+                    id="arrow-amber"
+                    markerHeight="12"
+                    markerWidth="12"
+                    orient="auto"
+                    refX="9"
+                    refY="3"
+                    viewBox="0 0 10 6"
+                  >
+                    <path d="M0 0 L10 3 L0 6 Z" fill="#c56b28"></path>
+                  </marker>
+                  <marker
+                    id="arrow-blue"
+                    markerHeight="12"
+                    markerWidth="12"
+                    orient="auto"
+                    refX="9"
+                    refY="3"
+                    viewBox="0 0 10 6"
+                  >
+                    <path d="M0 0 L10 3 L0 6 Z" fill="#496f9e"></path>
+                  </marker>
+                </defs>
+                <path class="arrow teal" d="M205 316 C255 316 277 210 344 210"></path>
+                <path class="arrow teal" d="M562 274 L562 432"></path>
+                <path class="arrow blue" d="M562 430 L562 482"></path>
+                <path class="arrow amber" d="M666 382 C720 382 752 382 805 382"></path>
+                <path class="arrow blue" d="M1002 158 L1002 276"></path>
+                <path class="arrow blue" d="M1002 382 L936 538"></path>
+                <path class="arrow blue" d="M1002 382 L1084 538"></path>
+                <path class="arrow amber loop" d="M1048 594 H162 C120 594 104 570 104 532 V338 C104 304 128 288 172 288"></path>
+              </svg>
 
+              <div class="arch-lane label-context">Context</div>
+              <div class="arch-lane label-intent">Intent</div>
+              <div class="arch-lane label-policy">Policy</div>
+              <div class="arch-lane label-action">Action</div>
+
+              <article class="arch-human">
+                <div class="human-avatar" aria-hidden="true">
+                  <span></span>
+                </div>
+                <div class="speech-bubble">
+                  "Pass me the driver and the metal profile"
+                </div>
+                <p>Language + user gaze</p>
+              </article>
+
+              <article class="arch-strip">
+                <span class="arch-tag">Egocentric Context</span>
+                <div class="thumb-row">
+                  <span class="thumb-tile">
+                    <img src="assets/posters/eye-tracking-demo.jpg" alt="">
+                    <i></i>
+                  </span>
+                  <span class="thumb-tile is-selected">
+                    <img src="assets/posters/tumbler-demo.jpg" alt="">
+                    <i></i>
+                  </span>
+                  <span class="thumb-tile">
+                    <img src="assets/posters/tool-demo.jpg" alt="">
+                    <i></i>
+                  </span>
+                  <span class="thumb-tile">
+                    <img src="assets/hero-edith.png" alt="">
+                    <i></i>
+                  </span>
+                </div>
+              </article>
+
+              <article class="arch-observation">
+                <span class="arch-tag">Robot Observations</span>
+                <div class="obs-grid">
+                  <img src="assets/posters/tumbler-demo.jpg" alt="">
+                  <img src="assets/posters/tool-demo.jpg" alt="">
+                  <div>Robot<br>state</div>
+                </div>
+              </article>
+
+              <button class="arch-module high is-active" type="button" data-step="perception">
+                <span>01</span>
+                <strong>High-level Policy</strong>
+                <em>VLM grounded reasoning</em>
+              </button>
+
+              <div class="arch-token token-language">Language token</div>
+              <div class="arch-token token-gaze">Gaze token</div>
+              <div class="arch-token token-scene">Scene embedding</div>
+              <div class="arch-token token-robot">Robot state</div>
+
+              <article class="arch-memory" data-step="memory">
+                <span class="arch-tag">Interaction Memory</span>
+                <div class="memory-cards">
+                  <div>
+                    <img src="assets/posters/tumbler-demo.jpg" alt="">
+                    <strong>Keyframe</strong>
+                  </div>
+                  <div>
+                    <strong>[Task]</strong>
+                    <p>Pick the target object and pass it safely.</p>
+                  </div>
+                </div>
+              </article>
+
+              <article class="arch-queue">
+                <span class="arch-tag">Task Queue</span>
+                <div class="queue-item">
+                  <img src="assets/posters/tumbler-demo.jpg" alt="">
+                  <p>Pick up the selected object and pass it to the user.</p>
+                </div>
+                <div class="queue-item">
+                  <img src="assets/posters/tool-demo.jpg" alt="">
+                  <p>Recover if the observed handover changes.</p>
+                </div>
+              </article>
+
+              <button class="arch-module low" type="button" data-step="policy">
+                <span>03</span>
+                <strong>Low-level Policy</strong>
+                <em>Robot action controller</em>
+              </button>
+
+              <div class="arch-output output-completion">
+                <span>Completion</span>
+                <strong>p in [0, 1]</strong>
+              </div>
+              <div class="arch-output output-action">
+                <span>Action</span>
+                <strong>a_t</strong>
+              </div>
+              <div class="arch-loss">Recovery / clarification signal</div>
+            </div>
+          </div>
+
+          <div class="method-layout">
             <div class="method-panel">
               <div class="method-controls" role="tablist" aria-label="Method details">
                 <button class="method-tab is-active" type="button" data-step="perception">

@@ -188,7 +188,7 @@ function setMethod(step) {
   }
 }
 
-document.querySelectorAll(".method-tab, .method-node").forEach((element) => {
+document.querySelectorAll(".method-tab, .method-node, .arch-module, .arch-memory").forEach((element) => {
   element.addEventListener("click", () => setMethod(element.dataset.step));
 });
 
