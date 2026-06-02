@@ -364,8 +364,33 @@ const methodFigures = {
   "low-level": "assets/figure_policy_input_output_4.png",
 };
 
+const methodFigureNotes = {
+  signals: {
+    title: "Human Signals",
+    text:
+      "EDITH reads recent first-person context C<sup>ego</sup><sub>t-H:t</sub> and speech &ell;<sub>t-H:t</sub>, with gaze overlaid on the RGB stream to expose nonverbal target cues.",
+  },
+  "high-level": {
+    title: "High-level Policy",
+    text:
+      "&pi;<sub>h</sub> periodically infers intent from the human signal window and outputs subtasks ([TASK]<sub>i</sub>, C<sup>key</sup><sub>i</sub>), pairing each fine-grained instruction with the keyframe where the cue is clearest.",
+  },
+  queue: {
+    title: "Task Queue",
+    text:
+      "Q connects the planner and executor asynchronously: &pi;<sub>h</sub> appends newly identified subtasks while &pi;<sub>l</sub> executes the subtask at the head of the queue.",
+  },
+  "low-level": {
+    title: "Low-level Policy",
+    text:
+      "&pi;<sub>l</sub> conditions on robot observation o<sub>t</sub>, [TASK], and C<sup>key</sup> to produce action a<sub>t</sub> and completion probability p<sub>t</sub>. Once p<sub>t</sub> crosses a threshold, it pops the next subtask from Q.",
+  },
+};
+
 const methodFigureImage = document.querySelector("#method-figure-image");
 const methodFigureStage = document.querySelector(".method-figure-stage");
+const methodFigureNoteTitle = document.querySelector("#method-figure-note-title");
+const methodFigureNoteText = document.querySelector("#method-figure-note-text");
 const methodFigureTabs = Array.from(document.querySelectorAll("[data-method-figure-step]"));
 let methodIntroTimer = 0;
 let methodFigureStep = "low-level";
@@ -385,6 +410,12 @@ function setMethodFigure(step, options = {}) {
     button.classList.toggle("is-active", isActive);
     button.setAttribute("aria-selected", String(isActive));
   });
+
+  const note = methodFigureNotes[step];
+  if (note && methodFigureNoteTitle && methodFigureNoteText) {
+    methodFigureNoteTitle.textContent = note.title;
+    methodFigureNoteText.innerHTML = note.text;
+  }
 
   const updateImage = () => {
     methodFigureImage.src = src;
@@ -412,12 +443,43 @@ methodFigureTabs.forEach((button) => {
   });
 });
 
+document.querySelectorAll("[data-method-figure-link]").forEach((button) => {
+  button.addEventListener("click", () => {
+    setMethodFigure(button.dataset.methodFigureLink);
+  });
+});
+
 if (methodFigureImage && methodFigureTabs.length) {
   setMethodFigure(methodFigureStep, { instant: true });
   methodIntroTimer = window.setTimeout(() => {
     setMethodFigure("signals");
   }, 1300);
 }
+
+document.querySelectorAll("[data-video-sequence]").forEach((video) => {
+  const sequence = video.dataset.videoSequence
+    .split(",")
+    .map((src) => src.trim())
+    .filter(Boolean);
+
+  if (!sequence.length) return;
+
+  let index = 0;
+
+  const playCurrent = () => {
+    video.src = sequence[index];
+    video.load();
+    video.play().catch(() => {});
+  };
+
+  const advance = () => {
+    index = (index + 1) % sequence.length;
+    playCurrent();
+  };
+
+  video.addEventListener("ended", advance);
+  video.addEventListener("error", advance);
+});
 
 document.querySelectorAll("[data-copy]").forEach((button) => {
   button.addEventListener("click", async () => {

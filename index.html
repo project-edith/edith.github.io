@@ -18,7 +18,7 @@
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
     <link rel="preload" as="image" href="assets/hero-edith.png">
     <link rel="preload" as="video" href="assets/videos/main.mp4" type="video/mp4">
-    <link rel="stylesheet" href="styles.css?v=overview-responsive-20260602">
+    <link rel="stylesheet" href="styles.css?v=policy-inline-links-20260602">
   </head>
   <body class="classic-project-page">
     <main id="top">
@@ -115,15 +115,22 @@
           </article>
           <article class="approach-overview">
             <h2>Approach Overview</h2>
-            <p class="section-lede">
-              EDITH converts verbal and egocentric human signals into executable subtasks.
-            </p>
             <figure class="overview-figure-frame">
               <img
                 src="assets/overview_figure.png"
                 alt="Overview figure showing EDITH's hardware system, hierarchical policy, and robot execution flow."
               >
             </figure>
+            <div class="overview-caption-grid" aria-label="Approach overview comparison">
+              <p class="section-lede">
+                Language-conditioned policies require fully verbalized text,
+                which is often cumbersome and imprecise.
+              </p>
+              <p class="section-lede">
+                We leverage human egocentric view and gaze to capture nonverbal
+                signals for natural human-robot interaction.
+              </p>
+            </div>
           </article>
         </div>
       </section>
@@ -140,30 +147,131 @@
             </p>
           </div>
 
-          <div class="method-figure-viewer">
-            <figure class="method-figure-stage">
-              <img
-                id="method-figure-image"
-                src="assets/figure_policy_input_output_4.png"
-                alt="EDITH method architecture"
-                width="2013"
-                height="800"
-              >
-            </figure>
-            <div class="method-figure-controls" role="tablist" aria-label="Method figure steps">
-              <button class="method-figure-tab" type="button" data-method-figure-step="signals" role="tab" aria-selected="false">
-                Human Signals
-              </button>
-              <button class="method-figure-tab" type="button" data-method-figure-step="high-level" role="tab" aria-selected="false">
-                High-level Policy
-              </button>
-              <button class="method-figure-tab" type="button" data-method-figure-step="queue" role="tab" aria-selected="false">
-                Task Queue
-              </button>
-              <button class="method-figure-tab is-active" type="button" data-method-figure-step="low-level" role="tab" aria-selected="true">
-                Low-level Policy
-              </button>
-            </div>
+          <div class="method-section-stack">
+            <article class="method-subsection hardware-system-block">
+              <div class="method-subsection-heading">
+                <h3>Hardware System</h3>
+              </div>
+              <p class="method-subsection-copy">
+                We build a hardware system that streams the human's first-person view,
+                gaze, and speech in real time, and synchronizes them with the robot's
+                observations.
+              </p>
+              <div class="hardware-video-grid" aria-label="Hardware system videos">
+                <figure class="hardware-video-card">
+                  <video autoplay muted loop playsinline preload="metadata">
+                    <source src="assets/videos/glass.mp4" type="video/mp4">
+                  </video>
+                  <figcaption>
+                    Capturing human signals via smart glasses.
+                  </figcaption>
+                </figure>
+                <figure class="hardware-video-card">
+                  <video autoplay muted loop playsinline preload="metadata">
+                    <source src="assets/videos/robot.mp4" type="video/mp4">
+                  </video>
+                  <figcaption>Dual arm Robot</figcaption>
+                </figure>
+              </div>
+              <div class="hardware-signal-note">
+                <p><strong>Why first-person view and gaze?</strong></p>
+                <p>
+                  First-person view and gaze represent human nonverbal signals by
+                  capturing what the human is doing and where their attention is
+                  focused. Together, these streams provide cues for a robot policy to
+                  infer the human's underlying intent and needs.
+                </p>
+                <p><strong>Capturing human signals via smart glasses.</strong></p>
+                <p>
+                  Using
+                  <a href="https://www.projectaria.com/" target="_blank" rel="noreferrer">Project Aria glasses</a>,
+                  EDITH streams first-person RGB, gaze, and speech to the robot server,
+                  transcribes speech into &ell;<sub>t</sub>, and synchronizes the
+                  signals with robot observations o<sub>t</sub> to produce
+                  (C<sup>ego</sup><sub>t</sub>, &ell;<sub>t</sub>, o<sub>t</sub>)
+                  at each timestep.
+                </p>
+              </div>
+            </article>
+
+            <article class="method-subsection policy-noisy-block" aria-label="Noisy human signals">
+              <p class="policy-noisy-kicker">Human signals are noisy.</p>
+              <figure class="policy-noisy-video-frame">
+                <video
+                  class="policy-noisy-video"
+                  autoplay
+                  muted
+                  playsinline
+                  preload="metadata"
+                  data-video-sequence="assets/videos/noisy1.mp4,assets/videos/noisy2.mp4,assets/videos/noisy3.mp4,assets/videos/noisy5.mp4,assets/videos/noisy6.mp4"
+                  aria-label="Sequential noisy human signal examples"
+                >
+                  <source src="assets/videos/noisy1.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <p class="method-subsection-copy policy-noisy-summary">
+                Human signals (C<sup>ego</sup><sub>t</sub>, &ell;<sub>t</sub>)
+                are rich but noisy: short intent expressions are often mixed with
+                unrelated ongoing activities. We therefore design a
+                <strong>hierarchical policy</strong> that decouples inferring human
+                intent from producing low-level robot actions.
+              </p>
+            </article>
+
+            <article class="method-subsection policy-design-block">
+              <div class="method-subsection-heading">
+                <h3>Policy Design</h3>
+              </div>
+              <p class="method-subsection-copy">
+                EDITH uses a hierarchical policy with a
+                <button class="method-inline-step-link" type="button" data-method-figure-link="high-level">
+                  high-level planner &pi;<sub>h</sub>
+                </button>
+                and a
+                <button class="method-inline-step-link" type="button" data-method-figure-link="low-level">
+                  low-level policy &pi;<sub>l</sub>
+                </button>.
+                The planner turns human signals into instruction-keyframe subtasks,
+                queues them in Q, and the low-level policy converts each subtask
+                into robot actions.
+              </p>
+              <div class="method-figure-viewer">
+                <figure class="method-figure-stage">
+                  <img
+                    id="method-figure-image"
+                    src="assets/figure_policy_input_output_4.png"
+                    alt="EDITH method architecture"
+                    width="2013"
+                    height="800"
+                  >
+                </figure>
+                <div class="method-figure-controls" role="tablist" aria-label="Method figure steps">
+                  <button class="method-figure-tab" type="button" data-method-figure-step="signals" role="tab" aria-selected="false">
+                    Human Signals
+                  </button>
+                  <button class="method-figure-tab" type="button" data-method-figure-step="high-level" role="tab" aria-selected="false">
+                    High-level Policy
+                  </button>
+                  <button class="method-figure-tab" type="button" data-method-figure-step="queue" role="tab" aria-selected="false">
+                    Task Queue
+                  </button>
+                  <button class="method-figure-tab is-active" type="button" data-method-figure-step="low-level" role="tab" aria-selected="true">
+                    Low-level Policy
+                  </button>
+                </div>
+                <div class="method-figure-note" aria-live="polite">
+                  <p class="method-figure-note-title" id="method-figure-note-title">
+                    Low-level Policy
+                  </p>
+                  <p id="method-figure-note-text">
+                    &pi;<sub>l</sub> conditions on robot observation o<sub>t</sub>,
+                    [TASK], and C<sup>key</sup> to produce action a<sub>t</sub>
+                    and completion probability p<sub>t</sub>. Once p<sub>t</sub>
+                    crosses a threshold, it pops the next subtask from Q.
+                  </p>
+                </div>
+              </div>
+            </article>
           </div>
         </div>
       </section>
@@ -1078,6 +1186,6 @@
       <p><span id="year">2026</span></p>
     </footer>
 
-    <script src="script.js?v=method-figure-steps-20260602"></script>
+    <script src="script.js?v=policy-inline-links-20260602"></script>
   </body>
 </html>
