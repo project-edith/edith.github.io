@@ -359,6 +359,34 @@ section[id] {
   align-items: center;
 }
 
+.intro-video-block {
+  margin-bottom: 44px;
+}
+
+.intro-video-block video {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius);
+  background: #000000;
+  object-fit: cover;
+}
+
+.approach-overview {
+  grid-column: 1 / -1;
+  margin-top: 10px;
+}
+
+.approach-overview figure {
+  margin: 20px 0 0;
+}
+
+.approach-overview img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
 .section-heading {
   width: min(780px, 100%);
   margin-bottom: 34px;
@@ -3232,6 +3260,7 @@ pre {
 }
 
 .classic-project-page .paper-authors,
+.classic-project-page .paper-affiliations,
 .classic-project-page .paper-venue {
   margin: 0;
   color: #333333;
@@ -3239,8 +3268,34 @@ pre {
   line-height: 1.45;
 }
 
+.classic-project-page .paper-authors a {
+  color: #111111;
+  text-decoration: none;
+}
+
+.classic-project-page .paper-authors a:hover {
+  text-decoration: underline;
+}
+
+.classic-project-page .paper-authors sup,
+.classic-project-page .paper-affiliations sup {
+  margin-left: 1px;
+  font-size: 0.68em;
+  line-height: 0;
+}
+
+.classic-project-page .paper-affiliations {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px 18px;
+  margin-top: 6px;
+  color: #555555;
+  font-size: 15px;
+}
+
 .classic-project-page .paper-venue {
-  margin-top: 4px;
+  margin-top: 8px;
   color: var(--muted-ink);
   font-style: italic;
 }
@@ -3272,6 +3327,37 @@ pre {
 .classic-project-page .split {
   grid-template-columns: 1fr;
   gap: 24px;
+}
+
+.classic-project-page .intro-video-block,
+.classic-project-page .summary-grid {
+  width: min(1040px, 100%);
+}
+
+.classic-project-page .intro-video-block {
+  margin-bottom: 44px;
+}
+
+.classic-project-page .intro-video-block video {
+  border-radius: 4px;
+  box-shadow: none;
+}
+
+.classic-project-page .approach-overview {
+  margin-top: 20px;
+  padding-top: 24px;
+  border-top: 1px solid #dddddd;
+}
+
+.classic-project-page .approach-overview figure {
+  margin-top: 22px;
+  overflow-x: auto;
+}
+
+.classic-project-page .approach-overview img {
+  min-width: 780px;
+  border: 1px solid #dddddd;
+  background: #ffffff;
 }
 
 .classic-project-page .section-heading {

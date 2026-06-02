@@ -18,7 +18,7 @@
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
     <link rel="preload" as="image" href="assets/hero-edith.png">
     <link rel="preload" as="video" href="assets/videos/main.mp4" type="video/mp4">
-    <link rel="stylesheet" href="styles.css?v=full-bleed-demos-20260602">
+    <link rel="stylesheet" href="styles.css?v=overview-authors-figure-20260602">
   </head>
   <body class="classic-project-page">
     <main id="top">
@@ -58,7 +58,17 @@
         <div class="section-inner paper-title-block">
           <h1>EDITH</h1>
           <h2>Hierarchical Policies from Verbal and Egocentric Human Signals for Natural Human-Robot Interaction</h2>
-          <p class="paper-authors">Project EDITH Team</p>
+          <p class="paper-authors">
+            <a href="https://dgjun32.github.io/" target="_blank" rel="noopener">Dongjun Lee</a><sup>1</sup>,
+            <a href="https://juheonchoi.com" target="_blank" rel="noopener">Juheon Choi</a><sup>1</sup>,
+            <a href="https://donkeyu99.github.io/" target="_blank" rel="noopener">Dong Kyu Shin</a><sup>2</sup>,
+            <a href="https://sinjae.me/" target="_blank" rel="noopener">Sinjae Kang</a><sup>1</sup>,
+            <a href="https://sites.google.com/view/kiminlee" target="_blank" rel="noopener">Kimin Lee</a><sup>1</sup>
+          </p>
+          <p class="paper-affiliations">
+            <span><sup>1</sup> KAIST</span>
+            <span><sup>2</sup> Seoul National University</span>
+          </p>
           <p class="paper-venue">Under review</p>
           <nav class="paper-links" aria-label="Project resources">
             <a href="#resources">Paper</a>
@@ -66,6 +76,12 @@
             <a href="#resources">Dataset</a>
             <a href="#demos">Videos</a>
           </nav>
+        </div>
+
+        <div class="section-inner intro-video-block" aria-label="Introduction video">
+          <video controls muted playsinline preload="metadata" poster="assets/posters/main.jpg">
+            <source src="assets/videos/main.mp4" type="video/mp4">
+          </video>
         </div>
 
         <div class="section-inner summary-grid">
@@ -96,6 +112,18 @@
               significantly reduces user effort to convey intent compared to using
               language instructions alone.
             </p>
+          </article>
+          <article class="approach-overview">
+            <p class="section-kicker">Approach Overview</p>
+            <h2>EDITH converts verbal and egocentric human signals into executable subtasks.</h2>
+            <figure>
+              <a href="assets/overview_figure.pdf" target="_blank" rel="noopener">
+                <img
+                  src="assets/overview_figure.png"
+                  alt="Overview figure showing EDITH's hardware system, hierarchical policy, and robot execution flow."
+                >
+              </a>
+            </figure>
           </article>
           <dl class="quick-facts">
             <div>
