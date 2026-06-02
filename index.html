@@ -17,7 +17,7 @@
     <meta property="og:image" content="assets/hero-edith.png">
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
     <link rel="preload" as="image" href="assets/hero-edith.png">
-    <link rel="preload" as="video" href="assets/videos/tumbler-demo.mp4" type="video/mp4">
+    <link rel="preload" as="video" href="assets/videos/main.mp4" type="video/mp4">
     <link rel="stylesheet" href="styles.css">
   </head>
   <body class="classic-project-page">
@@ -59,9 +59,9 @@
             muted
             loop
             playsinline
-            poster="assets/posters/tumbler-demo.jpg"
+            poster="assets/posters/main.jpg"
           >
-            <source src="assets/videos/tumbler-demo.mp4" type="video/mp4">
+            <source src="assets/videos/main.mp4" type="video/mp4">
           </video>
           <div class="hero-player-overlay">
             <span>Verbal + Egocentric Signals</span>
@@ -1037,17 +1037,17 @@
 
           <div class="demo-viewer" aria-live="polite">
             <aside class="demo-rail" aria-label="Demo selector">
-              <button class="demo-tab is-active" type="button" data-demo="gaze">
+              <button class="demo-tab is-active" type="button" data-demo="muffin">
                 <span>01</span>
-                <strong>Egocentric Context</strong>
-              </button>
-              <button class="demo-tab" type="button" data-demo="object">
-                <span>02</span>
-                <strong>Subtask Execution</strong>
+                <strong>Muffin Serving</strong>
               </button>
               <button class="demo-tab" type="button" data-demo="tool">
-                <span>03</span>
+                <span>02</span>
                 <strong>Tool Passing</strong>
+              </button>
+              <button class="demo-tab" type="button" data-demo="tumbler">
+                <span>03</span>
+                <strong>Tumbler Sorting</strong>
               </button>
             </aside>
 
@@ -1058,9 +1058,9 @@
                   controls
                   muted
                   playsinline
-                  poster="assets/posters/eye-tracking-demo.jpg"
+                  poster="assets/posters/muffin-text.jpg"
                 >
-                  <source src="assets/videos/eye-tracking-demo.mp4" type="video/mp4">
+                  <source src="assets/videos/muffin_text.mp4" type="video/mp4">
                 </video>
                 <div class="video-progress" aria-hidden="true">
                   <span id="video-progress-bar"></span>
@@ -1068,46 +1068,46 @@
               </div>
               <div class="demo-caption">
                 <p class="section-kicker" id="demo-kicker">Demo 01</p>
-                <h3 id="demo-title">Egocentric context and gaze</h3>
+                <h3 id="demo-title">Muffin-serving interaction</h3>
                 <p id="demo-description">
-                  EDITH streams the human's first-person view and gaze so brief
-                  nonverbal signals can ground underspecified language.
+                  The viewer first shows the text-only interaction, then plays
+                  the EDITH rollout that grounds the same request with egocentric signals.
                 </p>
                 <ol class="trace-list" id="demo-trace">
-                  <li>Capture first-person RGB frames from smart glasses.</li>
-                  <li>Overlay gaze markers on the egocentric context.</li>
-                  <li>Pair the context stream with the user's utterance.</li>
+                  <li>Play the language-only request segment.</li>
+                  <li>Continue into the EDITH segment with egocentric grounding.</li>
+                  <li>Compare how nonverbal signals disambiguate the target.</li>
                 </ol>
               </div>
             </div>
           </div>
 
           <div class="demo-grid" aria-label="Demo previews">
-            <article class="demo-card" data-demo="gaze">
-              <video autoplay muted loop playsinline poster="assets/posters/eye-tracking-demo.jpg">
-                <source src="assets/videos/eye-tracking-demo.mp4" type="video/mp4">
+            <article class="demo-card" data-demo="muffin">
+              <video autoplay muted loop playsinline poster="assets/posters/muffin-edith.jpg">
+                <source src="assets/videos/muffin_edith.mp4" type="video/mp4">
               </video>
               <div>
-                <span>Human Signals</span>
-                <h3>First-person view and gaze</h3>
+                <span>Muffin Serving</span>
+                <h3>Language first, then EDITH</h3>
               </div>
             </article>
-            <article class="demo-card" data-demo="object">
-              <video autoplay muted loop playsinline poster="assets/posters/tumbler-demo.jpg">
-                <source src="assets/videos/tumbler-demo.mp4" type="video/mp4">
+            <article class="demo-card" data-demo="tool">
+              <video autoplay muted loop playsinline poster="assets/posters/passing-tool-edith.jpg">
+                <source src="assets/videos/edith_passing_tool.mp4" type="video/mp4">
               </video>
               <div>
-                <span>Execution</span>
-                <h3>Queued subtasks</h3>
+                <span>Tool Passing</span>
+                <h3>Text request followed by EDITH</h3>
               </div>
             </article>
-            <article class="demo-card portrait" data-demo="tool">
-              <video autoplay muted loop playsinline poster="assets/posters/tool-demo.jpg">
-                <source src="assets/videos/tool-demo.mp4" type="video/mp4">
+            <article class="demo-card" data-demo="tumbler">
+              <video autoplay muted loop playsinline poster="assets/posters/tumbler-edith.jpg">
+                <source src="assets/videos/tumbler_edith.mp4" type="video/mp4">
               </video>
               <div>
-                <span>Tool-Passing</span>
-                <h3>Gaze-grounded requests</h3>
+                <span>Tumbler Sorting</span>
+                <h3>Language first, then EDITH</h3>
               </div>
             </article>
           </div>
