@@ -3100,13 +3100,13 @@ pre {
 
 .classic-project-page .hero-content {
   position: absolute;
-  right: clamp(22px, 4vw, 58px);
-  bottom: clamp(98px, 14vh, 170px);
-  left: auto;
+  right: 0;
+  bottom: max(150px, calc((100svh - 54px - 56.25vw) / 2 + 150px));
+  left: 35vw;
   z-index: 2;
-  width: min(760px, calc(100% - 44px));
+  width: auto;
   max-width: none;
-  padding: 24px 34px 26px;
+  padding: 24px clamp(34px, 4vw, 58px) 26px 34px;
   background: rgba(0, 0, 0, 0.46);
 }
 
@@ -3495,9 +3495,10 @@ pre {
   }
 
   .classic-project-page .hero-content {
-    right: 18px;
-    bottom: 92px;
-    width: calc(100% - 36px);
+    right: 0;
+    bottom: max(120px, calc((100svh - 54px - 56.25vw) / 2 + 120px));
+    left: 16px;
+    width: auto;
     padding: 22px;
   }
 
