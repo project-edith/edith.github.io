@@ -1046,40 +1046,92 @@
               </p>
             </div>
 
-            <div class="comparison-videos" aria-label="Task video comparison">
-              <article class="comparison-panel">
-                <div class="comparison-label">
-                  <span>TextVLA</span>
-                  <strong>Language-only baseline</strong>
-                </div>
-                <video
-                  id="textvla-video"
-                  autoplay
-                  muted
-                  loop
-                  playsinline
-                  poster="assets/posters/muffin-text.jpg"
-                >
-                  <source src="assets/videos/muffin_text.mp4" type="video/mp4">
-                </video>
-              </article>
+            <div class="task-carousel-viewport">
+              <div class="task-slide-track" id="task-slide-track" aria-label="Task video comparison">
+                <article class="task-slide is-active" data-task-index="0" aria-label="Muffin Serving comparison">
+                  <div class="comparison-videos">
+                    <article class="comparison-panel text-panel is-playing" data-method="text">
+                      <div class="comparison-label">
+                        <span>TextVLA</span>
+                        <strong>Language-only baseline</strong>
+                      </div>
+                      <div class="comparison-media">
+                        <video muted playsinline preload="metadata" poster="assets/posters/muffin-text.jpg">
+                          <source src="assets/videos/muffin_text.mp4" type="video/mp4">
+                        </video>
+                      </div>
+                    </article>
 
-              <article class="comparison-panel edith-panel">
-                <div class="comparison-label">
-                  <span>EDITH</span>
-                  <strong>Verbal + egocentric signals</strong>
-                </div>
-                <video
-                  id="edith-video"
-                  autoplay
-                  muted
-                  loop
-                  playsinline
-                  poster="assets/posters/muffin-edith.jpg"
-                >
-                  <source src="assets/videos/muffin_edith.mp4" type="video/mp4">
-                </video>
-              </article>
+                    <article class="comparison-panel edith-panel" data-method="edith">
+                      <div class="comparison-label">
+                        <span>EDITH</span>
+                        <strong>Verbal + egocentric signals</strong>
+                      </div>
+                      <div class="comparison-media">
+                        <video muted playsinline preload="metadata" poster="assets/posters/muffin-edith.jpg">
+                          <source src="assets/videos/muffin_edith.mp4" type="video/mp4">
+                        </video>
+                      </div>
+                    </article>
+                  </div>
+                </article>
+
+                <article class="task-slide" data-task-index="1" aria-label="Tool Passing comparison">
+                  <div class="comparison-videos">
+                    <article class="comparison-panel text-panel" data-method="text">
+                      <div class="comparison-label">
+                        <span>TextVLA</span>
+                        <strong>Language-only baseline</strong>
+                      </div>
+                      <div class="comparison-media">
+                        <video muted playsinline preload="metadata" poster="assets/posters/passing-tool-text.jpg">
+                          <source src="assets/videos/passing_tool_text.mp4" type="video/mp4">
+                        </video>
+                      </div>
+                    </article>
+
+                    <article class="comparison-panel edith-panel" data-method="edith">
+                      <div class="comparison-label">
+                        <span>EDITH</span>
+                        <strong>Verbal + egocentric signals</strong>
+                      </div>
+                      <div class="comparison-media">
+                        <video muted playsinline preload="metadata" poster="assets/posters/passing-tool-edith.jpg">
+                          <source src="assets/videos/edith_passing_tool.mp4" type="video/mp4">
+                        </video>
+                      </div>
+                    </article>
+                  </div>
+                </article>
+
+                <article class="task-slide" data-task-index="2" aria-label="Tumbler Sorting comparison">
+                  <div class="comparison-videos">
+                    <article class="comparison-panel text-panel" data-method="text">
+                      <div class="comparison-label">
+                        <span>TextVLA</span>
+                        <strong>Language-only baseline</strong>
+                      </div>
+                      <div class="comparison-media">
+                        <video muted playsinline preload="metadata" poster="assets/posters/tumbler-text.jpg">
+                          <source src="assets/videos/tumbler_text.mp4" type="video/mp4">
+                        </video>
+                      </div>
+                    </article>
+
+                    <article class="comparison-panel edith-panel" data-method="edith">
+                      <div class="comparison-label">
+                        <span>EDITH</span>
+                        <strong>Verbal + egocentric signals</strong>
+                      </div>
+                      <div class="comparison-media">
+                        <video muted playsinline preload="metadata" poster="assets/posters/tumbler-edith.jpg">
+                          <source src="assets/videos/tumbler_edith.mp4" type="video/mp4">
+                        </video>
+                      </div>
+                    </article>
+                  </div>
+                </article>
+              </div>
             </div>
 
             <div class="carousel-controls" aria-label="Task carousel controls">

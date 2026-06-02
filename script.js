@@ -137,8 +137,8 @@ const taskComparisons = [
   },
 ];
 
-const textVlaVideo = document.querySelector("#textvla-video");
-const edithVideo = document.querySelector("#edith-video");
+const taskTrack = document.querySelector("#task-slide-track");
+const taskSlides = [...document.querySelectorAll(".task-slide")];
 const taskCounter = document.querySelector("#task-counter");
 const taskTitle = document.querySelector("#task-title");
 const taskDescription = document.querySelector("#task-description");
@@ -146,15 +146,75 @@ const taskPrev = document.querySelector("#task-prev");
 const taskNext = document.querySelector("#task-next");
 const taskDots = document.querySelector("#task-dots");
 let activeTaskIndex = 0;
+let playbackToken = 0;
 
-function loadVideo(video, clip) {
-  if (!video || !clip) return;
-  const source = video.querySelector("source");
+function updateTaskTrackPosition() {
+  if (!taskTrack || !taskSlides.length) return;
+  const slideWidth = taskSlides[0].getBoundingClientRect().width;
+  const trackStyle = getComputedStyle(taskTrack);
+  const gap = parseFloat(trackStyle.columnGap || trackStyle.gap || "0") || 0;
+  taskTrack.style.transform = `translateX(${-activeTaskIndex * (slideWidth + gap)}px)`;
+}
+
+function resetTaskVideo(video) {
+  if (!video) return;
+  video.onended = null;
   video.pause();
-  video.poster = clip.poster;
-  if (source) source.src = clip.src;
-  video.load();
+  try {
+    video.currentTime = 0;
+  } catch {
+    // Some browsers disallow seeking before metadata is available.
+  }
+}
+
+function playTaskVideo(video) {
+  if (!video) return;
   video.play().catch(() => {});
+}
+
+function playCurrentTaskSequence() {
+  const token = ++playbackToken;
+
+  taskSlides.forEach((slide) => {
+    slide.querySelectorAll(".comparison-panel").forEach((panel) => {
+      panel.classList.remove("is-playing");
+    });
+    slide.querySelectorAll("video").forEach(resetTaskVideo);
+  });
+
+  const activeSlide = taskSlides[activeTaskIndex];
+  const textPanel = activeSlide?.querySelector('[data-method="text"]');
+  const edithPanel = activeSlide?.querySelector('[data-method="edith"]');
+  const textVideo = textPanel?.querySelector("video");
+  const edithVideo = edithPanel?.querySelector("video");
+
+  if (!textVideo || !edithVideo) return;
+
+  const playText = () => {
+    if (token !== playbackToken) return;
+    edithPanel.classList.remove("is-playing");
+    resetTaskVideo(edithVideo);
+    textPanel.classList.add("is-playing");
+    try {
+      textVideo.currentTime = 0;
+    } catch {}
+    textVideo.onended = playEdith;
+    playTaskVideo(textVideo);
+  };
+
+  const playEdith = () => {
+    if (token !== playbackToken) return;
+    textPanel.classList.remove("is-playing");
+    resetTaskVideo(textVideo);
+    edithPanel.classList.add("is-playing");
+    try {
+      edithVideo.currentTime = 0;
+    } catch {}
+    edithVideo.onended = playText;
+    playTaskVideo(edithVideo);
+  };
+
+  playText();
 }
 
 function setTaskComparison(index) {
@@ -174,8 +234,14 @@ function setTaskComparison(index) {
     button.setAttribute("aria-selected", String(isActive));
   });
 
-  loadVideo(textVlaVideo, task.text);
-  loadVideo(edithVideo, task.edith);
+  taskSlides.forEach((slide, slideIndex) => {
+    const isActive = slideIndex === activeTaskIndex;
+    slide.classList.toggle("is-active", isActive);
+    slide.setAttribute("aria-hidden", String(!isActive));
+  });
+
+  updateTaskTrackPosition();
+  playCurrentTaskSequence();
 }
 
 taskPrev?.addEventListener("click", () => {
@@ -192,8 +258,9 @@ taskDots?.querySelectorAll("[data-task-index]").forEach((button) => {
   });
 });
 
-if (textVlaVideo && edithVideo) {
+if (taskTrack && taskSlides.length) {
   setTaskComparison(activeTaskIndex);
+  window.addEventListener("resize", updateTaskTrackPosition);
 }
 
 const methodContent = {

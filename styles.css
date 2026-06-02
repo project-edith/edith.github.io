@@ -658,11 +658,7 @@ section[id] {
 }
 
 .task-carousel {
-  padding: 22px;
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  background: var(--surface);
-  box-shadow: 0 1px 0 rgba(32, 33, 36, 0.04);
+  overflow: hidden;
 }
 
 .task-carousel-heading {
@@ -670,7 +666,7 @@ section[id] {
   align-items: end;
   justify-content: space-between;
   gap: 24px;
-  margin-bottom: 18px;
+  margin-bottom: 20px;
 }
 
 .task-carousel-heading h3 {
@@ -686,49 +682,79 @@ section[id] {
   text-align: right;
 }
 
+.task-carousel-viewport {
+  margin: 0 -24px;
+  padding: 0 24px;
+  overflow: hidden;
+}
+
+.task-slide-track {
+  display: flex;
+  gap: 28px;
+  align-items: stretch;
+  transition: transform 520ms cubic-bezier(0.2, 0.82, 0.2, 1);
+  will-change: transform;
+}
+
+.task-slide {
+  flex: 0 0 min(1160px, calc(100% - 132px));
+  min-width: 0;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: 0 2px 12px rgba(32, 33, 36, 0.08);
+  opacity: 0.45;
+  transform: scale(0.985);
+  transform-origin: center;
+  transition:
+    opacity 260ms ease,
+    transform 260ms ease;
+}
+
+.task-slide.is-active {
+  opacity: 1;
+  transform: none;
+}
+
 .comparison-videos {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 22px;
+  gap: 18px;
 }
 
 .comparison-panel {
-  position: relative;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
   min-width: 0;
-  aspect-ratio: 16 / 9;
   border: 1px solid var(--line);
-  border-radius: var(--radius);
-  background: #101614;
+  border-radius: 7px;
+  background: #ffffff;
   overflow: hidden;
-  isolation: isolate;
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease;
 }
 
-.comparison-panel::after {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  content: "";
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0.2), transparent 28%, rgba(0, 0, 0, 0.16));
+.comparison-panel.is-playing {
+  border-color: var(--teal);
+  box-shadow: 0 0 0 2px rgba(0, 115, 110, 0.15);
 }
 
 .comparison-label {
-  position: absolute;
-  top: 14px;
-  left: 14px;
-  z-index: 2;
-  display: grid;
-  gap: 2px;
-  max-width: calc(100% - 28px);
-  padding: 9px 12px;
-  border-radius: 7px;
-  color: #ffffff;
-  background: rgba(0, 0, 0, 0.58);
-  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 50px;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--line);
+  color: var(--ink);
+  background: #f7f7f7;
 }
 
 .comparison-label span {
-  color: #ffd495;
+  color: var(--teal);
   font-size: 12px;
   font-weight: 900;
   line-height: 1;
@@ -736,12 +762,20 @@ section[id] {
 }
 
 .comparison-label strong {
+  color: var(--muted-ink);
   font-size: 15px;
+  font-weight: 800;
   line-height: 1.12;
+  text-align: right;
 }
 
 .edith-panel .comparison-label span {
-  color: #bfe0f4;
+  color: var(--paper-edith-deep);
+}
+
+.comparison-media {
+  aspect-ratio: 16 / 9;
+  background: #101614;
 }
 
 .carousel-controls {
@@ -2829,6 +2863,37 @@ pre {
     text-align: left;
   }
 
+  .task-carousel-viewport {
+    margin: 0;
+    padding: 0;
+    overflow: visible;
+  }
+
+  .task-slide-track {
+    display: block;
+    transform: none !important;
+  }
+
+  .task-slide {
+    display: none;
+    padding: 12px;
+    opacity: 1;
+    transform: none;
+  }
+
+  .task-slide.is-active {
+    display: block;
+  }
+
+  .comparison-label {
+    display: grid;
+    min-height: auto;
+  }
+
+  .comparison-label strong {
+    text-align: left;
+  }
+
   .likert-task {
     overflow-x: auto;
     padding-bottom: 2px;
@@ -2853,6 +2918,20 @@ pre {
   }
 
   .button {
+    width: 100%;
+  }
+
+  .carousel-controls {
+    gap: 9px;
+  }
+
+  .carousel-arrow {
+    width: 44px;
+    height: 44px;
+  }
+
+  .task-dots {
+    order: -1;
     width: 100%;
   }
 
@@ -3089,6 +3168,10 @@ pre {
 
 .classic-project-page .section-inner {
   width: min(960px, 100%);
+}
+
+.classic-project-page #demos .section-inner {
+  width: min(1360px, 100%);
 }
 
 .classic-project-page .paper-title-block {
