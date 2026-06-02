@@ -154,7 +154,17 @@ function updateTaskTrackPosition() {
   const slideWidth = taskSlides[0].getBoundingClientRect().width;
   const trackStyle = getComputedStyle(taskTrack);
   const gap = parseFloat(trackStyle.columnGap || trackStyle.gap || "0") || 0;
-  taskTrack.style.transform = `translateX(${-activeTaskIndex * (slideWidth + gap)}px)`;
+  taskTrack.style.transform = `translateX(${-(slideWidth + gap)}px)`;
+}
+
+function updateTaskSlideOrder() {
+  const slideCount = taskSlides.length;
+  if (!slideCount) return;
+
+  taskSlides.forEach((slide, slideIndex) => {
+    const offset = (slideIndex - activeTaskIndex + slideCount) % slideCount;
+    slide.style.order = String(offset === slideCount - 1 ? 0 : offset + 1);
+  });
 }
 
 function resetTaskVideo(video) {
@@ -266,6 +276,7 @@ function setTaskComparison(index) {
     slide.setAttribute("aria-hidden", String(!isActive));
   });
 
+  updateTaskSlideOrder();
   updateTaskTrackPosition();
   playCurrentTaskSequence();
 }
