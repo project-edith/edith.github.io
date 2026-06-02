@@ -330,10 +330,6 @@ section[id] {
   background: #ffffff;
 }
 
-.task-section {
-  background: var(--paper);
-}
-
 .result-section {
   background: var(--surface);
 }
@@ -379,12 +375,18 @@ section[id] {
 
 .approach-overview figure {
   margin: 20px 0 0;
+  border: 0;
+  background: #ffffff;
+  box-shadow: none;
 }
 
 .overview-figure-frame img {
   display: block;
   width: 100%;
   height: auto;
+  border: 0;
+  outline: 0;
+  box-shadow: none;
 }
 
 .section-heading {
@@ -491,6 +493,10 @@ section[id] {
 
 .task-grid {
   grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.demo-section .task-grid {
+  margin-bottom: 38px;
 }
 
 .task-card {
@@ -721,7 +727,7 @@ section[id] {
   width: 100vw;
   margin-right: calc(50% - 50vw);
   margin-left: calc(50% - 50vw);
-  padding: 0;
+  padding: 6px 0 28px;
   overflow: hidden;
 }
 
@@ -852,7 +858,7 @@ section[id] {
   align-items: center;
   justify-content: center;
   gap: 14px;
-  margin-top: 20px;
+  margin-top: 0;
 }
 
 .carousel-arrow {
@@ -1451,6 +1457,58 @@ section[id] {
   gap: 12px;
   margin: 22px 0 0;
   padding-left: 20px;
+}
+
+.method-figure-viewer {
+  width: min(1120px, 100%);
+  margin: 0 auto;
+}
+
+.method-figure-stage {
+  margin: 0;
+  background: #ffffff;
+}
+
+.method-figure-stage img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 0;
+  outline: 0;
+  background: #ffffff;
+  box-shadow: none;
+  transition: opacity 180ms ease;
+}
+
+.method-figure-stage.is-changing img {
+  opacity: 0;
+}
+
+.method-figure-controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.method-figure-tab {
+  min-height: 40px;
+  padding: 0 16px;
+  border: 1px solid #cfcfcf;
+  border-radius: 999px;
+  color: #333333;
+  background: #ffffff;
+  cursor: pointer;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.method-figure-tab.is-active {
+  border-color: #111111;
+  color: #ffffff;
+  background: #111111;
 }
 
 .result-summary-grid {
@@ -3093,20 +3151,16 @@ pre {
   order: 3;
 }
 
-.classic-project-page #tasks {
+.classic-project-page #results {
   order: 4;
 }
 
-.classic-project-page #results {
+.classic-project-page #resources {
   order: 5;
 }
 
-.classic-project-page #resources {
-  order: 6;
-}
-
 .classic-project-page #citation {
-  order: 7;
+  order: 6;
 }
 
 .classic-project-page .site-header {
@@ -3376,13 +3430,19 @@ pre {
 
 .classic-project-page .approach-overview figure {
   margin-top: 22px;
+  border: 0;
+  box-shadow: none;
   overflow-x: auto;
 }
 
 .classic-project-page .overview-figure-frame img {
-  min-width: 780px;
-  border: 1px solid #dddddd;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  border: 0;
+  outline: 0;
   background: #ffffff;
+  box-shadow: none;
 }
 
 .classic-project-page .section-heading {
@@ -3492,7 +3552,6 @@ pre {
   background: #ffffff;
 }
 
-.classic-project-page .task-section,
 .classic-project-page .demo-section {
   background: #f8f8f8;
 }
@@ -3623,9 +3682,44 @@ pre {
 }
 
 @media (max-width: 1280px) {
+  .classic-project-page .hero {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    min-height: auto;
+    overflow: visible;
+  }
+
+  .classic-project-page .hero::before {
+    display: none;
+  }
+
+  .classic-project-page .hero-player {
+    position: relative;
+    inset: auto;
+    order: 1;
+    aspect-ratio: 16 / 9;
+    height: auto;
+    overflow: hidden;
+  }
+
   .classic-project-page .hero-player video {
-    object-fit: contain;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
     object-position: center bottom;
+  }
+
+  .classic-project-page .hero-content {
+    display: none;
+    position: relative;
+    order: 2;
+    right: auto;
+    bottom: auto;
+    left: auto;
+    width: 100%;
+    padding: 24px clamp(24px, 4vw, 42px) 30px;
+    background: #000000;
   }
 }
 
@@ -3675,7 +3769,7 @@ pre {
   .classic-project-page .hero-player video {
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    object-fit: cover;
     object-position: center bottom;
   }
 
@@ -3687,6 +3781,30 @@ pre {
     left: auto;
     width: 100%;
     padding: 22px 24px 28px;
+  }
+
+  .classic-project-page #overview {
+    padding-top: 0;
+  }
+
+  .classic-project-page .paper-title-block {
+    width: 100vw;
+    margin-right: calc(50% - 50vw);
+    margin-left: calc(50% - 50vw);
+    padding: 38px 22px 42px;
+    background: #ffffff;
+  }
+
+  .classic-project-page .paper-title-block h1 {
+    font-size: clamp(40px, 12vw, 62px);
+  }
+
+  .classic-project-page .paper-title-block h2 {
+    font-size: clamp(18px, 5vw, 24px);
+  }
+
+  .classic-project-page .paper-authors {
+    font-size: 14px;
   }
 
   .classic-project-page .quick-facts,

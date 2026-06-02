@@ -10,6 +10,74 @@ const sections = navLinks
   .map((link) => document.querySelector(link.getAttribute("href")))
   .filter(Boolean);
 
+const hero = document.querySelector(".hero");
+const heroScrollTarget = document.querySelector(".paper-title-block");
+
+if (hero && heroScrollTarget) {
+  let isHeroSnapping = false;
+  let heroTouchStartY = 0;
+
+  const getHeroTargetY = () => heroScrollTarget.getBoundingClientRect().top + window.scrollY;
+  const prefersReducedMotion = () =>
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  const canSnapFromHero = (deltaY) => {
+    if (deltaY <= 0 || isHeroSnapping) return false;
+    const targetY = getHeroTargetY();
+    return window.scrollY < targetY - 4 && hero.getBoundingClientRect().bottom > 24;
+  };
+
+  const snapFromHero = () => {
+    isHeroSnapping = true;
+    window.scrollTo({
+      top: getHeroTargetY(),
+      behavior: prefersReducedMotion() ? "auto" : "smooth",
+    });
+    window.setTimeout(() => {
+      isHeroSnapping = false;
+    }, 850);
+  };
+
+  window.addEventListener(
+    "wheel",
+    (event) => {
+      if (!canSnapFromHero(event.deltaY)) return;
+      event.preventDefault();
+      snapFromHero();
+    },
+    { passive: false },
+  );
+
+  window.addEventListener(
+    "touchstart",
+    (event) => {
+      heroTouchStartY = event.touches[0]?.clientY || 0;
+    },
+    { passive: true },
+  );
+
+  window.addEventListener(
+    "touchmove",
+    (event) => {
+      const touchY = event.touches[0]?.clientY || heroTouchStartY;
+      const deltaY = heroTouchStartY - touchY;
+      if (!canSnapFromHero(deltaY)) return;
+      event.preventDefault();
+      heroTouchStartY = touchY;
+      snapFromHero();
+    },
+    { passive: false },
+  );
+
+  window.addEventListener("keydown", (event) => {
+    if (event.defaultPrevented || event.metaKey || event.ctrlKey || event.altKey) return;
+    if (!["ArrowDown", "PageDown", " "].includes(event.key)) return;
+    if (!canSnapFromHero(1)) return;
+    event.preventDefault();
+    snapFromHero();
+  });
+}
+
 if ("IntersectionObserver" in window && sections.length) {
   const observer = new IntersectionObserver(
     (entries) => {
@@ -97,9 +165,7 @@ if ("IntersectionObserver" in window && animatedElements.length) {
 
 const taskComparisons = [
   {
-    title: "Muffin Serving",
-    description:
-      "Compare the language-only TextVLA baseline against EDITH on visually similar muffin requests.",
+    title: "Muffin-Serving",
     text: {
       src: "assets/videos/muffin_textvla.mp4",
       poster: "assets/posters/muffin-text.jpg",
@@ -110,22 +176,7 @@ const taskComparisons = [
     },
   },
   {
-    title: "Tool Passing",
-    description:
-      "Compare tool-passing behavior when language alone is underspecified versus EDITH with gaze grounding.",
-    text: {
-      src: "assets/videos/passing_tool_textvla.mp4",
-      poster: "assets/posters/passing-tool-text.jpg",
-    },
-    edith: {
-      src: "assets/videos/edith_passing_tool.mp4",
-      poster: "assets/posters/passing-tool-edith.jpg",
-    },
-  },
-  {
-    title: "Tumbler Sorting",
-    description:
-      "Compare the text-only sorting instruction against EDITH's egocentric and nonverbal grounding.",
+    title: "Tumbler-Sorting",
     text: {
       src: "assets/videos/tumbler_text_vla.mp4",
       poster: "assets/posters/tumbler-text.jpg",
@@ -133,6 +184,17 @@ const taskComparisons = [
     edith: {
       src: "assets/videos/tumbler_edith.mp4",
       poster: "assets/posters/tumbler-edith.jpg",
+    },
+  },
+  {
+    title: "Tool-Passing",
+    text: {
+      src: "assets/videos/passing_tool_textvla.mp4",
+      poster: "assets/posters/passing-tool-text.jpg",
+    },
+    edith: {
+      src: "assets/videos/edith_passing_tool.mp4",
+      poster: "assets/posters/passing-tool-edith.jpg",
     },
   },
 ];
@@ -252,7 +314,11 @@ function setTaskComparison(index) {
     taskCounter.textContent = `Task ${String(activeTaskIndex + 1).padStart(2, "0")} / ${String(taskComparisons.length).padStart(2, "0")}`;
   }
   if (taskTitle) taskTitle.textContent = task.title;
-  if (taskDescription) taskDescription.textContent = task.description;
+  if (taskDescription) {
+    const description = task.description || "";
+    taskDescription.textContent = description;
+    taskDescription.hidden = !description;
+  }
 
   taskDots?.querySelectorAll("[data-task-index]").forEach((button) => {
     const isActive = Number(button.dataset.taskIndex) === activeTaskIndex;
@@ -291,71 +357,67 @@ if (taskTrack && taskSlides.length) {
   window.addEventListener("resize", updateTaskTrackPosition);
 }
 
-const methodContent = {
-  signals: {
-    kicker: "Hardware System",
-    title: "Capturing human signals via smart glasses.",
-    description:
-      "EDITH streams the human's first-person view, gaze, and speech in real time, then synchronizes these human signals with robot observations.",
-    points: [
-      "Project Aria glasses capture first-person RGB, gaze, and speech.",
-      "Speech is transcribed into language instructions.",
-      "Human signals and robot observations are aligned by timestamp.",
-    ],
-  },
-  "high-level": {
-    kicker: "High-level Policy",
-    title: "Inferring intent from egocentric context and language.",
-    description:
-      "The high-level policy πh periodically processes C^ego_{t-H:t} and language instructions ℓ_{t-H:t} to produce subtasks.",
-    points: [
-      "Each subtask pairs a fine-grained instruction [TASK] with a keyframe C^key.",
-      "The keyframe captures the moment when the human's nonverbal signal is clearest.",
-      "New subtasks are appended to the task queue Q for sequential execution.",
-    ],
-  },
-  "low-level": {
-    kicker: "Low-level Policy",
-    title: "Executing queued subtasks with a VLA policy.",
-    description:
-      "The low-level policy πl takes the robot observation ot, [TASK], and C^key, then produces a robot action and completion probability.",
-    points: [
-      "Predicts at and pt for the current subtask.",
-      "Moves to the next queued subtask when pt exceeds a threshold.",
-      "Uses a fine-tuned VLA model with an added completion head.",
-    ],
-  },
+const methodFigures = {
+  signals: "assets/figure_policy_input_output_1.png",
+  "high-level": "assets/figure_policy_input_output_2.png",
+  queue: "assets/figure_policy_input_output_3.png",
+  "low-level": "assets/figure_policy_input_output_4.png",
 };
 
-const methodKicker = document.querySelector("#method-kicker");
-const methodTitle = document.querySelector("#method-title");
-const methodDescription = document.querySelector("#method-description");
-const methodPoints = document.querySelector("#method-points");
+const methodFigureImage = document.querySelector("#method-figure-image");
+const methodFigureStage = document.querySelector(".method-figure-stage");
+const methodFigureTabs = Array.from(document.querySelectorAll("[data-method-figure-step]"));
+let methodIntroTimer = 0;
+let methodFigureStep = "low-level";
 
-function setMethod(step) {
-  const content = methodContent[step];
-  if (!content) return;
+function setMethodFigure(step, options = {}) {
+  const src = methodFigures[step];
+  if (!src || !methodFigureImage) return;
 
-  document.querySelectorAll("[data-step]").forEach((element) => {
-    element.classList.toggle("is-active", element.dataset.step === step);
+  if (methodIntroTimer) {
+    window.clearTimeout(methodIntroTimer);
+    methodIntroTimer = 0;
+  }
+
+  methodFigureStep = step;
+  methodFigureTabs.forEach((button) => {
+    const isActive = button.dataset.methodFigureStep === step;
+    button.classList.toggle("is-active", isActive);
+    button.setAttribute("aria-selected", String(isActive));
   });
 
-  if (methodKicker) methodKicker.textContent = content.kicker;
-  if (methodTitle) methodTitle.textContent = content.title;
-  if (methodDescription) methodDescription.textContent = content.description;
-  if (methodPoints) {
-    methodPoints.innerHTML = "";
-    content.points.forEach((point) => {
-      const li = document.createElement("li");
-      li.textContent = point;
-      methodPoints.append(li);
-    });
+  const updateImage = () => {
+    methodFigureImage.src = src;
+    methodFigureImage.alt = `${buttonLabelForMethodFigure(step)} method figure`;
+    methodFigureStage?.classList.remove("is-changing");
+  };
+
+  if (options.instant || methodFigureImage.src.endsWith(src)) {
+    updateImage();
+    return;
   }
+
+  methodFigureStage?.classList.add("is-changing");
+  window.setTimeout(updateImage, 120);
 }
 
-document.querySelectorAll(".method-tab, .method-node, .arch-policy, .arch-subtasks, .arch-context-strip, .arch-robot-observations").forEach((element) => {
-  element.addEventListener("click", () => setMethod(element.dataset.step));
+function buttonLabelForMethodFigure(step) {
+  const activeButton = methodFigureTabs.find((button) => button.dataset.methodFigureStep === step);
+  return activeButton?.textContent.trim() || "EDITH";
+}
+
+methodFigureTabs.forEach((button) => {
+  button.addEventListener("click", () => {
+    setMethodFigure(button.dataset.methodFigureStep);
+  });
 });
+
+if (methodFigureImage && methodFigureTabs.length) {
+  setMethodFigure(methodFigureStep, { instant: true });
+  methodIntroTimer = window.setTimeout(() => {
+    setMethodFigure("signals");
+  }, 1300);
+}
 
 document.querySelectorAll("[data-copy]").forEach((button) => {
   button.addEventListener("click", async () => {

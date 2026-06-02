@@ -18,7 +18,7 @@
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
     <link rel="preload" as="image" href="assets/hero-edith.png">
     <link rel="preload" as="video" href="assets/videos/main.mp4" type="video/mp4">
-    <link rel="stylesheet" href="styles.css?v=section-title-labels-20260602">
+    <link rel="stylesheet" href="styles.css?v=overview-responsive-20260602">
   </head>
   <body class="classic-project-page">
     <main id="top">
@@ -140,200 +140,30 @@
             </p>
           </div>
 
-          <div class="architecture-scroll">
-            <div class="architecture-canvas" aria-label="EDITH policy input-output architecture diagram">
-              <svg class="arch-arrows" viewBox="0 0 1073 427" aria-hidden="true">
-                <line class="arch-divider" x1="636" y1="22" x2="636" y2="130"></line>
-                <line class="arch-divider" x1="636" y1="382" x2="636" y2="422"></line>
-                <path class="arch-block-arrow pale" d="M210 198 H229 V187 L248 205 L229 223 V212 H210 Z"></path>
-                <path class="arch-block-arrow black" d="M372 120 H386 V147 H400 L379 166 L358 147 H372 Z"></path>
-                <path class="arch-block-arrow soft" d="M374 242 H386 V266 H402 L380 286 L358 266 H374 Z"></path>
-                <path class="arch-block-arrow black" d="M503 326 H521 V316 L540 333 L521 350 V340 H503 Z"></path>
-                <path class="arch-block-arrow black" d="M741 197 H750 V187 L770 203 L750 219 V209 H741 Z"></path>
-                <path class="arch-block-arrow black" d="M890 124 H902 V149 H916 L896 168 L876 149 H890 Z"></path>
-                <path class="arch-block-arrow soft" d="M819 243 H831 V286 H846 L825 306 L804 286 H819 Z"></path>
-                <path class="arch-block-arrow soft" d="M958 243 H970 V286 H985 L964 306 L943 286 H958 Z"></path>
-              </svg>
-
-              <div class="arch-gaze-cone" aria-hidden="true"></div>
-              <img class="arch-user" src="assets/user.png" alt="User wearing smart glasses">
-
-              <div class="arch-speech">
-                "Pass me that driver and that metal profile"
-              </div>
-              <div class="arch-language">
-                Language <span>&ell;<sub>t-H:t</sub></span>
-              </div>
-
-              <div class="arch-label arch-context-title">
-                Egocentric context <span>C<sup>ego</sup><sub>t-H:t</sub></span>
-              </div>
-              <div class="arch-context-strip is-active" data-step="signals">
-                <div class="arch-frame">
-                  <img src="assets/architecture/context-overview.jpg" alt="">
-                  <span class="gaze-dot"></span>
-                </div>
-                <div class="arch-frame is-selected">
-                  <img src="assets/architecture/context-hands-01.jpg" alt="">
-                  <span class="gaze-dot"></span>
-                </div>
-                <div class="arch-frame">
-                  <img src="assets/architecture/context-hands-02.jpg" alt="">
-                  <span class="gaze-dot"></span>
-                </div>
-                <div class="arch-frame">
-                  <img src="assets/architecture/context-hands-03.jpg" alt="">
-                  <span class="gaze-dot"></span>
-                </div>
-                <div class="arch-frame">
-                  <img src="assets/architecture/context-robot.jpg" alt="">
-                  <span class="gaze-dot"></span>
-                </div>
-              </div>
-
-              <button class="arch-policy arch-policy-high" type="button" data-step="high-level">
-                <span>High-level policy &pi;<sub>h</sub></span>
-                <strong>(VLM)</strong>
+          <div class="method-figure-viewer">
+            <figure class="method-figure-stage">
+              <img
+                id="method-figure-image"
+                src="assets/figure_policy_input_output_4.png"
+                alt="EDITH method architecture"
+                width="2013"
+                height="800"
+              >
+            </figure>
+            <div class="method-figure-controls" role="tablist" aria-label="Method figure steps">
+              <button class="method-figure-tab" type="button" data-method-figure-step="signals" role="tab" aria-selected="false">
+                Human Signals
               </button>
-
-              <article class="arch-subtasks" data-step="high-level">
-                <div class="arch-subtask-card">
-                  <div class="arch-keyframe-head">
-                    Keyframe C<sup>key</sup>
-                  </div>
-                  <img src="assets/architecture/subtask-keyframe.jpg" alt="">
-                  <span class="gaze-dot"></span>
-                </div>
-                <div class="arch-subtask-card task-text">
-                  <strong>[TASK]</strong>
-                  <p>"Pick up the smallest profile and pass it to human."</p>
-                </div>
-              </article>
-              <div class="arch-caption subtasks-caption">Subtasks</div>
-
-              <div class="arch-queue-title">
-                Task queue <span>Q</span>
-              </div>
-              <article class="arch-task-queue">
-                <div class="arch-queue-item">
-                  <img src="assets/architecture/task-keyframe.jpg" alt="">
-                  <p>"Pick up the driver on the leftmost side and pass it to human."</p>
-                </div>
-                <div class="arch-queue-dots">...</div>
-                <div class="arch-queue-item">
-                  <img src="assets/architecture/task-profile.jpg" alt="">
-                  <p>"Pick up the smallest profile and pass it to human."</p>
-                </div>
-              </article>
-
-              <article class="arch-robot-observations" data-step="low-level">
-                <div class="arch-robot-title">
-                  Robot observations <span>O<sub>t</sub></span>
-                </div>
-                <div class="arch-robot-grid">
-                  <img src="assets/architecture/robot-overview.jpg" alt="">
-                  <img src="assets/architecture/robot-observation.jpg" alt="">
-                  <div>Robot<br>state</div>
-                </div>
-              </article>
-
-              <button class="arch-policy arch-policy-low" type="button" data-step="low-level">
-                <span>Low-level policy &pi;<sub>l</sub></span>
-                <strong>(VLA)</strong>
+              <button class="method-figure-tab" type="button" data-method-figure-step="high-level" role="tab" aria-selected="false">
+                High-level Policy
               </button>
-
-              <div class="arch-output arch-completion">
-                <span>Completion</span>
-                <strong>p<sub>t</sub> &isin; [0, 1]</strong>
-              </div>
-              <div class="arch-output arch-action">
-                <span>Action</span>
-                <strong>a<sub>t</sub></strong>
-              </div>
+              <button class="method-figure-tab" type="button" data-method-figure-step="queue" role="tab" aria-selected="false">
+                Task Queue
+              </button>
+              <button class="method-figure-tab is-active" type="button" data-method-figure-step="low-level" role="tab" aria-selected="true">
+                Low-level Policy
+              </button>
             </div>
-          </div>
-
-          <div class="method-layout">
-              <div class="method-panel">
-                <div class="method-controls" role="tablist" aria-label="Method details">
-                <button class="method-tab is-active" type="button" data-step="signals">
-                  Human Signals
-                </button>
-                <button class="method-tab" type="button" data-step="high-level">
-                  High-level Policy
-                </button>
-                <button class="method-tab" type="button" data-step="low-level">
-                  Low-level Policy
-                </button>
-              </div>
-              <article class="method-copy">
-                <p class="section-kicker" id="method-kicker">Hardware System</p>
-                <h3 id="method-title">Capturing human signals via smart glasses.</h3>
-                <p id="method-description">
-                  EDITH streams the human's first-person view, gaze, and speech
-                  in real time, then synchronizes them with robot observations.
-                </p>
-                <ul id="method-points">
-                  <li>Uses Project Aria glasses to capture first-person RGB, gaze, and speech.</li>
-                  <li>Transcribes speech into language instructions &ell;<sub>t</sub>.</li>
-                  <li>Aligns human signals with robot observations o<sub>t</sub> by timestamp.</li>
-                </ul>
-              </article>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="section task-section" id="tasks">
-        <div class="section-inner">
-          <div class="section-heading wide">
-            <h2>Evaluation Tasks</h2>
-            <p class="section-lede">
-              Three tasks require grounding underspecified language in nonverbal signals.
-            </p>
-            <p>
-              In each task, the language instruction is intentionally incomplete:
-              the robot must interpret gaze or pointing gestures to identify the
-              target objects and complete the requested subtasks.
-            </p>
-          </div>
-          <div class="task-grid">
-            <article class="task-card">
-              <p class="metric-label">Task 01</p>
-              <h3>Muffin-Serving</h3>
-              <p>
-                Six muffins are densely arranged. The human requests three with
-                a single instruction while pointing at each target.
-              </p>
-              <div class="task-meta">
-                <span>3 subtasks</span>
-                <span>80 demos</span>
-              </div>
-            </article>
-            <article class="task-card">
-              <p class="metric-label">Task 02</p>
-              <h3>Tumbler-Sorting</h3>
-              <p>
-                Five tumblers and two baskets are placed on the table. The human
-                points to tumblers and baskets to specify a multi-step sorting request.
-              </p>
-              <div class="task-meta">
-                <span>4 subtasks</span>
-                <span>80 demos</span>
-              </div>
-            </article>
-            <article class="task-card">
-              <p class="metric-label">Task 03</p>
-              <h3>Tool-Passing</h3>
-              <p>
-                While assembling a metal stand, the human briefly asks for a
-                driver and a metal profile; gaze identifies the intended tools.
-              </p>
-              <div class="task-meta">
-                <span>2 subtasks</span>
-                <span>120 demos</span>
-              </div>
-            </article>
           </div>
         </div>
       </section>
@@ -1028,28 +858,68 @@
       <section class="section demo-section" id="demos">
         <div class="section-inner">
           <div class="section-heading wide">
-            <h2>Qualitative Demos</h2>
+            <h2>Evaluation Tasks</h2>
             <p class="section-lede">
-              Interactive videos show how EDITH uses egocentric signals during collaboration.
+              Three tasks require grounding underspecified language in nonverbal signals.
             </p>
             <p>
-              The demo viewer appears before evaluation so visitors can inspect
-              the interactions before reading the task and result sections.
+              In each task, the language instruction is intentionally incomplete:
+              the robot must interpret gaze or pointing gestures to identify the
+              target objects and complete the requested subtasks.
             </p>
+          </div>
+
+          <div class="task-grid">
+            <article class="task-card">
+              <p class="metric-label">Task 01</p>
+              <h3>Muffin-Serving</h3>
+              <p>
+                Six muffins are densely arranged. The human requests three with
+                a single instruction while pointing at each target.
+              </p>
+              <div class="task-meta">
+                <span>3 subtasks</span>
+                <span>80 demos</span>
+              </div>
+            </article>
+            <article class="task-card">
+              <p class="metric-label">Task 02</p>
+              <h3>Tumbler-Sorting</h3>
+              <p>
+                Five tumblers and two baskets are placed on the table. The human
+                points to tumblers and baskets to specify a multi-step sorting request.
+              </p>
+              <div class="task-meta">
+                <span>4 subtasks</span>
+                <span>80 demos</span>
+              </div>
+            </article>
+            <article class="task-card">
+              <p class="metric-label">Task 03</p>
+              <h3>Tool-Passing</h3>
+              <p>
+                While assembling a metal stand, the human briefly asks for a
+                driver and a metal profile; gaze identifies the intended tools.
+              </p>
+              <div class="task-meta">
+                <span>2 subtasks</span>
+                <span>120 demos</span>
+              </div>
+            </article>
           </div>
 
           <div class="task-carousel" aria-live="polite">
             <div class="task-carousel-heading">
               <div>
                 <p class="section-kicker" id="task-counter">Task 01 / 03</p>
-                <h3 id="task-title">Muffin Serving</h3>
+                <h3 id="task-title">Muffin-Serving</h3>
               </div>
               <p id="task-description" hidden></p>
             </div>
 
             <div class="task-carousel-viewport">
               <div class="task-slide-track" id="task-slide-track" aria-label="Task video comparison">
-                <article class="task-slide is-active" data-task-index="0" aria-label="Muffin Serving comparison">
+                <article class="task-slide is-active" data-task-index="0" aria-label="Muffin-Serving comparison">
                   <div class="comparison-videos">
                     <article class="comparison-panel text-panel is-playing" data-method="text">
                       <div class="comparison-label">
@@ -1077,35 +947,7 @@
                   </div>
                 </article>
 
-                <article class="task-slide" data-task-index="1" aria-label="Tool Passing comparison">
-                  <div class="comparison-videos">
-                    <article class="comparison-panel text-panel" data-method="text">
-                      <div class="comparison-label">
-                        <span>TextVLA</span>
-                        <strong>Language-only baseline</strong>
-                      </div>
-                      <div class="comparison-media">
-                        <video muted playsinline preload="metadata" poster="assets/posters/passing-tool-text.jpg">
-                          <source src="assets/videos/passing_tool_textvla.mp4" type="video/mp4">
-                        </video>
-                      </div>
-                    </article>
-
-                    <article class="comparison-panel edith-panel" data-method="edith">
-                      <div class="comparison-label">
-                        <span>EDITH</span>
-                        <strong>Verbal + egocentric signals</strong>
-                      </div>
-                      <div class="comparison-media">
-                        <video muted playsinline preload="metadata" poster="assets/posters/passing-tool-edith.jpg">
-                          <source src="assets/videos/edith_passing_tool.mp4" type="video/mp4">
-                        </video>
-                      </div>
-                    </article>
-                  </div>
-                </article>
-
-                <article class="task-slide" data-task-index="2" aria-label="Tumbler Sorting comparison">
+                <article class="task-slide" data-task-index="1" aria-label="Tumbler-Sorting comparison">
                   <div class="comparison-videos">
                     <article class="comparison-panel text-panel" data-method="text">
                       <div class="comparison-label">
@@ -1132,6 +974,34 @@
                     </article>
                   </div>
                 </article>
+
+                <article class="task-slide" data-task-index="2" aria-label="Tool-Passing comparison">
+                  <div class="comparison-videos">
+                    <article class="comparison-panel text-panel" data-method="text">
+                      <div class="comparison-label">
+                        <span>TextVLA</span>
+                        <strong>Language-only baseline</strong>
+                      </div>
+                      <div class="comparison-media">
+                        <video muted playsinline preload="metadata" poster="assets/posters/passing-tool-text.jpg">
+                          <source src="assets/videos/passing_tool_textvla.mp4" type="video/mp4">
+                        </video>
+                      </div>
+                    </article>
+
+                    <article class="comparison-panel edith-panel" data-method="edith">
+                      <div class="comparison-label">
+                        <span>EDITH</span>
+                        <strong>Verbal + egocentric signals</strong>
+                      </div>
+                      <div class="comparison-media">
+                        <video muted playsinline preload="metadata" poster="assets/posters/passing-tool-edith.jpg">
+                          <source src="assets/videos/edith_passing_tool.mp4" type="video/mp4">
+                        </video>
+                      </div>
+                    </article>
+                  </div>
+                </article>
               </div>
             </div>
 
@@ -1140,9 +1010,9 @@
                 <span aria-hidden="true">&lsaquo;</span>
               </button>
               <div class="task-dots" id="task-dots" role="tablist" aria-label="Select task">
-                <button class="is-active" type="button" data-task-index="0" role="tab" aria-selected="true">Muffin</button>
-                <button type="button" data-task-index="1" role="tab" aria-selected="false">Tool</button>
-                <button type="button" data-task-index="2" role="tab" aria-selected="false">Tumbler</button>
+                <button class="is-active" type="button" data-task-index="0" role="tab" aria-selected="true">Muffin-Serving</button>
+                <button type="button" data-task-index="1" role="tab" aria-selected="false">Tumbler-Sorting</button>
+                <button type="button" data-task-index="2" role="tab" aria-selected="false">Tool-Passing</button>
               </div>
               <button class="carousel-arrow next" id="task-next" type="button" aria-label="Next task">
                 <span aria-hidden="true">&rsaquo;</span>
@@ -1208,6 +1078,6 @@
       <p><span id="year">2026</span></p>
     </footer>
 
-    <script src="script.js?v=smooth-task-carousel-20260602"></script>
+    <script src="script.js?v=method-figure-steps-20260602"></script>
   </body>
 </html>
