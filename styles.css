@@ -613,28 +613,20 @@ h3 {
   stroke-width: 1;
 }
 
-.arch-flow {
-  fill: none;
-  stroke-linecap: square;
-  stroke-linejoin: miter;
+.arch-block-arrow {
+  stroke: none;
 }
 
-.arch-flow.black {
-  marker-end: url("#arrow-black");
-  stroke: #111111;
-  stroke-width: 4;
+.arch-block-arrow.black {
+  fill: #111111;
 }
 
-.arch-flow.soft {
-  marker-end: url("#arrow-soft");
-  stroke: #a4c2f4;
-  stroke-width: 5;
+.arch-block-arrow.soft {
+  fill: #a4c2f4;
 }
 
-.arch-flow.pale {
-  marker-end: url("#arrow-pale");
-  stroke: #eeeeee;
-  stroke-width: 7;
+.arch-block-arrow.pale {
+  fill: #eeeeee;
 }
 
 .arch-user,
