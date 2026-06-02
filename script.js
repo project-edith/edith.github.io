@@ -177,7 +177,7 @@ function playCurrentTaskSequence() {
 
   taskSlides.forEach((slide) => {
     slide.querySelectorAll(".comparison-panel").forEach((panel) => {
-      panel.classList.remove("is-playing");
+      panel.classList.remove("is-playing", "is-complete");
     });
     slide.querySelectorAll("video").forEach(resetTaskVideo);
   });
@@ -192,25 +192,36 @@ function playCurrentTaskSequence() {
 
   const playText = () => {
     if (token !== playbackToken) return;
-    edithPanel.classList.remove("is-playing");
-    resetTaskVideo(edithVideo);
+    edithPanel.classList.remove("is-playing", "is-complete");
+    textPanel.classList.remove("is-complete");
     textPanel.classList.add("is-playing");
     try {
       textVideo.currentTime = 0;
     } catch {}
-    textVideo.onended = playEdith;
+    textVideo.onended = () => {
+      if (token !== playbackToken) return;
+      textVideo.onended = null;
+      textPanel.classList.remove("is-playing");
+      textPanel.classList.add("is-complete");
+      playEdith();
+    };
     playTaskVideo(textVideo);
   };
 
   const playEdith = () => {
     if (token !== playbackToken) return;
     textPanel.classList.remove("is-playing");
-    resetTaskVideo(textVideo);
+    edithPanel.classList.remove("is-complete");
     edithPanel.classList.add("is-playing");
     try {
       edithVideo.currentTime = 0;
     } catch {}
-    edithVideo.onended = playText;
+    edithVideo.onended = () => {
+      if (token !== playbackToken) return;
+      edithVideo.onended = null;
+      edithPanel.classList.remove("is-playing");
+      edithPanel.classList.add("is-complete");
+    };
     playTaskVideo(edithVideo);
   };
 

@@ -744,13 +744,19 @@ section[id] {
 }
 
 .comparison-panel.is-playing {
-  border-color: var(--teal);
+  border-color: #2f3842;
   opacity: 1;
   filter: none;
   transform: translateY(-5px);
   box-shadow:
-    0 18px 38px rgba(0, 115, 110, 0.2),
-    0 0 0 4px rgba(0, 115, 110, 0.18);
+    0 18px 38px rgba(32, 33, 36, 0.18),
+    0 0 0 4px rgba(73, 111, 158, 0.16);
+}
+
+.comparison-panel.is-complete {
+  opacity: 0.9;
+  filter: saturate(0.92);
+  transform: none;
 }
 
 .comparison-label {
@@ -766,12 +772,12 @@ section[id] {
 }
 
 .comparison-panel.is-playing .comparison-label {
-  border-bottom-color: rgba(0, 115, 110, 0.28);
-  background: #eaf6f4;
+  border-bottom-color: #cad3dc;
+  background: #eef2f7;
 }
 
 .comparison-label span {
-  color: var(--teal);
+  color: #4f5964;
   font-size: 12px;
   font-weight: 900;
   line-height: 1;
@@ -855,8 +861,8 @@ section[id] {
 
 .task-dots button.is-active {
   color: #ffffff;
-  border-color: var(--teal);
-  background: var(--teal);
+  border-color: var(--ink);
+  background: var(--ink);
 }
 
 .architecture-scroll {
