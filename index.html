@@ -3,20 +3,21 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>EDITH | Project Page</title>
+    <title>EDITH | Interactive Project Page</title>
     <meta
       name="description"
-      content="EDITH is a research project on embodied human-robot interaction."
+      content="Interactive project page for EDITH, a research project on embodied human-robot interaction."
     >
-    <meta property="og:title" content="EDITH | Project Page">
+    <meta property="og:title" content="EDITH | Interactive Project Page">
     <meta
       property="og:description"
-      content="Project page for EDITH, a research project on embodied human-robot interaction."
+      content="Interactive demos, method overview, and project resources for EDITH."
     >
     <meta property="og:type" content="website">
     <meta property="og:image" content="assets/hero-edith.png">
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
     <link rel="preload" as="image" href="assets/hero-edith.png">
+    <link rel="preload" as="video" href="assets/videos/tumbler-demo.mp4" type="video/mp4">
     <link rel="stylesheet" href="styles.css">
   </head>
   <body>
@@ -26,53 +27,66 @@
         <span>EDITH</span>
       </a>
       <nav class="site-nav" aria-label="Primary navigation">
-        <a href="#abstract">Abstract</a>
+        <a href="#overview">Overview</a>
+        <a href="#demos">Demos</a>
         <a href="#method">Method</a>
-        <a href="#results">Results</a>
-        <a href="#video">Video</a>
-        <a href="#citation">Citation</a>
+        <a href="#experiments">Experiments</a>
+        <a href="#resources">Resources</a>
       </nav>
     </header>
 
     <main id="top">
       <section class="hero" aria-label="EDITH overview">
+        <div class="hero-bg" aria-hidden="true"></div>
         <div class="hero-content">
-          <p class="eyebrow">Research Project</p>
+          <p class="eyebrow">Embodied Human-Robot Interaction</p>
           <h1>EDITH</h1>
           <p class="hero-subtitle">
-            Embodied interaction for robots that understand people, tasks, and context.
-          </p>
-          <p class="hero-meta">
-            Paper title, venue, author list, and release links coming soon.
+            An interactive research system for robots that interpret gaze, motion,
+            task context, and dialogue while collaborating with people.
           </p>
           <div class="hero-actions" aria-label="Project links">
-            <a class="button primary" href="#abstract">Overview</a>
-            <a class="button secondary" href="#paper">Paper Soon</a>
-            <a class="button secondary" href="#code">Code Soon</a>
+            <a class="button primary" href="#demos">Watch Demos</a>
+            <a class="button secondary" href="#method">Explore Method</a>
+            <a class="button secondary" href="#resources">Paper Soon</a>
+          </div>
+        </div>
+        <div class="hero-player" aria-label="Featured EDITH demo">
+          <video
+            autoplay
+            muted
+            loop
+            playsinline
+            poster="assets/posters/tumbler-demo.jpg"
+          >
+            <source src="assets/videos/tumbler-demo.mp4" type="video/mp4">
+          </video>
+          <div class="hero-player-overlay">
+            <span>Live Interaction Trace</span>
+            <strong>Perceive -> Clarify -> Act</strong>
           </div>
         </div>
       </section>
 
-      <section class="summary-band" id="paper" aria-label="Paper summary">
+      <section class="summary-band" id="overview" aria-label="Project summary">
         <div class="section-inner summary-grid">
           <article>
             <p class="section-kicker">Project Snapshot</p>
-            <h2>Human-centered robot interaction, grounded in context.</h2>
+            <h2>From passive robot demos to inspectable interaction traces.</h2>
             <p>
-              EDITH explores how an interactive robot can combine dialogue,
-              user signals, environment context, and task progress to support
-              natural collaboration. This draft page is ready for the final
-              paper title, authors, teaser video, figures, and quantitative results.
+              This page is structured like a modern research showcase: short
+              autoplaying demos, a focused video viewer, and a method diagram that
+              exposes how perception, language, memory, and robot actions connect.
             </p>
           </article>
           <dl class="quick-facts">
             <div>
-              <dt>Status</dt>
-              <dd>Manuscript page draft</dd>
+              <dt>Mode</dt>
+              <dd>Interactive demo page</dd>
             </div>
             <div>
-              <dt>Area</dt>
-              <dd>Human-robot interaction</dd>
+              <dt>Media</dt>
+              <dd>3 compressed MP4 previews</dd>
             </div>
             <div>
               <dt>Release</dt>
@@ -82,133 +96,213 @@
         </div>
       </section>
 
-      <section class="section" id="abstract">
-        <div class="section-inner split">
-          <div>
-            <p class="section-kicker">Abstract</p>
-            <h2>A concise abstract block for the camera-ready paper.</h2>
+      <section class="section demo-section" id="demos">
+        <div class="section-inner">
+          <div class="section-heading wide">
+            <p class="section-kicker">Interactive Demonstrations</p>
+            <h2>Demo gallery with synchronized captions and traces.</h2>
+            <p>
+              Each demo slot can point to a local MP4, YouTube embed, or final
+              supplementary video. The viewer below already switches source,
+              poster, description, and trace steps.
+            </p>
           </div>
-          <div class="body-copy">
-            <p>
-              Robots operating with people must interpret language together with
-              embodied cues such as attention, motion, object state, and task
-              history. EDITH studies this problem through an interaction system
-              that connects multimodal perception with task-aware dialogue and
-              adaptive robot behavior.
-            </p>
-            <p>
-              The final page can replace this draft text with the paper abstract
-              and add links to the PDF, arXiv version, repository, dataset, and
-              supplementary materials.
-            </p>
+
+          <div class="demo-viewer" aria-live="polite">
+            <aside class="demo-rail" aria-label="Demo selector">
+              <button class="demo-tab is-active" type="button" data-demo="gaze">
+                <span>01</span>
+                <strong>Gaze Context</strong>
+              </button>
+              <button class="demo-tab" type="button" data-demo="object">
+                <span>02</span>
+                <strong>Object Handoff</strong>
+              </button>
+              <button class="demo-tab" type="button" data-demo="tool">
+                <span>03</span>
+                <strong>Tool Use</strong>
+              </button>
+            </aside>
+
+            <div class="demo-stage">
+              <div class="video-shell">
+                <video
+                  id="demo-video"
+                  controls
+                  muted
+                  playsinline
+                  poster="assets/posters/eye-tracking-demo.jpg"
+                >
+                  <source src="assets/videos/eye-tracking-demo.mp4" type="video/mp4">
+                </video>
+                <div class="video-progress" aria-hidden="true">
+                  <span id="video-progress-bar"></span>
+                </div>
+              </div>
+              <div class="demo-caption">
+                <p class="section-kicker" id="demo-kicker">Demo 01</p>
+                <h3 id="demo-title">Gaze-anchored context tracking</h3>
+                <p id="demo-description">
+                  EDITH uses user attention and egocentric context to decide
+                  which scene elements should influence the next robot response.
+                </p>
+                <ol class="trace-list" id="demo-trace">
+                  <li>Observe user focus and object layout.</li>
+                  <li>Bind ambiguous references to likely targets.</li>
+                  <li>Update the interaction state for the robot policy.</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+
+          <div class="demo-grid" aria-label="Demo previews">
+            <article class="demo-card" data-demo="gaze">
+              <video autoplay muted loop playsinline poster="assets/posters/eye-tracking-demo.jpg">
+                <source src="assets/videos/eye-tracking-demo.mp4" type="video/mp4">
+              </video>
+              <div>
+                <span>Context</span>
+                <h3>Attention and scene state</h3>
+              </div>
+            </article>
+            <article class="demo-card" data-demo="object">
+              <video autoplay muted loop playsinline poster="assets/posters/tumbler-demo.jpg">
+                <source src="assets/videos/tumbler-demo.mp4" type="video/mp4">
+              </video>
+              <div>
+                <span>Manipulation</span>
+                <h3>Object-centered collaboration</h3>
+              </div>
+            </article>
+            <article class="demo-card portrait" data-demo="tool">
+              <video autoplay muted loop playsinline poster="assets/posters/tool-demo.jpg">
+                <source src="assets/videos/tool-demo.mp4" type="video/mp4">
+              </video>
+              <div>
+                <span>Action</span>
+                <h3>Tool-use assistance</h3>
+              </div>
+            </article>
           </div>
         </div>
       </section>
 
-      <section class="section muted" id="method">
+      <section class="section method-section" id="method">
         <div class="section-inner">
-          <div class="section-heading">
+          <div class="section-heading wide">
             <p class="section-kicker">Method</p>
-            <h2>System components</h2>
+            <h2>Inspectable interaction pipeline.</h2>
+            <p>
+              The method section is built as a live diagram, not a static block of
+              text. Replace these labels with final module names, ablations, or
+              paper figure terminology when the manuscript is ready.
+            </p>
           </div>
-          <div class="cards three-up">
-            <article class="card">
-              <span class="card-index">01</span>
-              <h3>Grounded Perception</h3>
-              <p>
-                Integrates scene state, user attention, and temporal interaction
-                context into a compact representation for decision making.
-              </p>
-            </article>
-            <article class="card">
-              <span class="card-index">02</span>
-              <h3>Task-Aware Dialogue</h3>
-              <p>
-                Uses conversational feedback to clarify intent, recover from
-                ambiguity, and keep the robot aligned with the user's goal.
-              </p>
-            </article>
-            <article class="card">
-              <span class="card-index">03</span>
-              <h3>Interactive Policy</h3>
-              <p>
-                Selects robot actions that account for task progress, uncertainty,
-                and the cost of asking for more information.
-              </p>
-            </article>
+
+          <div class="method-layout">
+            <div class="method-map" aria-label="EDITH method pipeline">
+              <div class="method-node is-active" data-step="perception">
+                <span>01</span>
+                <strong>Multimodal Perception</strong>
+                <p>Gaze, hands, objects, spatial state</p>
+              </div>
+              <div class="method-connector" aria-hidden="true"></div>
+              <div class="method-node" data-step="memory">
+                <span>02</span>
+                <strong>Interaction Memory</strong>
+                <p>Task progress, corrections, uncertainty</p>
+              </div>
+              <div class="method-connector" aria-hidden="true"></div>
+              <div class="method-node" data-step="policy">
+                <span>03</span>
+                <strong>Dialogue + Robot Policy</strong>
+                <p>Clarify, explain, execute, recover</p>
+              </div>
+            </div>
+
+            <div class="method-panel">
+              <div class="method-controls" role="tablist" aria-label="Method details">
+                <button class="method-tab is-active" type="button" data-step="perception">
+                  Perception
+                </button>
+                <button class="method-tab" type="button" data-step="memory">
+                  Memory
+                </button>
+                <button class="method-tab" type="button" data-step="policy">
+                  Policy
+                </button>
+              </div>
+              <article class="method-copy">
+                <p class="section-kicker" id="method-kicker">Module 01</p>
+                <h3 id="method-title">Grounding user intent in the current scene.</h3>
+                <p id="method-description">
+                  EDITH starts by aligning user attention, body motion, and object
+                  state so that ambiguous language can be resolved against the
+                  actual interaction context.
+                </p>
+                <ul id="method-points">
+                  <li>Tracks salient objects and user focus over time.</li>
+                  <li>Builds a task-conditioned scene representation.</li>
+                  <li>Flags low-confidence observations before acting.</li>
+                </ul>
+              </article>
+            </div>
           </div>
         </div>
       </section>
 
-      <section class="section" id="results">
+      <section class="section experiment-section" id="experiments">
         <div class="section-inner">
-          <div class="section-heading">
-            <p class="section-kicker">Results</p>
-            <h2>Evaluation slots</h2>
+          <div class="section-heading wide">
+            <p class="section-kicker">Experiments</p>
+            <h2>Slots for paper results and qualitative studies.</h2>
             <p>
-              Add benchmark tables, user study outcomes, ablations, or qualitative
-              examples here when the final numbers are ready.
+              The layout supports benchmark metrics, user-study summaries, and
+              scenario-by-scenario comparisons once the final EDITH numbers are available.
             </p>
           </div>
           <div class="result-grid">
             <article class="result-card">
               <p class="metric-label">Task Success</p>
               <p class="metric-value">TBD</p>
-              <p>Primary task completion or benchmark score.</p>
+              <p>Primary task completion score or benchmark outcome.</p>
             </article>
             <article class="result-card">
-              <p class="metric-label">Interaction Cost</p>
+              <p class="metric-label">Clarification Cost</p>
               <p class="metric-value">TBD</p>
-              <p>Turns, corrections, intervention rate, or user effort.</p>
+              <p>Dialogue turns, corrections, and intervention rate.</p>
             </article>
             <article class="result-card">
               <p class="metric-label">Robustness</p>
               <p class="metric-value">TBD</p>
-              <p>Performance under ambiguity, occlusion, or changed context.</p>
+              <p>Performance under ambiguous references and changed context.</p>
             </article>
           </div>
         </div>
       </section>
 
-      <section class="section media-band" id="video">
-        <div class="section-inner split">
-          <div>
-            <p class="section-kicker">Video</p>
-            <h2>Teaser and supplementary media</h2>
-            <p>
-              The video area is prepared for an embedded YouTube, Vimeo, or local
-              MP4 demo once the EDITH experiments are finalized.
-            </p>
-          </div>
-          <div class="video-frame" aria-label="Video placeholder">
-            <div class="play-button" aria-hidden="true"></div>
-            <p>EDITH Demo Coming Soon</p>
-          </div>
-        </div>
-      </section>
-
-      <section class="section" id="code">
+      <section class="section resource-section" id="resources">
         <div class="section-inner">
-          <div class="section-heading">
+          <div class="section-heading wide">
             <p class="section-kicker">Resources</p>
-            <h2>Release checklist</h2>
+            <h2>Paper assets and release links.</h2>
           </div>
           <div class="resource-list" aria-label="Release resources">
-            <a href="#paper" aria-disabled="true">
+            <a href="#resources" aria-disabled="true">
               <span>Paper PDF</span>
               <strong>Coming Soon</strong>
             </a>
-            <a href="#code" aria-disabled="true">
+            <a href="#resources" aria-disabled="true">
               <span>Code</span>
               <strong>Coming Soon</strong>
             </a>
-            <a href="#code" aria-disabled="true">
+            <a href="#resources" aria-disabled="true">
               <span>Dataset</span>
               <strong>Coming Soon</strong>
             </a>
-            <a href="#video" aria-disabled="true">
+            <a href="#demos" aria-disabled="true">
               <span>Supplementary</span>
-              <strong>Coming Soon</strong>
+              <strong>Demo Gallery</strong>
             </a>
           </div>
         </div>
@@ -220,8 +314,8 @@
             <p class="section-kicker">Citation</p>
             <h2>BibTeX</h2>
             <p>
-              Replace this entry with the official citation after the paper is accepted
-              or uploaded.
+              Replace this entry with the official citation after the paper is
+              accepted or uploaded.
             </p>
           </div>
           <div class="citation-box">
@@ -240,7 +334,7 @@
     </main>
 
     <footer class="site-footer">
-      <p>EDITH Project Page</p>
+      <p>EDITH Interactive Project Page</p>
       <p><span id="year">2026</span></p>
     </footer>
 
