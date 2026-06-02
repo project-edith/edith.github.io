@@ -11,6 +11,11 @@
   --amber: #c56b28;
   --clay: #a34d3f;
   --blue: #496f9e;
+  --paper-lang: #efe0b8;
+  --paper-ego: #f4c078;
+  --paper-hierarchy: #c68c7b;
+  --paper-edith: #afd1e8;
+  --paper-edith-deep: #0f6592;
   --charcoal: #202826;
   --shadow: 0 22px 54px rgba(32, 33, 36, 0.15);
   --radius: 8px;
@@ -1257,8 +1262,8 @@ section[id] {
   padding: 28px;
   color: #ffffff;
   background:
-    linear-gradient(150deg, rgba(0, 115, 110, 0.94), rgba(32, 40, 38, 0.96)),
-    var(--teal-deep);
+    linear-gradient(150deg, rgba(15, 101, 146, 0.94), rgba(32, 40, 38, 0.96)),
+    var(--paper-edith-deep);
 }
 
 .result-narrative span,
@@ -1331,14 +1336,18 @@ section[id] {
 
 .chart-legend {
   display: flex;
+  flex-wrap: wrap;
   gap: 10px;
-  white-space: nowrap;
+  justify-content: flex-end;
+  max-width: 560px;
 }
 
 .chart-legend span {
   position: relative;
   padding-left: 18px;
   color: var(--muted-ink);
+  text-transform: none;
+  white-space: nowrap;
 }
 
 .chart-legend span::before {
@@ -1352,12 +1361,20 @@ section[id] {
   transform: translateY(-50%);
 }
 
-.legend-sr::before {
-  background: var(--teal);
+.legend-lang::before {
+  background: var(--paper-lang);
 }
 
-.legend-tp::before {
-  background: var(--amber);
+.legend-ego::before {
+  background: var(--paper-ego);
+}
+
+.legend-hierarchy::before {
+  background: var(--paper-hierarchy);
+}
+
+.legend-edith::before {
+  background: var(--paper-edith);
 }
 
 .bar-chart {
@@ -1382,8 +1399,8 @@ section[id] {
 .chart-plot {
   position: relative;
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 46px;
   min-width: 0;
   min-height: 342px;
 }
@@ -1401,7 +1418,8 @@ section[id] {
   border-top: 1px solid rgba(217, 226, 220, 0.92);
 }
 
-.bar-group {
+.bar-group,
+.metric-group {
   position: relative;
   z-index: 1;
   display: grid;
@@ -1410,18 +1428,19 @@ section[id] {
   min-width: 0;
 }
 
-.bar-pair {
+.bar-pair,
+.metric-bars {
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  gap: 12px;
+  gap: 15px;
   min-height: 284px;
 }
 
 .chart-bar {
   position: relative;
   display: block;
-  width: min(42px, 42%);
+  width: min(48px, 18%);
   min-height: 5px;
   height: calc(var(--value) * 1%);
   border-radius: 8px 8px 0 0;
@@ -1440,16 +1459,21 @@ section[id] {
   transform: scaleY(1);
 }
 
-.chart-bar.sr {
-  background: linear-gradient(180deg, #13a49e, var(--teal));
+.chart-bar.method-lang {
+  background: linear-gradient(180deg, #f7edcf, var(--paper-lang));
 }
 
-.chart-bar.tp {
-  background: linear-gradient(180deg, #f1a449, var(--amber));
+.chart-bar.method-ego {
+  background: linear-gradient(180deg, #ffd18c, var(--paper-ego));
 }
 
-.bar-group.edith .chart-bar {
-  box-shadow: 0 14px 26px rgba(0, 115, 110, 0.22);
+.chart-bar.method-hierarchy {
+  background: linear-gradient(180deg, #d99e91, var(--paper-hierarchy));
+}
+
+.chart-bar.method-edith {
+  background: linear-gradient(180deg, #c3ddf0, var(--paper-edith));
+  box-shadow: 0 14px 26px rgba(15, 101, 146, 0.18);
 }
 
 .chart-bar b {
@@ -1463,7 +1487,8 @@ section[id] {
   transform: translateX(-50%);
 }
 
-.bar-group p {
+.bar-group p,
+.metric-group p {
   display: grid;
   place-items: start center;
   gap: 3px;
@@ -1474,13 +1499,15 @@ section[id] {
   text-align: center;
 }
 
-.bar-group p strong {
+.bar-group p strong,
+.metric-group p strong {
   color: var(--ink);
   font-size: 14px;
   font-weight: 900;
 }
 
-.bar-group p span {
+.bar-group p span,
+.metric-group p span {
   color: var(--muted-ink);
   font-size: 12px;
   font-weight: 850;
@@ -1494,6 +1521,10 @@ section[id] {
 
 .bar-group.edith p strong {
   color: var(--teal-deep);
+}
+
+.metric-group p strong {
+  font-size: 15px;
 }
 
 .slope-chart {
@@ -1534,15 +1565,24 @@ section[id] {
 }
 
 .slope-line.muffin,
-.slope-point.muffin {
-  stroke: var(--teal);
-  fill: var(--teal);
+.slope-line.tool {
+  stroke: url(#workload-gradient);
 }
 
-.slope-line.tool,
-.slope-point.tool {
-  stroke: var(--amber);
-  fill: var(--amber);
+.slope-line.tool {
+  opacity: 0.78;
+}
+
+.slope-point.baseline {
+  fill: var(--paper-ego);
+  stroke: #ffffff;
+  stroke-width: 2;
+}
+
+.slope-point.edith {
+  fill: var(--paper-edith);
+  stroke: var(--paper-edith-deep);
+  stroke-width: 2;
 }
 
 .js-enabled .slope-line {
@@ -1633,15 +1673,15 @@ section[id] {
   min-width: 6px;
   height: 100%;
   border-radius: inherit;
-  background: linear-gradient(90deg, var(--amber), #f1a449);
+  background: linear-gradient(90deg, var(--paper-ego), #ffd18c);
 }
 
 .mini-chart-row.calm .mini-bar span {
-  background: linear-gradient(90deg, var(--teal), #13a49e);
+  background: linear-gradient(90deg, var(--paper-edith), #d6e8f4);
 }
 
 .mini-chart-row.baseline .mini-bar span {
-  background: linear-gradient(90deg, var(--blue), #8eaee5);
+  background: linear-gradient(90deg, var(--paper-ego), #ffd18c);
 }
 
 .js-enabled .mini-bar span {
