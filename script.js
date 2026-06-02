@@ -147,6 +147,7 @@ const taskNext = document.querySelector("#task-next");
 const taskDots = document.querySelector("#task-dots");
 let activeTaskIndex = 0;
 let playbackToken = 0;
+let playbackRestartTimer = 0;
 
 function updateTaskTrackPosition() {
   if (!taskTrack || !taskSlides.length) return;
@@ -174,6 +175,10 @@ function playTaskVideo(video) {
 
 function playCurrentTaskSequence() {
   const token = ++playbackToken;
+  if (playbackRestartTimer) {
+    window.clearTimeout(playbackRestartTimer);
+    playbackRestartTimer = 0;
+  }
 
   taskSlides.forEach((slide) => {
     slide.querySelectorAll(".comparison-panel").forEach((panel) => {
@@ -189,6 +194,15 @@ function playCurrentTaskSequence() {
   const edithVideo = edithPanel?.querySelector("video");
 
   if (!textVideo || !edithVideo) return;
+
+  const restartSequence = () => {
+    if (token !== playbackToken) return;
+    textPanel.classList.remove("is-playing", "is-complete");
+    edithPanel.classList.remove("is-playing", "is-complete");
+    resetTaskVideo(textVideo);
+    resetTaskVideo(edithVideo);
+    playText();
+  };
 
   const playText = () => {
     if (token !== playbackToken) return;
@@ -221,6 +235,7 @@ function playCurrentTaskSequence() {
       edithVideo.onended = null;
       edithPanel.classList.remove("is-playing");
       edithPanel.classList.add("is-complete");
+      playbackRestartTimer = window.setTimeout(restartSequence, 900);
     };
     playTaskVideo(edithVideo);
   };
