@@ -3271,6 +3271,7 @@ pre {
 }
 
 .classic-project-page .paper-authors,
+.classic-project-page .paper-contribution-note,
 .classic-project-page .paper-affiliations,
 .classic-project-page .paper-venue {
   margin: 0;
@@ -3293,6 +3294,12 @@ pre {
   margin-left: 1px;
   font-size: 0.68em;
   line-height: 0;
+}
+
+.classic-project-page .paper-contribution-note {
+  margin-top: 3px;
+  color: #555555;
+  font-size: 14px;
 }
 
 .classic-project-page .paper-affiliations {
