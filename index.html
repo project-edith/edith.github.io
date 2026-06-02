@@ -28,9 +28,10 @@
       </a>
       <nav class="site-nav" aria-label="Primary navigation">
         <a href="#overview">Overview</a>
+        <a href="#method">Method</a>
+        <a href="#tasks">Tasks</a>
+        <a href="#results">Results</a>
         <a href="#demos">Demos</a>
-        <a href="#architecture">Architecture</a>
-        <a href="#experiments">Experiments</a>
         <a href="#resources">Resources</a>
       </nav>
     </header>
@@ -42,12 +43,13 @@
           <p class="eyebrow">Embodied Human-Robot Interaction</p>
           <h1>EDITH</h1>
           <p class="hero-subtitle">
-            An interactive research system for robots that interpret gaze, motion,
-            task context, and dialogue while collaborating with people.
+            A hierarchical robot policy that uses first-person view, gaze, and
+            speech from smart glasses to infer human intent and execute subtasks.
           </p>
           <div class="hero-actions" aria-label="Project links">
-            <a class="button primary" href="#demos">Watch Demos</a>
-            <a class="button secondary" href="#architecture">Explore Architecture</a>
+            <a class="button primary" href="#method">Explore Method</a>
+            <a class="button secondary" href="#results">View Results</a>
+            <a class="button secondary" href="#demos">Watch Demos</a>
             <a class="button secondary" href="#resources">Paper Soon</a>
           </div>
         </div>
@@ -62,8 +64,8 @@
             <source src="assets/videos/tumbler-demo.mp4" type="video/mp4">
           </video>
           <div class="hero-player-overlay">
-            <span>Live Interaction Trace</span>
-            <strong>Perceive -> Clarify -> Act</strong>
+            <span>Verbal + Egocentric Signals</span>
+            <strong>C<sup>ego</sup>, &ell; -> Q -> a<sub>t</sub></strong>
           </div>
         </div>
       </section>
@@ -71,131 +73,60 @@
       <section class="summary-band" id="overview" aria-label="Project summary">
         <div class="section-inner summary-grid">
           <article>
-            <p class="section-kicker">Project Snapshot</p>
-            <h2>Hierarchical policies from verbal and egocentric human signals.</h2>
+            <p class="section-kicker">Overview</p>
+            <h2>Robots should understand brief speech grounded in gaze and gestures.</h2>
             <p>
-              This page is structured like a modern research showcase: short
-              autoplaying demos, a focused video viewer, and a method diagram that
-              connects egocentric context, language instructions, subtasks, and
-              robot actions.
+              EDITH captures the human's first-person view, gaze, and speech with
+              smart glasses, then uses those signals alongside robot observations
+              to infer intent. The key idea is to separate intent inference from
+              low-level control: a VLM produces grounded subtasks and a VLA policy
+              executes them.
             </p>
           </article>
           <dl class="quick-facts">
             <div>
-              <dt>Mode</dt>
-              <dd>Interactive demo page</dd>
+              <dt>Human Signals</dt>
+              <dd>First-person view, gaze, and speech from smart glasses</dd>
             </div>
             <div>
-              <dt>Media</dt>
-              <dd>3 compressed MP4 previews</dd>
+              <dt>Policy</dt>
+              <dd>High-level VLM planner plus low-level VLA executor</dd>
             </div>
             <div>
-              <dt>Release</dt>
-              <dd>Paper, code, data TBD</dd>
+              <dt>Evaluation</dt>
+              <dd>3 HRI tasks, 48 trials per task per method</dd>
             </div>
           </dl>
         </div>
-      </section>
 
-      <section class="section demo-section" id="demos">
-        <div class="section-inner">
-          <div class="section-heading wide">
-            <p class="section-kicker">Interactive Demonstrations</p>
-            <h2>Demo gallery with synchronized captions and traces.</h2>
-            <p>
-              Each demo slot can point to a local MP4, YouTube embed, or final
-              supplementary video. The viewer below already switches source,
-              poster, description, and trace steps.
-            </p>
-          </div>
-
-          <div class="demo-viewer" aria-live="polite">
-            <aside class="demo-rail" aria-label="Demo selector">
-              <button class="demo-tab is-active" type="button" data-demo="gaze">
-                <span>01</span>
-                <strong>Gaze Context</strong>
-              </button>
-              <button class="demo-tab" type="button" data-demo="object">
-                <span>02</span>
-                <strong>Object Handoff</strong>
-              </button>
-              <button class="demo-tab" type="button" data-demo="tool">
-                <span>03</span>
-                <strong>Tool Use</strong>
-              </button>
-            </aside>
-
-            <div class="demo-stage">
-              <div class="video-shell">
-                <video
-                  id="demo-video"
-                  controls
-                  muted
-                  playsinline
-                  poster="assets/posters/eye-tracking-demo.jpg"
-                >
-                  <source src="assets/videos/eye-tracking-demo.mp4" type="video/mp4">
-                </video>
-                <div class="video-progress" aria-hidden="true">
-                  <span id="video-progress-bar"></span>
-                </div>
-              </div>
-              <div class="demo-caption">
-                <p class="section-kicker" id="demo-kicker">Demo 01</p>
-                <h3 id="demo-title">Egocentric context and gaze</h3>
-                <p id="demo-description">
-                  EDITH streams the human's first-person view and gaze so brief
-                  nonverbal signals can ground underspecified language.
-                </p>
-                <ol class="trace-list" id="demo-trace">
-                  <li>Capture first-person RGB frames from smart glasses.</li>
-                  <li>Overlay gaze markers on the egocentric context.</li>
-                  <li>Pair the context stream with the user's utterance.</li>
-                </ol>
-              </div>
-            </div>
-          </div>
-
-          <div class="demo-grid" aria-label="Demo previews">
-            <article class="demo-card" data-demo="gaze">
-              <video autoplay muted loop playsinline poster="assets/posters/eye-tracking-demo.jpg">
-                <source src="assets/videos/eye-tracking-demo.mp4" type="video/mp4">
-              </video>
-              <div>
-                <span>Context</span>
-                <h3>Attention and scene state</h3>
-              </div>
-            </article>
-            <article class="demo-card" data-demo="object">
-              <video autoplay muted loop playsinline poster="assets/posters/tumbler-demo.jpg">
-                <source src="assets/videos/tumbler-demo.mp4" type="video/mp4">
-              </video>
-              <div>
-                <span>Manipulation</span>
-                <h3>Object-centered collaboration</h3>
-              </div>
-            </article>
-            <article class="demo-card portrait" data-demo="tool">
-              <video autoplay muted loop playsinline poster="assets/posters/tool-demo.jpg">
-                <source src="assets/videos/tool-demo.mp4" type="video/mp4">
-              </video>
-              <div>
-                <span>Action</span>
-                <h3>Tool-use assistance</h3>
-              </div>
-            </article>
-          </div>
+        <div class="section-inner contribution-grid" aria-label="Core paper contributions">
+          <article>
+            <span>01</span>
+            <h3>Natural interface</h3>
+            <p>Humans can say short phrases such as "this one" while gaze or gestures specify the target.</p>
+          </article>
+          <article>
+            <span>02</span>
+            <h3>Instruction-keyframe subtasks</h3>
+            <p>Each subtask pairs a fine-grained instruction with a keyframe that grounds the nonverbal cue.</p>
+          </article>
+          <article>
+            <span>03</span>
+            <h3>Asynchronous hierarchy</h3>
+            <p>The high-level policy appends subtasks to Q while the low-level policy executes the queue.</p>
+          </article>
         </div>
       </section>
 
-      <section class="section method-section" id="architecture">
+      <section class="section method-section" id="method">
         <div class="section-inner">
           <div class="section-heading wide">
-            <p class="section-kicker">System Architecture</p>
-            <h2>EDITH policy input-output architecture.</h2>
+            <p class="section-kicker">Method</p>
+            <h2>Hardware streams feed a hierarchical policy.</h2>
             <p>
-              Egocentric context, language, and robot observations are organized
-              into high-level task planning and low-level robot control.
+              The method follows the paper's Section 3: EDITH first captures
+              human signals through smart glasses, then runs a high-level policy
+              and low-level policy asynchronously through a shared task queue.
             </p>
           </div>
 
@@ -343,31 +274,249 @@
         </div>
       </section>
 
-      <section class="section experiment-section" id="experiments">
+      <section class="section task-section" id="tasks">
         <div class="section-inner">
           <div class="section-heading wide">
-            <p class="section-kicker">Experiments</p>
-            <h2>Slots for paper results and qualitative studies.</h2>
+            <p class="section-kicker">Evaluation Tasks</p>
+            <h2>Three tasks require grounding underspecified language in nonverbal signals.</h2>
             <p>
-              The layout supports benchmark metrics, user-study summaries, and
-              scenario-by-scenario comparisons once the final EDITH numbers are available.
+              In each task, the language instruction is intentionally incomplete:
+              the robot must interpret gaze or pointing gestures to identify the
+              target objects and complete the requested subtasks.
             </p>
           </div>
-          <div class="result-grid">
+          <div class="task-grid">
+            <article class="task-card">
+              <p class="metric-label">Task 01</p>
+              <h3>Muffin-Serving</h3>
+              <p>
+                Six muffins are densely arranged. The human requests three with
+                a single instruction while pointing at each target.
+              </p>
+              <div class="task-meta">
+                <span>3 subtasks</span>
+                <span>80 demos</span>
+              </div>
+            </article>
+            <article class="task-card">
+              <p class="metric-label">Task 02</p>
+              <h3>Tumbler-Sorting</h3>
+              <p>
+                Five tumblers and two baskets are placed on the table. The human
+                points to tumblers and baskets to specify a multi-step sorting request.
+              </p>
+              <div class="task-meta">
+                <span>4 subtasks</span>
+                <span>80 demos</span>
+              </div>
+            </article>
+            <article class="task-card">
+              <p class="metric-label">Task 03</p>
+              <h3>Tool-Passing</h3>
+              <p>
+                While assembling a metal stand, the human briefly asks for a
+                driver and a metal profile; gaze identifies the intended tools.
+              </p>
+              <div class="task-meta">
+                <span>2 subtasks</span>
+                <span>120 demos</span>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section result-section" id="results">
+        <div class="section-inner">
+          <div class="section-heading wide">
+            <p class="section-kicker">Results</p>
+            <h2>EDITH improves task success while reducing the user's instruction burden.</h2>
+            <p>
+              Results are reported with success rate (SR) and task progress (TP)
+              over 48 trials per task per method, plus a user study on instruction workload.
+            </p>
+          </div>
+
+          <div class="result-summary-grid">
             <article class="result-card">
-              <p class="metric-label">Success Rate (SR)</p>
-              <p class="metric-value">TBD</p>
-              <p>Primary task completion score or benchmark outcome.</p>
+              <p class="metric-label">Average SR</p>
+              <p class="metric-value">59.7%</p>
+              <p>EDITH average success rate across Muffin-Serving, Tumbler-Sorting, and Tool-Passing.</p>
             </article>
             <article class="result-card">
-              <p class="metric-label">Instruction Workload</p>
-              <p class="metric-value">TBD</p>
-              <p>User effort to convey intent to the robot.</p>
+              <p class="metric-label">Average TP</p>
+              <p class="metric-value">84.7%</p>
+              <p>Average fraction of subtasks completed per trial by EDITH.</p>
             </article>
             <article class="result-card">
-              <p class="metric-label">Task Progress (TP)</p>
-              <p class="metric-value">TBD</p>
-              <p>Average fraction of subtasks completed per trial.</p>
+              <p class="metric-label">User Study</p>
+              <p class="metric-value">p &lt; 0.001</p>
+              <p>EDITH significantly reduces instruction workload compared to the language-only hierarchy.</p>
+            </article>
+          </div>
+
+          <div class="results-layout">
+            <article class="result-panel">
+              <h3>Main comparison</h3>
+              <table class="results-table">
+                <thead>
+                  <tr>
+                    <th>Method</th>
+                    <th>Avg. SR</th>
+                    <th>Avg. TP</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>&pi;<sub>l</sub><sup>lang</sup></td>
+                    <td>4.2%</td>
+                    <td>23.2%</td>
+                  </tr>
+                  <tr>
+                    <td>&pi;<sub>l</sub><sup>ego+lang</sup></td>
+                    <td>6.4%</td>
+                    <td>35.6%</td>
+                  </tr>
+                  <tr>
+                    <td>&pi;<sub>h</sub><sup>lang</sup> + &pi;<sub>l</sub><sup>lang</sup></td>
+                    <td>9.7%</td>
+                    <td>27.1%</td>
+                  </tr>
+                  <tr class="is-highlighted">
+                    <td>EDITH</td>
+                    <td>59.7%</td>
+                    <td>84.7%</td>
+                  </tr>
+                </tbody>
+              </table>
+            </article>
+
+            <article class="result-panel">
+              <h3>User workload</h3>
+              <div class="workload-grid">
+                <div class="workload-item">
+                  <span>Muffin-Serving</span>
+                  <strong>4.83 -> 2.41</strong>
+                  <p>Language-only hierarchy to EDITH</p>
+                </div>
+                <div class="workload-item">
+                  <span>Tool-Passing</span>
+                  <strong>4.30 -> 2.20</strong>
+                  <p>Language-only hierarchy to EDITH</p>
+                </div>
+              </div>
+              <p>
+                Lower is better. The paper reports statistically significant
+                workload reduction on both tasks.
+              </p>
+            </article>
+          </div>
+
+          <div class="analysis-grid">
+            <article>
+              <span>Ablation</span>
+              <h3>Keyframes matter.</h3>
+              <p>Removing C<sup>key</sup> causes a 49.9% average drop in success rate and 51.5% drop in task progress.</p>
+            </article>
+            <article>
+              <span>Robustness</span>
+              <h3>Distraction remains manageable.</h3>
+              <p>Under phone-checking distraction, EDITH shows only a 0.5% relative drop in task progress.</p>
+            </article>
+            <article>
+              <span>Interpretation</span>
+              <h3>Hierarchy handles brief intent.</h3>
+              <p>The high-level policy monitors human signals separately while the low-level policy continues execution.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section demo-section" id="demos">
+        <div class="section-inner">
+          <div class="section-heading wide">
+            <p class="section-kicker">Qualitative Demos</p>
+            <h2>Interactive videos show how EDITH uses egocentric signals during collaboration.</h2>
+            <p>
+              The demo viewer is kept after the method and results so the page
+              reads like the paper first, then lets viewers inspect example interactions.
+            </p>
+          </div>
+
+          <div class="demo-viewer" aria-live="polite">
+            <aside class="demo-rail" aria-label="Demo selector">
+              <button class="demo-tab is-active" type="button" data-demo="gaze">
+                <span>01</span>
+                <strong>Egocentric Context</strong>
+              </button>
+              <button class="demo-tab" type="button" data-demo="object">
+                <span>02</span>
+                <strong>Subtask Execution</strong>
+              </button>
+              <button class="demo-tab" type="button" data-demo="tool">
+                <span>03</span>
+                <strong>Tool Passing</strong>
+              </button>
+            </aside>
+
+            <div class="demo-stage">
+              <div class="video-shell">
+                <video
+                  id="demo-video"
+                  controls
+                  muted
+                  playsinline
+                  poster="assets/posters/eye-tracking-demo.jpg"
+                >
+                  <source src="assets/videos/eye-tracking-demo.mp4" type="video/mp4">
+                </video>
+                <div class="video-progress" aria-hidden="true">
+                  <span id="video-progress-bar"></span>
+                </div>
+              </div>
+              <div class="demo-caption">
+                <p class="section-kicker" id="demo-kicker">Demo 01</p>
+                <h3 id="demo-title">Egocentric context and gaze</h3>
+                <p id="demo-description">
+                  EDITH streams the human's first-person view and gaze so brief
+                  nonverbal signals can ground underspecified language.
+                </p>
+                <ol class="trace-list" id="demo-trace">
+                  <li>Capture first-person RGB frames from smart glasses.</li>
+                  <li>Overlay gaze markers on the egocentric context.</li>
+                  <li>Pair the context stream with the user's utterance.</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+
+          <div class="demo-grid" aria-label="Demo previews">
+            <article class="demo-card" data-demo="gaze">
+              <video autoplay muted loop playsinline poster="assets/posters/eye-tracking-demo.jpg">
+                <source src="assets/videos/eye-tracking-demo.mp4" type="video/mp4">
+              </video>
+              <div>
+                <span>Human Signals</span>
+                <h3>First-person view and gaze</h3>
+              </div>
+            </article>
+            <article class="demo-card" data-demo="object">
+              <video autoplay muted loop playsinline poster="assets/posters/tumbler-demo.jpg">
+                <source src="assets/videos/tumbler-demo.mp4" type="video/mp4">
+              </video>
+              <div>
+                <span>Execution</span>
+                <h3>Queued subtasks</h3>
+              </div>
+            </article>
+            <article class="demo-card portrait" data-demo="tool">
+              <video autoplay muted loop playsinline poster="assets/posters/tool-demo.jpg">
+                <source src="assets/videos/tool-demo.mp4" type="video/mp4">
+              </video>
+              <div>
+                <span>Tool-Passing</span>
+                <h3>Gaze-grounded requests</h3>
+              </div>
             </article>
           </div>
         </div>

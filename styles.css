@@ -307,6 +307,10 @@ h3 {
   padding: 88px 32px;
 }
 
+section[id] {
+  scroll-margin-top: 82px;
+}
+
 .summary-band,
 .resource-section {
   background: var(--surface);
@@ -320,7 +324,11 @@ h3 {
   background: #ffffff;
 }
 
-.experiment-section {
+.task-section {
+  background: var(--paper);
+}
+
+.result-section {
   background: var(--surface);
 }
 
@@ -391,6 +399,81 @@ h3 {
 .quick-facts dd {
   margin: 0;
   font-weight: 760;
+}
+
+.contribution-grid,
+.task-grid,
+.result-summary-grid,
+.results-layout,
+.analysis-grid,
+.workload-grid {
+  display: grid;
+  gap: 18px;
+}
+
+.contribution-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: 30px;
+}
+
+.contribution-grid article,
+.task-card,
+.result-panel,
+.analysis-grid article {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: 0 1px 0 rgba(32, 33, 36, 0.04);
+}
+
+.contribution-grid article,
+.analysis-grid article {
+  padding: 24px;
+}
+
+.contribution-grid span,
+.analysis-grid span {
+  display: inline-block;
+  margin-bottom: 12px;
+  color: var(--teal);
+  font-size: 13px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.contribution-grid p,
+.task-card p,
+.result-panel p,
+.analysis-grid p {
+  color: var(--muted-ink);
+}
+
+.task-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.task-card {
+  display: grid;
+  align-content: space-between;
+  min-height: 280px;
+  padding: 26px;
+}
+
+.task-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 24px;
+}
+
+.task-meta span {
+  padding: 6px 10px;
+  border: 1px solid rgba(0, 115, 110, 0.22);
+  border-radius: 999px;
+  color: var(--teal-deep);
+  background: var(--surface-strong);
+  font-size: 13px;
+  font-weight: 850;
 }
 
 .demo-viewer {
@@ -520,14 +603,12 @@ h3 {
 }
 
 .demo-grid,
-.result-grid,
 .resource-list {
   display: grid;
   gap: 18px;
 }
 
-.demo-grid,
-.result-grid {
+.demo-grid {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
@@ -1102,6 +1183,11 @@ h3 {
   padding-left: 20px;
 }
 
+.result-summary-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-bottom: 18px;
+}
+
 .result-card {
   min-height: 220px;
   padding: 26px;
@@ -1121,6 +1207,96 @@ h3 {
   font-size: 42px;
   font-weight: 900;
   line-height: 1;
+}
+
+.results-layout {
+  grid-template-columns: minmax(0, 1.08fr) minmax(320px, 0.92fr);
+  margin-top: 18px;
+}
+
+.result-panel {
+  padding: 26px;
+}
+
+.results-table {
+  width: 100%;
+  border-collapse: collapse;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  font-size: 15px;
+}
+
+.results-table th,
+.results-table td {
+  padding: 13px 14px;
+  border-bottom: 1px solid var(--line);
+  text-align: right;
+}
+
+.results-table th:first-child,
+.results-table td:first-child {
+  text-align: left;
+}
+
+.results-table th {
+  color: var(--muted-ink);
+  background: var(--paper);
+  font-size: 13px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.results-table tr:last-child td {
+  border-bottom: 0;
+}
+
+.results-table .is-highlighted td {
+  color: var(--teal-deep);
+  background: var(--surface-strong);
+  font-weight: 900;
+}
+
+.workload-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 18px 0;
+}
+
+.workload-item {
+  min-height: 128px;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--paper);
+}
+
+.workload-item span,
+.workload-item strong {
+  display: block;
+}
+
+.workload-item span {
+  color: var(--teal);
+  font-size: 13px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.workload-item strong {
+  margin: 10px 0 6px;
+  color: var(--ink);
+  font-size: 24px;
+  line-height: 1.1;
+}
+
+.workload-item p {
+  margin: 0;
+  font-size: 14px;
+}
+
+.analysis-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: 18px;
 }
 
 .resource-list {
@@ -1196,7 +1372,8 @@ pre {
 @media (max-width: 980px) {
   .hero,
   .demo-stage,
-  .method-layout {
+  .method-layout,
+  .results-layout {
     grid-template-columns: 1fr;
   }
 
@@ -1258,8 +1435,12 @@ pre {
   .summary-grid,
   .split,
   .quick-facts,
+  .contribution-grid,
+  .task-grid,
+  .result-summary-grid,
+  .analysis-grid,
+  .workload-grid,
   .demo-grid,
-  .result-grid,
   .resource-list {
     grid-template-columns: 1fr;
   }
