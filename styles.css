@@ -2006,3 +2006,502 @@ pre {
     font-size: 46px;
   }
 }
+
+/* Classic research project page treatment inspired by RT-2-style pages. */
+.classic-project-page {
+  --paper: #ffffff;
+  --surface: #ffffff;
+  --surface-strong: #f7f7f7;
+  --line: #d8d8d8;
+  --muted-ink: #555555;
+  --teal: #0b6a77;
+  --teal-deep: #174554;
+  background: #ffffff;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.classic-project-page .site-header {
+  position: sticky;
+  min-height: 54px;
+  padding: 0 28px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: none;
+}
+
+.classic-project-page .brand {
+  font-size: 15px;
+  letter-spacing: 0;
+}
+
+.classic-project-page .brand-mark {
+  width: 14px;
+  height: 14px;
+  border-width: 2px;
+}
+
+.classic-project-page .site-nav {
+  gap: 18px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.classic-project-page .site-nav a::after {
+  display: none;
+}
+
+.classic-project-page .hero {
+  display: block;
+  min-height: calc(100svh - 54px);
+  padding: 0;
+  background: #000000;
+}
+
+.classic-project-page .hero-bg {
+  display: none;
+}
+
+.classic-project-page .hero::before {
+  z-index: 1;
+  background: rgba(0, 0, 0, 0.24);
+}
+
+.classic-project-page .hero-player {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  border: 0;
+  border-radius: 0;
+  background: #000000;
+  box-shadow: none;
+}
+
+.classic-project-page .hero-player video {
+  object-fit: cover;
+}
+
+.classic-project-page .hero-player-overlay {
+  display: none;
+}
+
+.classic-project-page .hero-content {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 2;
+  width: auto;
+  max-width: none;
+  padding: 26px 38px 30px;
+  background: rgba(0, 0, 0, 0.46);
+}
+
+.classic-project-page .hero-content p,
+.classic-project-page .hero-subtitle {
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.classic-project-page .hero .eyebrow {
+  margin-bottom: 6px;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 13px;
+  text-transform: none;
+}
+
+.classic-project-page .hero h1 {
+  max-width: none;
+  margin: 0 0 4px;
+  font-size: clamp(42px, 5vw, 72px);
+  line-height: 1.02;
+  text-shadow: none;
+}
+
+.classic-project-page .hero-subtitle {
+  max-width: 900px;
+  margin-bottom: 16px;
+  font-size: clamp(17px, 1.8vw, 23px);
+  line-height: 1.35;
+  text-shadow: none;
+}
+
+.classic-project-page .hero-actions {
+  display: none;
+}
+
+.classic-project-page .button {
+  min-height: 34px;
+  padding: 0 12px;
+  border-radius: 3px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.classic-project-page .button.primary,
+.classic-project-page .button.secondary {
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.65);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.classic-project-page .button:hover {
+  transform: none;
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.classic-project-page .section,
+.classic-project-page .summary-band {
+  padding: 58px 24px;
+}
+
+.classic-project-page .section-inner {
+  width: min(960px, 100%);
+}
+
+.classic-project-page .paper-title-block {
+  padding: 18px 0 46px;
+  text-align: center;
+}
+
+.classic-project-page .paper-title-block h1 {
+  max-width: none;
+  margin: 0 auto 8px;
+  color: #111111;
+  font-size: clamp(54px, 8vw, 92px);
+  line-height: 1;
+  text-shadow: none;
+}
+
+.classic-project-page .paper-title-block h2 {
+  width: min(920px, 100%);
+  margin: 0 auto 18px;
+  color: #222222;
+  font-size: clamp(22px, 3vw, 34px);
+  font-weight: 500;
+  line-height: 1.22;
+}
+
+.classic-project-page .paper-authors,
+.classic-project-page .paper-venue {
+  margin: 0;
+  color: #333333;
+  font-size: 17px;
+  line-height: 1.45;
+}
+
+.classic-project-page .paper-venue {
+  margin-top: 4px;
+  color: var(--muted-ink);
+  font-style: italic;
+}
+
+.classic-project-page .paper-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 24px;
+}
+
+.classic-project-page .paper-links a {
+  min-width: 92px;
+  padding: 10px 14px;
+  border: 1px solid #d0d0d0;
+  border-radius: 4px;
+  color: #222222;
+  background: #f8f8f8;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.classic-project-page .paper-links a:hover {
+  background: #eeeeee;
+}
+
+.classic-project-page .summary-grid,
+.classic-project-page .split {
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+
+.classic-project-page .section-heading {
+  width: min(820px, 100%);
+  margin: 0 auto 26px;
+  text-align: center;
+}
+
+.classic-project-page .section-heading.wide {
+  width: min(920px, 100%);
+}
+
+.classic-project-page .section-kicker,
+.classic-project-page .eyebrow {
+  color: #444444;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: none;
+}
+
+.classic-project-page h2 {
+  color: #111111;
+  font-size: clamp(26px, 3vw, 36px);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.classic-project-page h3 {
+  color: #111111;
+}
+
+.classic-project-page p {
+  color: #222222;
+}
+
+.classic-project-page .summary-grid article p,
+.classic-project-page .section-heading p,
+.classic-project-page .method-copy p,
+.classic-project-page .method-copy li,
+.classic-project-page .task-card p,
+.classic-project-page .chart-panel p,
+.classic-project-page .demo-caption p,
+.classic-project-page .citation-section p {
+  color: #333333;
+}
+
+.classic-project-page .quick-facts,
+.classic-project-page .contribution-grid,
+.classic-project-page .task-grid,
+.classic-project-page .resource-list {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.classic-project-page .quick-facts {
+  margin-top: 26px;
+}
+
+.classic-project-page .quick-facts div,
+.classic-project-page .contribution-grid article,
+.classic-project-page .task-card,
+.classic-project-page .chart-panel,
+.classic-project-page .result-narrative,
+.classic-project-page .result-panel,
+.classic-project-page .analysis-grid article,
+.classic-project-page .resource-list a,
+.classic-project-page .demo-stage,
+.classic-project-page .method-panel {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.classic-project-page .quick-facts div,
+.classic-project-page .contribution-grid article,
+.classic-project-page .task-card {
+  padding: 0 18px;
+  border-left: 1px solid #dddddd;
+}
+
+.classic-project-page .quick-facts div:first-child,
+.classic-project-page .contribution-grid article:first-child,
+.classic-project-page .task-card:first-child {
+  border-left: 0;
+}
+
+.classic-project-page .quick-facts dt,
+.classic-project-page .contribution-grid span,
+.classic-project-page .metric-label,
+.classic-project-page .task-meta span {
+  color: #333333;
+}
+
+.classic-project-page .contribution-grid {
+  margin-top: 38px;
+}
+
+.classic-project-page .method-section,
+.classic-project-page .result-section,
+.classic-project-page .resource-section {
+  background: #ffffff;
+}
+
+.classic-project-page .task-section,
+.classic-project-page .demo-section {
+  background: #f8f8f8;
+}
+
+.classic-project-page .architecture-scroll {
+  margin: 10px auto 28px;
+  padding: 12px 0;
+  border-top: 1px solid #dddddd;
+  border-bottom: 1px solid #dddddd;
+  height: 405px;
+  overflow: hidden;
+}
+
+.classic-project-page .architecture-canvas {
+  left: 50%;
+  transform: translateX(-50%) scale(0.88);
+  transform-origin: top center;
+  margin: 0;
+}
+
+.classic-project-page .method-panel {
+  border-top: 1px solid #dddddd;
+  border-bottom: 1px solid #dddddd;
+}
+
+.classic-project-page .method-tab {
+  background: #ffffff;
+}
+
+.classic-project-page .method-tab.is-active {
+  border-color: #cccccc;
+  background: #f1f1f1;
+  box-shadow: none;
+}
+
+.classic-project-page .task-card {
+  min-height: auto;
+}
+
+.classic-project-page .task-meta span {
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+  background: #ffffff;
+}
+
+.classic-project-page .animated-results,
+.classic-project-page .secondary-charts {
+  grid-template-columns: 1fr;
+  gap: 28px;
+}
+
+.classic-project-page .result-narrative {
+  display: none;
+}
+
+.classic-project-page .chart-panel {
+  padding: 22px 0;
+  border-top: 1px solid #dddddd;
+}
+
+.classic-project-page .chart-header {
+  align-items: flex-start;
+}
+
+.classic-project-page .chart-header h3 {
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.classic-project-page .bar-chart {
+  grid-template-columns: 42px minmax(0, 1fr);
+}
+
+.classic-project-page .chart-plot {
+  min-height: 320px;
+}
+
+.classic-project-page .demo-viewer {
+  grid-template-columns: 1fr;
+}
+
+.classic-project-page .demo-rail {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.classic-project-page .demo-tab {
+  min-height: 76px;
+  border-radius: 0;
+}
+
+.classic-project-page .demo-tab.is-active {
+  border-color: #999999;
+  background: #eeeeee;
+  box-shadow: none;
+}
+
+.classic-project-page .video-shell {
+  min-height: 0;
+}
+
+.classic-project-page .demo-stage {
+  grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
+  border: 1px solid #dddddd;
+  background: #ffffff;
+}
+
+.classic-project-page .demo-card {
+  border-radius: 0;
+}
+
+.classic-project-page .resource-list {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.classic-project-page .resource-list a {
+  min-height: 92px;
+  padding: 16px;
+  border: 1px solid #dddddd;
+  text-align: center;
+}
+
+.classic-project-page .resource-list span {
+  margin-bottom: 12px;
+}
+
+.classic-project-page .citation-section {
+  background: #ffffff;
+}
+
+@media (max-width: 980px) {
+  .classic-project-page .architecture-canvas {
+    left: auto;
+    transform: none;
+    margin: 0 auto;
+  }
+
+  .classic-project-page .architecture-scroll {
+    height: auto;
+    overflow-x: auto;
+  }
+
+  .classic-project-page .demo-stage {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 760px) {
+  .classic-project-page .site-nav {
+    display: none;
+  }
+
+  .classic-project-page .hero-content {
+    padding: 22px;
+  }
+
+  .classic-project-page .quick-facts,
+  .classic-project-page .contribution-grid,
+  .classic-project-page .task-grid,
+  .classic-project-page .resource-list,
+  .classic-project-page .demo-rail {
+    grid-template-columns: 1fr;
+  }
+
+  .classic-project-page .quick-facts div,
+  .classic-project-page .contribution-grid article,
+  .classic-project-page .task-card {
+    padding: 18px 0;
+    border-top: 1px solid #dddddd;
+    border-left: 0;
+  }
+
+  .classic-project-page .quick-facts div:first-child,
+  .classic-project-page .contribution-grid article:first-child,
+  .classic-project-page .task-card:first-child {
+    border-top: 0;
+  }
+}
