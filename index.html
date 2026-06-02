@@ -337,96 +337,200 @@
             </p>
           </div>
 
-          <div class="result-summary-grid">
-            <article class="result-card">
-              <p class="metric-label">Average SR</p>
-              <p class="metric-value">59.7%</p>
-              <p>EDITH average success rate across Muffin-Serving, Tumbler-Sorting, and Tool-Passing.</p>
-            </article>
-            <article class="result-card">
-              <p class="metric-label">Average TP</p>
-              <p class="metric-value">84.7%</p>
-              <p>Average fraction of subtasks completed per trial by EDITH.</p>
-            </article>
-            <article class="result-card">
-              <p class="metric-label">User Study</p>
-              <p class="metric-value">p &lt; 0.001</p>
-              <p>EDITH significantly reduces instruction workload compared to the language-only hierarchy.</p>
-            </article>
-          </div>
-
-          <div class="results-layout">
-            <article class="result-panel">
-              <h3>Main comparison</h3>
-              <table class="results-table">
-                <thead>
-                  <tr>
-                    <th>Method</th>
-                    <th>Avg. SR</th>
-                    <th>Avg. TP</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>&pi;<sub>l</sub><sup>lang</sup></td>
-                    <td>4.2%</td>
-                    <td>23.2%</td>
-                  </tr>
-                  <tr>
-                    <td>&pi;<sub>l</sub><sup>ego+lang</sup></td>
-                    <td>6.4%</td>
-                    <td>35.6%</td>
-                  </tr>
-                  <tr>
-                    <td>&pi;<sub>h</sub><sup>lang</sup> + &pi;<sub>l</sub><sup>lang</sup></td>
-                    <td>9.7%</td>
-                    <td>27.1%</td>
-                  </tr>
-                  <tr class="is-highlighted">
-                    <td>EDITH</td>
-                    <td>59.7%</td>
-                    <td>84.7%</td>
-                  </tr>
-                </tbody>
-              </table>
-            </article>
-
-            <article class="result-panel">
-              <h3>User workload</h3>
-              <div class="workload-grid">
-                <div class="workload-item">
-                  <span>Muffin-Serving</span>
-                  <strong>4.83 -> 2.41</strong>
-                  <p>Language-only hierarchy to EDITH</p>
+          <div class="animated-results" data-animate>
+            <article class="chart-panel performance-chart">
+              <div class="chart-header">
+                <div>
+                  <span>Main comparison</span>
+                  <h3>Average success rate and task progress</h3>
                 </div>
-                <div class="workload-item">
-                  <span>Tool-Passing</span>
-                  <strong>4.30 -> 2.20</strong>
-                  <p>Language-only hierarchy to EDITH</p>
+                <div class="chart-legend" aria-label="Chart legend">
+                  <span class="legend-sr">SR</span>
+                  <span class="legend-tp">TP</span>
                 </div>
               </div>
-              <p>
-                Lower is better. The paper reports statistically significant
-                workload reduction on both tasks.
-              </p>
+
+              <div
+                class="bar-chart"
+                role="img"
+                aria-label="EDITH reaches 59.7 percent average success rate and 84.7 percent average task progress, outperforming three baselines."
+              >
+                <div class="chart-scale" aria-hidden="true">
+                  <span>100</span>
+                  <span>75</span>
+                  <span>50</span>
+                  <span>25</span>
+                  <span>0</span>
+                </div>
+                <div class="chart-plot">
+                  <div class="chart-grid-lines" aria-hidden="true">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+
+                  <div class="bar-group baseline" style="--i: 0">
+                    <div class="bar-pair">
+                      <span class="chart-bar sr" style="--value: 4.2"><b>4.2</b></span>
+                      <span class="chart-bar tp" style="--value: 23.2"><b>23.2</b></span>
+                    </div>
+                    <p>
+                      <strong>&pi;<sub>l</sub><sup>lang</sup></strong>
+                      <span>language only</span>
+                    </p>
+                  </div>
+
+                  <div class="bar-group baseline" style="--i: 1">
+                    <div class="bar-pair">
+                      <span class="chart-bar sr" style="--value: 6.4"><b>6.4</b></span>
+                      <span class="chart-bar tp" style="--value: 35.6"><b>35.6</b></span>
+                    </div>
+                    <p>
+                      <strong>&pi;<sub>l</sub><sup>ego+lang</sup></strong>
+                      <span>end-to-end</span>
+                    </p>
+                  </div>
+
+                  <div class="bar-group baseline" style="--i: 2">
+                    <div class="bar-pair">
+                      <span class="chart-bar sr" style="--value: 9.7"><b>9.7</b></span>
+                      <span class="chart-bar tp" style="--value: 27.1"><b>27.1</b></span>
+                    </div>
+                    <p>
+                      <strong>&pi;<sub>h</sub><sup>lang</sup> + &pi;<sub>l</sub><sup>lang</sup></strong>
+                      <span>language hierarchy</span>
+                    </p>
+                  </div>
+
+                  <div class="bar-group edith" style="--i: 3">
+                    <div class="bar-pair">
+                      <span class="chart-bar sr" style="--value: 59.7"><b>59.7</b></span>
+                      <span class="chart-bar tp" style="--value: 84.7"><b>84.7</b></span>
+                    </div>
+                    <p>
+                      <strong>EDITH</strong>
+                      <span>ego + language</span>
+                    </p>
+                  </div>
+                </div>
+              </div>
             </article>
+
+            <aside class="result-narrative">
+              <span>Average over 3 tasks</span>
+              <h3>EDITH separates intent inference from robot control.</h3>
+              <p>
+                The high-level VLM builds instruction-keyframe subtasks from
+                egocentric human signals, while the low-level VLA executes each
+                queued subtask with robot observations.
+              </p>
+              <dl>
+                <div>
+                  <dt>59.7%</dt>
+                  <dd>Average SR</dd>
+                </div>
+                <div>
+                  <dt>84.7%</dt>
+                  <dd>Average TP</dd>
+                </div>
+                <div>
+                  <dt>48</dt>
+                  <dd>Trials per task per method</dd>
+                </div>
+              </dl>
+            </aside>
           </div>
 
-          <div class="analysis-grid">
-            <article>
-              <span>Ablation</span>
-              <h3>Keyframes matter.</h3>
-              <p>Removing C<sup>key</sup> causes a 49.9% average drop in success rate and 51.5% drop in task progress.</p>
+          <div class="secondary-charts">
+            <article class="chart-panel workload-chart" data-animate>
+              <div class="chart-header">
+                <div>
+                  <span>User study</span>
+                  <h3>Instruction workload drops with EDITH</h3>
+                </div>
+                <strong>p &lt; 0.001</strong>
+              </div>
+
+              <div
+                class="slope-chart"
+                role="img"
+                aria-label="Muffin-Serving workload drops from 4.83 to 2.41, and Tool-Passing workload drops from 4.30 to 2.20."
+              >
+                <div class="slope-labels">
+                  <span>Language-only hierarchy</span>
+                  <span>EDITH</span>
+                </div>
+                <svg viewBox="0 0 500 230" aria-hidden="true">
+                  <line class="slope-axis" x1="88" y1="28" x2="88" y2="188"></line>
+                  <line class="slope-axis" x1="412" y1="28" x2="412" y2="188"></line>
+                  <path class="slope-line muffin" d="M88 34 L412 124"></path>
+                  <path class="slope-line tool" d="M88 61 L412 139"></path>
+                  <circle class="slope-point muffin" cx="88" cy="34" r="8"></circle>
+                  <circle class="slope-point muffin" cx="412" cy="124" r="8"></circle>
+                  <circle class="slope-point tool" cx="88" cy="61" r="8"></circle>
+                  <circle class="slope-point tool" cx="412" cy="139" r="8"></circle>
+                  <text x="76" y="27" text-anchor="end">4.83</text>
+                  <text x="424" y="130">2.41</text>
+                  <text x="76" y="67" text-anchor="end">4.30</text>
+                  <text x="424" y="145">2.20</text>
+                  <text class="slope-name" x="178" y="83">Muffin-Serving</text>
+                  <text class="slope-name" x="178" y="121">Tool-Passing</text>
+                </svg>
+              </div>
             </article>
-            <article>
-              <span>Robustness</span>
-              <h3>Distraction remains manageable.</h3>
-              <p>Under phone-checking distraction, EDITH shows only a 0.5% relative drop in task progress.</p>
-            </article>
-            <article>
-              <span>Interpretation</span>
-              <h3>Hierarchy handles brief intent.</h3>
-              <p>The high-level policy monitors human signals separately while the low-level policy continues execution.</p>
+
+            <article class="chart-panel insight-chart" data-animate>
+              <div class="chart-header">
+                <div>
+                  <span>Ablation and robustness</span>
+                  <h3>Keyframes drive the gain; distraction remains small</h3>
+                </div>
+              </div>
+
+              <div class="mini-chart-list">
+                <div class="mini-chart-row">
+                  <div>
+                    <strong>No C<sup>key</sup></strong>
+                    <span>Average drop in SR</span>
+                  </div>
+                  <div class="mini-bar" aria-label="49.9 percent average success-rate drop">
+                    <span style="--value: 49.9"></span>
+                  </div>
+                  <b>49.9%</b>
+                </div>
+                <div class="mini-chart-row">
+                  <div>
+                    <strong>No C<sup>key</sup></strong>
+                    <span>Average drop in TP</span>
+                  </div>
+                  <div class="mini-bar" aria-label="51.5 percent average task-progress drop">
+                    <span style="--value: 51.5"></span>
+                  </div>
+                  <b>51.5%</b>
+                </div>
+                <div class="mini-chart-row calm">
+                  <div>
+                    <strong>EDITH distraction</strong>
+                    <span>Relative TP drop</span>
+                  </div>
+                  <div class="mini-bar" aria-label="0.5 percent relative task-progress drop">
+                    <span style="--value: 0.5"></span>
+                  </div>
+                  <b>0.5%</b>
+                </div>
+                <div class="mini-chart-row baseline">
+                  <div>
+                    <strong>End-to-end baseline</strong>
+                    <span>Relative TP drop</span>
+                  </div>
+                  <div class="mini-bar" aria-label="17.8 percent relative task-progress drop">
+                    <span style="--value: 17.8"></span>
+                  </div>
+                  <b>17.8%</b>
+                </div>
+              </div>
             </article>
           </div>
         </div>

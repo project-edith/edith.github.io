@@ -1,3 +1,5 @@
+document.documentElement.classList.add("js-enabled");
+
 const year = document.querySelector("#year");
 if (year) {
   year.textContent = String(new Date().getFullYear());
@@ -31,6 +33,27 @@ if ("IntersectionObserver" in window && sections.length) {
   );
 
   sections.forEach((section) => observer.observe(section));
+}
+
+const animatedElements = Array.from(document.querySelectorAll("[data-animate]"));
+if ("IntersectionObserver" in window && animatedElements.length) {
+  const animationObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("is-visible");
+        animationObserver.unobserve(entry.target);
+      });
+    },
+    {
+      rootMargin: "0px 0px -12% 0px",
+      threshold: 0.18,
+    },
+  );
+
+  animatedElements.forEach((element) => animationObserver.observe(element));
+} else {
+  animatedElements.forEach((element) => element.classList.add("is-visible"));
 }
 
 const demos = {
