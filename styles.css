@@ -381,7 +381,7 @@ section[id] {
   margin: 20px 0 0;
 }
 
-.approach-overview img {
+.overview-figure-frame img {
   display: block;
   width: 100%;
   height: auto;
@@ -3365,7 +3365,7 @@ pre {
   overflow-x: auto;
 }
 
-.classic-project-page .approach-overview img {
+.classic-project-page .overview-figure-frame img {
   min-width: 780px;
   border: 1px solid #dddddd;
   background: #ffffff;
