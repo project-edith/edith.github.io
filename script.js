@@ -95,144 +95,105 @@ if ("IntersectionObserver" in window && animatedElements.length) {
   animatedElements.forEach((element) => element.classList.add("is-visible"));
 }
 
-const demos = {
-  muffin: {
-    kicker: "Demo 01",
-    title: "Muffin-serving interaction",
+const taskComparisons = [
+  {
+    title: "Muffin Serving",
     description:
-      "The viewer first shows the text-only interaction, then plays the EDITH rollout grounded in egocentric human signals.",
-    poster: "assets/posters/muffin-text.jpg",
-    playlist: [
-      {
-        src: "assets/videos/muffin_text.mp4",
-        poster: "assets/posters/muffin-text.jpg",
-      },
-      {
-        src: "assets/videos/muffin_edith.mp4",
-        poster: "assets/posters/muffin-edith.jpg",
-      },
-    ],
-    trace: [
-      "Play the language-only request segment first.",
-      "Continue into the EDITH segment with egocentric grounding.",
-      "Compare how gaze and gestures disambiguate visually similar muffins.",
-    ],
+      "Compare the language-only TextVLA baseline against EDITH on visually similar muffin requests.",
+    text: {
+      src: "assets/videos/muffin_text.mp4",
+      poster: "assets/posters/muffin-text.jpg",
+    },
+    edith: {
+      src: "assets/videos/muffin_edith.mp4",
+      poster: "assets/posters/muffin-edith.jpg",
+    },
   },
-  tool: {
-    kicker: "Demo 02",
-    title: "Tool-passing interaction",
+  {
+    title: "Tool Passing",
     description:
-      "The tool-passing demo first shows a text-only request, then the EDITH rollout where gaze resolves the intended tool.",
-    poster: "assets/posters/passing-tool-text.jpg",
-    playlist: [
-      {
-        src: "assets/videos/passing_tool_text.mp4",
-        poster: "assets/posters/passing-tool-text.jpg",
-      },
-      {
-        src: "assets/videos/edith_passing_tool.mp4",
-        poster: "assets/posters/passing-tool-edith.jpg",
-      },
-    ],
-    trace: [
-      "Play the language-only tool request first.",
-      "Continue into the EDITH rollout with egocentric grounding.",
-      "Use gaze to identify the intended tool among similar candidates.",
-    ],
+      "Compare tool-passing behavior when language alone is underspecified versus EDITH with gaze grounding.",
+    text: {
+      src: "assets/videos/passing_tool_text.mp4",
+      poster: "assets/posters/passing-tool-text.jpg",
+    },
+    edith: {
+      src: "assets/videos/edith_passing_tool.mp4",
+      poster: "assets/posters/passing-tool-edith.jpg",
+    },
   },
-  tumbler: {
-    kicker: "Demo 03",
-    title: "Tumbler-sorting interaction",
+  {
+    title: "Tumbler Sorting",
     description:
-      "The tumbler demo first shows the text-only instruction, then the EDITH rollout with egocentric context and nonverbal grounding.",
-    poster: "assets/posters/tumbler-text.jpg",
-    playlist: [
-      {
-        src: "assets/videos/tumbler_text.mp4",
-        poster: "assets/posters/tumbler-text.jpg",
-      },
-      {
-        src: "assets/videos/tumbler_edith.mp4",
-        poster: "assets/posters/tumbler-edith.jpg",
-      },
-    ],
-    trace: [
-      "Play the language-only sorting instruction first.",
-      "Continue into the EDITH rollout with gaze and gesture grounding.",
-      "Execute the grounded subtask sequence through the low-level policy.",
-    ],
+      "Compare the text-only sorting instruction against EDITH's egocentric and nonverbal grounding.",
+    text: {
+      src: "assets/videos/tumbler_text.mp4",
+      poster: "assets/posters/tumbler-text.jpg",
+    },
+    edith: {
+      src: "assets/videos/tumbler_edith.mp4",
+      poster: "assets/posters/tumbler-edith.jpg",
+    },
   },
-};
+];
 
-const demoVideo = document.querySelector("#demo-video");
-const demoKicker = document.querySelector("#demo-kicker");
-const demoTitle = document.querySelector("#demo-title");
-const demoDescription = document.querySelector("#demo-description");
-const demoTrace = document.querySelector("#demo-trace");
-const progressBar = document.querySelector("#video-progress-bar");
-let activeDemoId = "muffin";
-let activeClipIndex = 0;
+const textVlaVideo = document.querySelector("#textvla-video");
+const edithVideo = document.querySelector("#edith-video");
+const taskCounter = document.querySelector("#task-counter");
+const taskTitle = document.querySelector("#task-title");
+const taskDescription = document.querySelector("#task-description");
+const taskPrev = document.querySelector("#task-prev");
+const taskNext = document.querySelector("#task-next");
+const taskDots = document.querySelector("#task-dots");
+let activeTaskIndex = 0;
 
-function loadDemoClip(demo, clipIndex) {
-  const clip = demo.playlist?.[clipIndex];
-  if (!clip || !demoVideo) return;
-
-  demoVideo.pause();
-  demoVideo.poster = clip.poster || demo.poster;
-  const source = demoVideo.querySelector("source");
-  if (source) {
-    source.src = clip.src;
-  }
-  if (progressBar) progressBar.style.width = "0%";
-  demoVideo.load();
-  demoVideo.play().catch(() => {});
+function loadVideo(video, clip) {
+  if (!video || !clip) return;
+  const source = video.querySelector("source");
+  video.pause();
+  video.poster = clip.poster;
+  if (source) source.src = clip.src;
+  video.load();
+  video.play().catch(() => {});
 }
 
-function setDemo(id) {
-  const demo = demos[id];
-  if (!demo || !demoVideo) return;
-  activeDemoId = id;
-  activeClipIndex = 0;
+function setTaskComparison(index) {
+  if (!taskComparisons.length) return;
+  activeTaskIndex = (index + taskComparisons.length) % taskComparisons.length;
+  const task = taskComparisons[activeTaskIndex];
 
-  document.querySelectorAll("[data-demo]").forEach((element) => {
-    element.classList.toggle("is-active", element.dataset.demo === id);
+  if (taskCounter) {
+    taskCounter.textContent = `Task ${String(activeTaskIndex + 1).padStart(2, "0")} / ${String(taskComparisons.length).padStart(2, "0")}`;
+  }
+  if (taskTitle) taskTitle.textContent = task.title;
+  if (taskDescription) taskDescription.textContent = task.description;
+
+  taskDots?.querySelectorAll("[data-task-index]").forEach((button) => {
+    const isActive = Number(button.dataset.taskIndex) === activeTaskIndex;
+    button.classList.toggle("is-active", isActive);
+    button.setAttribute("aria-selected", String(isActive));
   });
 
-  loadDemoClip(demo, activeClipIndex);
-
-  if (demoKicker) demoKicker.textContent = demo.kicker;
-  if (demoTitle) demoTitle.textContent = demo.title;
-  if (demoDescription) demoDescription.textContent = demo.description;
-  if (demoTrace) {
-    demoTrace.innerHTML = "";
-    demo.trace.forEach((item) => {
-      const li = document.createElement("li");
-      li.textContent = item;
-      demoTrace.append(li);
-    });
-  }
+  loadVideo(textVlaVideo, task.text);
+  loadVideo(edithVideo, task.edith);
 }
 
-document.querySelectorAll("[data-demo]").forEach((element) => {
-  element.addEventListener("click", () => {
-    setDemo(element.dataset.demo);
-    document.querySelector("#demos")?.scrollIntoView({ block: "start" });
+taskPrev?.addEventListener("click", () => {
+  setTaskComparison(activeTaskIndex - 1);
+});
+
+taskNext?.addEventListener("click", () => {
+  setTaskComparison(activeTaskIndex + 1);
+});
+
+taskDots?.querySelectorAll("[data-task-index]").forEach((button) => {
+  button.addEventListener("click", () => {
+    setTaskComparison(Number(button.dataset.taskIndex));
   });
 });
 
-if (demoVideo && progressBar) {
-  demoVideo.addEventListener("timeupdate", () => {
-    const ratio = demoVideo.duration ? demoVideo.currentTime / demoVideo.duration : 0;
-    progressBar.style.width = `${Math.min(100, ratio * 100)}%`;
-  });
-
-  demoVideo.addEventListener("ended", () => {
-    const demo = demos[activeDemoId];
-    if (!demo?.playlist?.length) return;
-
-    activeClipIndex = (activeClipIndex + 1) % demo.playlist.length;
-    loadDemoClip(demo, activeClipIndex);
-  });
+if (textVlaVideo && edithVideo) {
+  setTaskComparison(activeTaskIndex);
 }
 
 const methodContent = {
