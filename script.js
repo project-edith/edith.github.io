@@ -154,17 +154,7 @@ function updateTaskTrackPosition() {
   const slideWidth = taskSlides[0].getBoundingClientRect().width;
   const trackStyle = getComputedStyle(taskTrack);
   const gap = parseFloat(trackStyle.columnGap || trackStyle.gap || "0") || 0;
-  taskTrack.style.transform = `translateX(${-(slideWidth + gap)}px)`;
-}
-
-function updateTaskSlideOrder() {
-  const slideCount = taskSlides.length;
-  if (!slideCount) return;
-
-  taskSlides.forEach((slide, slideIndex) => {
-    const offset = (slideIndex - activeTaskIndex + slideCount) % slideCount;
-    slide.style.order = String(offset === slideCount - 1 ? 0 : offset + 1);
-  });
+  taskTrack.style.transform = `translateX(${-activeTaskIndex * (slideWidth + gap)}px)`;
 }
 
 function resetTaskVideo(video) {
@@ -255,7 +245,7 @@ function playCurrentTaskSequence() {
 
 function setTaskComparison(index) {
   if (!taskComparisons.length) return;
-  activeTaskIndex = (index + taskComparisons.length) % taskComparisons.length;
+  activeTaskIndex = Math.min(Math.max(index, 0), taskComparisons.length - 1);
   const task = taskComparisons[activeTaskIndex];
 
   if (taskCounter) {
@@ -276,7 +266,8 @@ function setTaskComparison(index) {
     slide.setAttribute("aria-hidden", String(!isActive));
   });
 
-  updateTaskSlideOrder();
+  if (taskPrev) taskPrev.disabled = activeTaskIndex === 0;
+  if (taskNext) taskNext.disabled = activeTaskIndex === taskComparisons.length - 1;
   updateTaskTrackPosition();
   playCurrentTaskSequence();
 }
