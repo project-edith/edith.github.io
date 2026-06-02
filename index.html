@@ -619,55 +619,306 @@
                 </div>
               </div>
             </article>
-            <article class="chart-panel insight-chart" data-animate>
+            <article class="chart-panel ablation-chart" data-animate>
               <div class="chart-header">
                 <div>
-                  <span>Ablation and robustness</span>
-                  <h3>Keyframes drive the gain; distraction remains small</h3>
+                  <span>Ablation</span>
+                  <h3>Keyframes drive the gain.</h3>
+                </div>
+                <div class="chart-legend method-legend" aria-label="Ablation legend">
+                  <span class="legend-ablation">EDITH w/o C<sup>key</sup></span>
+                  <span class="legend-edith">EDITH</span>
                 </div>
               </div>
 
-              <div class="mini-chart-list">
-                <div class="mini-chart-row">
-                  <div>
-                    <strong>No C<sup>key</sup></strong>
-                    <span>Average drop in SR</span>
-                  </div>
-                  <div class="mini-bar" aria-label="49.9 percent average success-rate drop">
-                    <span style="--value: 49.9"></span>
-                  </div>
-                  <b>49.9%</b>
+              <div
+                class="paper-result-chart paper-three-panel paper-two-method"
+                role="img"
+                aria-label="Figure 8 style keyframe ablation. EDITH outperforms the no-keyframe ablation across all three tasks."
+              >
+                <div class="paper-result-scale" aria-hidden="true">
+                  <span>100</span>
+                  <span>80</span>
+                  <span>60</span>
+                  <span>40</span>
+                  <span>20</span>
+                  <span>0</span>
                 </div>
-                <div class="mini-chart-row">
-                  <div>
-                    <strong>No C<sup>key</sup></strong>
-                    <span>Average drop in TP</span>
-                  </div>
-                  <div class="mini-bar" aria-label="51.5 percent average task-progress drop">
-                    <span style="--value: 51.5"></span>
-                  </div>
-                  <b>51.5%</b>
+
+                <div class="paper-task-grid">
+                  <article class="paper-task-panel">
+                    <h4>Muffin-Serving</h4>
+                    <div class="paper-panel-plot">
+                      <div class="paper-grid-lines" aria-hidden="true">
+                        <span></span><span></span><span></span><span></span><span></span>
+                      </div>
+                      <div class="paper-metric">
+                        <div class="paper-bars">
+                          <span class="chart-bar method-ablation" style="--value: 2.1"><b>2.1</b></span>
+                          <span class="chart-bar method-edith" style="--value: 50.0"><b>50.0</b></span>
+                        </div>
+                        <strong>SR (%)</strong>
+                      </div>
+                      <div class="paper-metric">
+                        <div class="paper-bars">
+                          <span class="chart-bar method-ablation" style="--value: 11.8"><b>11.8</b></span>
+                          <span class="chart-bar method-edith" style="--value: 80.6"><b>80.6</b></span>
+                        </div>
+                        <strong>TP (%)</strong>
+                      </div>
+                    </div>
+                  </article>
+
+                  <article class="paper-task-panel">
+                    <h4>Tumbler-Sorting</h4>
+                    <div class="paper-panel-plot">
+                      <div class="paper-grid-lines" aria-hidden="true">
+                        <span></span><span></span><span></span><span></span><span></span>
+                      </div>
+                      <div class="paper-metric">
+                        <div class="paper-bars">
+                          <span class="chart-bar method-ablation" style="--value: 2.5"><b>2.5</b></span>
+                          <span class="chart-bar method-edith" style="--value: 45.8"><b>45.8</b></span>
+                        </div>
+                        <strong>SR (%)</strong>
+                      </div>
+                      <div class="paper-metric">
+                        <div class="paper-bars">
+                          <span class="chart-bar method-ablation" style="--value: 36.8"><b>36.8</b></span>
+                          <span class="chart-bar method-edith" style="--value: 83.0"><b>83.0</b></span>
+                        </div>
+                        <strong>TP (%)</strong>
+                      </div>
+                    </div>
+                  </article>
+
+                  <article class="paper-task-panel">
+                    <h4>Tool-Passing</h4>
+                    <div class="paper-panel-plot">
+                      <div class="paper-grid-lines" aria-hidden="true">
+                        <span></span><span></span><span></span><span></span><span></span>
+                      </div>
+                      <div class="paper-metric">
+                        <div class="paper-bars">
+                          <span class="chart-bar method-ablation" style="--value: 25.0"><b>25.0</b></span>
+                          <span class="chart-bar method-edith" style="--value: 83.3"><b>83.3</b></span>
+                        </div>
+                        <strong>SR (%)</strong>
+                      </div>
+                      <div class="paper-metric">
+                        <div class="paper-bars">
+                          <span class="chart-bar method-ablation" style="--value: 51.0"><b>51.0</b></span>
+                          <span class="chart-bar method-edith" style="--value: 90.6"><b>90.6</b></span>
+                        </div>
+                        <strong>TP (%)</strong>
+                      </div>
+                    </div>
+                  </article>
                 </div>
-                <div class="mini-chart-row calm">
-                  <div>
-                    <strong>EDITH distraction</strong>
-                    <span>Relative TP drop</span>
-                  </div>
-                  <div class="mini-bar" aria-label="0.5 percent relative task-progress drop">
-                    <span style="--value: 0.5"></span>
-                  </div>
-                  <b>0.5%</b>
+              </div>
+            </article>
+
+            <article class="chart-panel robustness-chart" data-animate>
+              <div class="chart-header">
+                <div>
+                  <span>Robustness</span>
+                  <h3>Distraction remains small for EDITH.</h3>
                 </div>
-                <div class="mini-chart-row baseline">
-                  <div>
-                    <strong>End-to-end baseline</strong>
-                    <span>Relative TP drop</span>
-                  </div>
-                  <div class="mini-bar" aria-label="17.8 percent relative task-progress drop">
-                    <span style="--value: 17.8"></span>
-                  </div>
-                  <b>17.8%</b>
+                <div class="chart-legend method-legend" aria-label="Robustness legend">
+                  <span class="legend-edith">EDITH</span>
+                  <span class="legend-edith-distract">EDITH w/ distract</span>
+                  <span class="legend-ablation">&pi;<sub>l</sub><sup>ego+lang</sup></span>
+                  <span class="legend-ablation-distract">&pi;<sub>l</sub><sup>ego+lang</sup> w/ distract</span>
                 </div>
+              </div>
+
+              <div class="robustness-paper-chart" role="img" aria-label="Figure 9 style robustness to distraction on Muffin-Serving.">
+                <article class="robustness-metric">
+                  <h4>Success Rate (%)</h4>
+                  <div class="robustness-bars">
+                    <div class="robust-row edith"><span>EDITH</span><div class="robust-track"><i style="--value: 50.0"><b>50.0</b></i></div></div>
+                    <div class="robust-row edith distract"><span>EDITH w/ Distract</span><div class="robust-track"><i style="--value: 47.9"><b>47.9</b></i></div></div>
+                    <div class="robust-row ablation"><span>&pi;<sub>l</sub><sup>ego+lang</sup></span><div class="robust-track"><i style="--value: 4.2"><b>4.2</b></i></div></div>
+                    <div class="robust-row ablation distract"><span>&pi;<sub>l</sub><sup>ego+lang</sup> w/ Distract</span><div class="robust-track"><i style="--value: 0"><b>0.0</b></i></div></div>
+                  </div>
+                  <div class="robust-axis" aria-hidden="true"><span>0</span><span>25</span><span>50</span><span>75</span><span>100</span></div>
+                </article>
+
+                <article class="robustness-metric">
+                  <h4>Task Progress (%)</h4>
+                  <div class="robustness-bars">
+                    <div class="robust-row edith"><span>EDITH</span><div class="robust-track"><i style="--value: 80.6"><b>80.6</b></i></div></div>
+                    <div class="robust-row edith distract"><span>EDITH w/ Distract</span><div class="robust-track"><i style="--value: 80.2"><b>80.2</b></i></div></div>
+                    <div class="robust-row ablation"><span>&pi;<sub>l</sub><sup>ego+lang</sup></span><div class="robust-track"><i style="--value: 25.3"><b>25.3</b></i></div></div>
+                    <div class="robust-row ablation distract"><span>&pi;<sub>l</sub><sup>ego+lang</sup> w/ Distract</span><div class="robust-track"><i style="--value: 20.8"><b>20.8</b></i></div></div>
+                  </div>
+                  <div class="robust-axis" aria-hidden="true"><span>0</span><span>25</span><span>50</span><span>75</span><span>100</span></div>
+                </article>
+              </div>
+            </article>
+
+            <article class="chart-panel appendix-chart" data-animate>
+              <div class="chart-header">
+                <div>
+                  <span>Appendix A</span>
+                  <h3>EDITH surpasses fully specified language.</h3>
+                </div>
+                <div class="chart-legend method-legend" aria-label="Appendix fully specified legend">
+                  <span class="legend-ablation">&pi;<sub>l</sub><sup>lang</sup> fully specified</span>
+                  <span class="legend-edith">EDITH</span>
+                </div>
+              </div>
+
+              <div
+                class="paper-result-chart paper-three-panel paper-two-method"
+                role="img"
+                aria-label="Appendix Figure 10 style comparison to fully specified language."
+              >
+                <div class="paper-result-scale" aria-hidden="true">
+                  <span>100</span><span>80</span><span>60</span><span>40</span><span>20</span><span>0</span>
+                </div>
+
+                <div class="paper-task-grid">
+                  <article class="paper-task-panel">
+                    <h4>Muffin-Serving</h4>
+                    <div class="paper-panel-plot">
+                      <div class="paper-grid-lines" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+                      <div class="paper-metric"><div class="paper-bars"><span class="chart-bar method-ablation" style="--value: 16.7"><b>16.7</b></span><span class="chart-bar method-edith" style="--value: 50.0"><b>50.0</b></span></div><strong>SR (%)</strong></div>
+                      <div class="paper-metric"><div class="paper-bars"><span class="chart-bar method-ablation" style="--value: 41.0"><b>41.0</b></span><span class="chart-bar method-edith" style="--value: 80.6"><b>80.6</b></span></div><strong>TP (%)</strong></div>
+                    </div>
+                  </article>
+                  <article class="paper-task-panel">
+                    <h4>Tumbler-Sorting</h4>
+                    <div class="paper-panel-plot">
+                      <div class="paper-grid-lines" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+                      <div class="paper-metric"><div class="paper-bars"><span class="chart-bar method-ablation" style="--value: 43.8"><b>43.8</b></span><span class="chart-bar method-edith" style="--value: 45.8"><b>45.8</b></span></div><strong>SR (%)</strong></div>
+                      <div class="paper-metric"><div class="paper-bars"><span class="chart-bar method-ablation" style="--value: 76.4"><b>76.4</b></span><span class="chart-bar method-edith" style="--value: 83.0"><b>83.0</b></span></div><strong>TP (%)</strong></div>
+                    </div>
+                  </article>
+                  <article class="paper-task-panel">
+                    <h4>Tool-Passing</h4>
+                    <div class="paper-panel-plot">
+                      <div class="paper-grid-lines" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+                      <div class="paper-metric"><div class="paper-bars"><span class="chart-bar method-ablation" style="--value: 56.3"><b>56.3</b></span><span class="chart-bar method-edith" style="--value: 83.3"><b>83.3</b></span></div><strong>SR (%)</strong></div>
+                      <div class="paper-metric"><div class="paper-bars"><span class="chart-bar method-ablation" style="--value: 74.5"><b>74.5</b></span><span class="chart-bar method-edith" style="--value: 90.6"><b>90.6</b></span></div><strong>TP (%)</strong></div>
+                    </div>
+                  </article>
+                </div>
+              </div>
+            </article>
+
+            <article class="chart-panel appendix-chart" data-animate>
+              <div class="chart-header">
+                <div>
+                  <span>Appendix A</span>
+                  <h3>Egocentric context is necessary for grounding.</h3>
+                </div>
+                <div class="chart-legend method-legend" aria-label="Appendix egocentric context legend">
+                  <span class="legend-ablation">EDITH w/o egocentric context</span>
+                  <span class="legend-edith">EDITH</span>
+                </div>
+              </div>
+
+              <div
+                class="paper-result-chart paper-three-panel paper-two-method"
+                role="img"
+                aria-label="Appendix Figure 11 style egocentric context ablation."
+              >
+                <div class="paper-result-scale" aria-hidden="true">
+                  <span>100</span><span>80</span><span>60</span><span>40</span><span>20</span><span>0</span>
+                </div>
+
+                <div class="paper-task-grid">
+                  <article class="paper-task-panel">
+                    <h4>Muffin-Serving</h4>
+                    <div class="paper-panel-plot">
+                      <div class="paper-grid-lines" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+                      <div class="paper-metric"><div class="paper-bars"><span class="chart-bar method-ablation" style="--value: 8.3"><b>8.3</b></span><span class="chart-bar method-edith" style="--value: 50.0"><b>50.0</b></span></div><strong>SR (%)</strong></div>
+                      <div class="paper-metric"><div class="paper-bars"><span class="chart-bar method-ablation" style="--value: 38.2"><b>38.2</b></span><span class="chart-bar method-edith" style="--value: 80.6"><b>80.6</b></span></div><strong>TP (%)</strong></div>
+                    </div>
+                  </article>
+                  <article class="paper-task-panel">
+                    <h4>Tumbler-Sorting</h4>
+                    <div class="paper-panel-plot">
+                      <div class="paper-grid-lines" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+                      <div class="paper-metric"><div class="paper-bars"><span class="chart-bar method-ablation" style="--value: 30.0"><b>30.0</b></span><span class="chart-bar method-edith" style="--value: 45.8"><b>45.8</b></span></div><strong>SR (%)</strong></div>
+                      <div class="paper-metric"><div class="paper-bars"><span class="chart-bar method-ablation" style="--value: 63.5"><b>63.5</b></span><span class="chart-bar method-edith" style="--value: 83.0"><b>83.0</b></span></div><strong>TP (%)</strong></div>
+                    </div>
+                  </article>
+                  <article class="paper-task-panel">
+                    <h4>Tool-Passing</h4>
+                    <div class="paper-panel-plot">
+                      <div class="paper-grid-lines" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+                      <div class="paper-metric"><div class="paper-bars"><span class="chart-bar method-ablation" style="--value: 8.3"><b>8.3</b></span><span class="chart-bar method-edith" style="--value: 83.3"><b>83.3</b></span></div><strong>SR (%)</strong></div>
+                      <div class="paper-metric"><div class="paper-bars"><span class="chart-bar method-ablation" style="--value: 25.0"><b>25.0</b></span><span class="chart-bar method-edith" style="--value: 90.6"><b>90.6</b></span></div><strong>TP (%)</strong></div>
+                    </div>
+                  </article>
+                </div>
+              </div>
+            </article>
+
+            <article class="chart-panel appendix-workload-chart" data-animate>
+              <div class="chart-header">
+                <div>
+                  <span>Appendix D</span>
+                  <h3>Per-item workload also drops across tasks.</h3>
+                </div>
+                <div class="chart-legend method-legend" aria-label="Appendix workload legend">
+                  <span class="legend-ablation">&pi;<sub>h</sub><sup>lang</sup> + &pi;<sub>l</sub><sup>lang</sup></span>
+                  <span class="legend-edith">EDITH</span>
+                </div>
+              </div>
+
+              <div class="appendix-workload-grid" role="img" aria-label="Appendix Figure 21 mean workload per item on a 7-point Likert scale. Lower is better.">
+                <article class="appendix-workload-task">
+                  <h4>Serving Muffins</h4>
+                  <div class="appendix-likert-axis" aria-hidden="true"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span></div>
+                  <div class="appendix-question">
+                    <strong>Q1 Mental effort</strong>
+                    <div class="appendix-mean baseline"><span style="--bar: 69.8%"><b>5.19</b></span></div>
+                    <div class="appendix-mean edith"><span style="--bar: 24.0%"><b>2.44</b></span></div>
+                  </div>
+                  <div class="appendix-question">
+                    <strong>Q2 Convey intent</strong>
+                    <div class="appendix-mean baseline"><span style="--bar: 69.8%"><b>5.19</b></span></div>
+                    <div class="appendix-mean edith"><span style="--bar: 24.0%"><b>2.44</b></span></div>
+                  </div>
+                  <div class="appendix-question">
+                    <strong>Q3 Effort</strong>
+                    <div class="appendix-mean baseline"><span style="--bar: 66.7%"><b>5.00</b></span></div>
+                    <div class="appendix-mean edith"><span style="--bar: 25.0%"><b>2.50</b></span></div>
+                  </div>
+                  <div class="appendix-question">
+                    <strong>Q4 Frustration</strong>
+                    <div class="appendix-mean baseline"><span style="--bar: 49.0%"><b>3.94</b></span></div>
+                    <div class="appendix-mean edith"><span style="--bar: 20.8%"><b>2.25</b></span></div>
+                  </div>
+                </article>
+
+                <article class="appendix-workload-task">
+                  <h4>Passing Tools</h4>
+                  <div class="appendix-likert-axis" aria-hidden="true"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span></div>
+                  <div class="appendix-question">
+                    <strong>Q1 Mental effort</strong>
+                    <div class="appendix-mean baseline"><span style="--bar: 59.3%"><b>4.56</b></span></div>
+                    <div class="appendix-mean edith"><span style="--bar: 19.8%"><b>2.19</b></span></div>
+                  </div>
+                  <div class="appendix-question">
+                    <strong>Q2 Convey intent</strong>
+                    <div class="appendix-mean baseline"><span style="--bar: 59.3%"><b>4.56</b></span></div>
+                    <div class="appendix-mean edith"><span style="--bar: 20.8%"><b>2.25</b></span></div>
+                  </div>
+                  <div class="appendix-question">
+                    <strong>Q3 Effort</strong>
+                    <div class="appendix-mean baseline"><span style="--bar: 56.3%"><b>4.38</b></span></div>
+                    <div class="appendix-mean edith"><span style="--bar: 23.0%"><b>2.38</b></span></div>
+                  </div>
+                  <div class="appendix-question">
+                    <strong>Q4 Frustration</strong>
+                    <div class="appendix-mean baseline"><span style="--bar: 44.8%"><b>3.69</b></span></div>
+                    <div class="appendix-mean edith"><span style="--bar: 16.7%"><b>2.00</b></span></div>
+                  </div>
+                </article>
               </div>
             </article>
           </div>
