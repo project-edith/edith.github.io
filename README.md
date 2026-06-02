@@ -16,6 +16,7 @@ Then open `http://localhost:8000`.
 - `styles.css`: visual design and responsive layout
 - `script.js`: active navigation state and BibTeX copy button
 - `assets/hero-edith.png`: temporary hero image generated for the page
+- `assets/favicon.svg`: small browser icon
 
 ## Deployment
 
@@ -23,7 +24,7 @@ For GitHub Pages under `project-edith/edith.github.io`:
 
 ```bash
 git init
-git add README.md index.html styles.css script.js assets/hero-edith.png .nojekyll .gitignore
+git add README.md index.html styles.css script.js assets/hero-edith.png assets/favicon.svg .nojekyll .gitignore
 git commit -m "first commit"
 git branch -M main
 git remote add origin git@github.com:project-edith/edith.github.io.git
