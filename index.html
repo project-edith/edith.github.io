@@ -355,7 +355,7 @@
               <div class="chart-header">
                 <div>
                   <span>Main comparison</span>
-                  <h3>Average success rate and task progress</h3>
+                  <h3>Success rate and task progress by task</h3>
                 </div>
                 <div class="chart-legend method-legend" aria-label="Chart legend">
                   <span class="legend-lang">&pi;<sub>l</sub><sup>lang</sup></span>
@@ -366,51 +366,143 @@
               </div>
 
               <div
-                class="bar-chart"
+                class="paper-result-chart"
                 role="img"
-                aria-label="EDITH reaches 59.7 percent average success rate and 84.7 percent average task progress, outperforming three baselines."
+                aria-label="Task-level success rate and task progress. EDITH outperforms three baselines across Muffin-Serving, Tumbler-Sorting, Tool-Passing, and the average."
               >
-                <div class="chart-scale" aria-hidden="true">
+                <div class="paper-result-scale" aria-hidden="true">
                   <span>100</span>
-                  <span>75</span>
-                  <span>50</span>
-                  <span>25</span>
+                  <span>80</span>
+                  <span>60</span>
+                  <span>40</span>
+                  <span>20</span>
                   <span>0</span>
                 </div>
-                <div class="chart-plot paper-average-plot">
-                  <div class="chart-grid-lines" aria-hidden="true">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                  </div>
 
-                  <div class="metric-group" style="--i: 0">
-                    <div class="metric-bars">
-                      <span class="chart-bar method-lang" style="--value: 4.2"><b>4.2</b></span>
-                      <span class="chart-bar method-ego" style="--value: 6.4"><b>6.4</b></span>
-                      <span class="chart-bar method-hierarchy" style="--value: 9.7"><b>9.7</b></span>
-                      <span class="chart-bar method-edith" style="--value: 59.7"><b>59.7</b></span>
+                <div class="paper-task-grid">
+                  <article class="paper-task-panel">
+                    <h4>Muffin-Serving</h4>
+                    <div class="paper-panel-plot">
+                      <div class="paper-grid-lines" aria-hidden="true">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                      </div>
+                      <div class="paper-metric">
+                        <div class="paper-bars">
+                          <span class="chart-bar method-lang" style="--value: 0"><b>0.0</b></span>
+                          <span class="chart-bar method-ego" style="--value: 4.2"><b>4.2</b></span>
+                          <span class="chart-bar method-hierarchy" style="--value: 2.1"><b>2.1</b></span>
+                          <span class="chart-bar method-edith" style="--value: 50.0"><b>50.0</b></span>
+                        </div>
+                        <strong>SR (%)</strong>
+                      </div>
+                      <div class="paper-metric">
+                        <div class="paper-bars">
+                          <span class="chart-bar method-lang" style="--value: 12.2"><b>12.2</b></span>
+                          <span class="chart-bar method-ego" style="--value: 25.3"><b>25.3</b></span>
+                          <span class="chart-bar method-hierarchy" style="--value: 12.2"><b>12.2</b></span>
+                          <span class="chart-bar method-edith" style="--value: 80.6"><b>80.6</b></span>
+                        </div>
+                        <strong>TP (%)</strong>
+                      </div>
                     </div>
-                    <p>
-                      <strong>SR (%)</strong>
-                      <span>Success rate</span>
-                    </p>
-                  </div>
+                  </article>
 
-                  <div class="metric-group" style="--i: 1">
-                    <div class="metric-bars">
-                      <span class="chart-bar method-lang" style="--value: 23.2"><b>23.2</b></span>
-                      <span class="chart-bar method-ego" style="--value: 35.6"><b>35.6</b></span>
-                      <span class="chart-bar method-hierarchy" style="--value: 27.1"><b>27.1</b></span>
-                      <span class="chart-bar method-edith" style="--value: 84.7"><b>84.7</b></span>
+                  <article class="paper-task-panel">
+                    <h4>Tumbler-Sorting</h4>
+                    <div class="paper-panel-plot">
+                      <div class="paper-grid-lines" aria-hidden="true">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                      </div>
+                      <div class="paper-metric">
+                        <div class="paper-bars">
+                          <span class="chart-bar method-lang" style="--value: 0"><b>0.0</b></span>
+                          <span class="chart-bar method-ego" style="--value: 2.5"><b>2.5</b></span>
+                          <span class="chart-bar method-hierarchy" style="--value: 12.5"><b>12.5</b></span>
+                          <span class="chart-bar method-edith" style="--value: 45.8"><b>45.8</b></span>
+                        </div>
+                        <strong>SR (%)</strong>
+                      </div>
+                      <div class="paper-metric">
+                        <div class="paper-bars">
+                          <span class="chart-bar method-lang" style="--value: 26.2"><b>26.2</b></span>
+                          <span class="chart-bar method-ego" style="--value: 54.5"><b>54.5</b></span>
+                          <span class="chart-bar method-hierarchy" style="--value: 28.5"><b>28.5</b></span>
+                          <span class="chart-bar method-edith" style="--value: 83.0"><b>83.0</b></span>
+                        </div>
+                        <strong>TP (%)</strong>
+                      </div>
                     </div>
-                    <p>
-                      <strong>TP (%)</strong>
-                      <span>Task progress</span>
-                    </p>
-                  </div>
+                  </article>
+
+                  <article class="paper-task-panel">
+                    <h4>Tool-Passing</h4>
+                    <div class="paper-panel-plot">
+                      <div class="paper-grid-lines" aria-hidden="true">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                      </div>
+                      <div class="paper-metric">
+                        <div class="paper-bars">
+                          <span class="chart-bar method-lang" style="--value: 12.5"><b>12.5</b></span>
+                          <span class="chart-bar method-ego" style="--value: 12.5"><b>12.5</b></span>
+                          <span class="chart-bar method-hierarchy" style="--value: 14.6"><b>14.6</b></span>
+                          <span class="chart-bar method-edith" style="--value: 83.3"><b>83.3</b></span>
+                        </div>
+                        <strong>SR (%)</strong>
+                      </div>
+                      <div class="paper-metric">
+                        <div class="paper-bars">
+                          <span class="chart-bar method-lang" style="--value: 31.3"><b>31.3</b></span>
+                          <span class="chart-bar method-ego" style="--value: 27.0"><b>27.0</b></span>
+                          <span class="chart-bar method-hierarchy" style="--value: 40.6"><b>40.6</b></span>
+                          <span class="chart-bar method-edith" style="--value: 90.6"><b>90.6</b></span>
+                        </div>
+                        <strong>TP (%)</strong>
+                      </div>
+                    </div>
+                  </article>
+
+                  <article class="paper-task-panel paper-average-panel">
+                    <h4>Average</h4>
+                    <div class="paper-panel-plot">
+                      <div class="paper-grid-lines" aria-hidden="true">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                      </div>
+                      <div class="paper-metric">
+                        <div class="paper-bars">
+                          <span class="chart-bar method-lang" style="--value: 4.2"><b>4.2</b></span>
+                          <span class="chart-bar method-ego" style="--value: 6.4"><b>6.4</b></span>
+                          <span class="chart-bar method-hierarchy" style="--value: 9.7"><b>9.7</b></span>
+                          <span class="chart-bar method-edith" style="--value: 59.7"><b>59.7</b></span>
+                        </div>
+                        <strong>SR (%)</strong>
+                      </div>
+                      <div class="paper-metric">
+                        <div class="paper-bars">
+                          <span class="chart-bar method-lang" style="--value: 23.2"><b>23.2</b></span>
+                          <span class="chart-bar method-ego" style="--value: 35.6"><b>35.6</b></span>
+                          <span class="chart-bar method-hierarchy" style="--value: 27.1"><b>27.1</b></span>
+                          <span class="chart-bar method-edith" style="--value: 84.7"><b>84.7</b></span>
+                        </div>
+                        <strong>TP (%)</strong>
+                      </div>
+                    </div>
+                  </article>
                 </div>
               </div>
             </article>
@@ -460,18 +552,18 @@
                   <div class="workload-bars">
                     <div class="workload-row baseline">
                       <span class="workload-label">Baseline</span>
-                      <div class="workload-track">
-                        <span class="workload-bar" style="--bar: 63.8%"></span>
-                        <i style="--err-left: 56.7%; --err-width: 30%"></i>
-                        <b class="workload-value" style="--value-left: 87.5%">4.83</b>
+                      <div class="workload-track" style="--bar: 63.8%; --err-width: 30%; --value-left: 87.5%">
+                        <span class="workload-bar"></span>
+                        <i></i>
+                        <b class="workload-value">4.83</b>
                       </div>
                     </div>
                     <div class="workload-row edith">
                       <span class="workload-label">EDITH</span>
-                      <div class="workload-track">
-                        <span class="workload-bar" style="--bar: 23.5%"></span>
-                        <i style="--err-left: 16.7%; --err-width: 30%"></i>
-                        <b class="workload-value" style="--value-left: 48%">2.41</b>
+                      <div class="workload-track" style="--bar: 23.5%; --err-width: 30%; --value-left: 48%">
+                        <span class="workload-bar"></span>
+                        <i></i>
+                        <b class="workload-value">2.41</b>
                       </div>
                     </div>
                   </div>
@@ -495,18 +587,18 @@
                   <div class="workload-bars">
                     <div class="workload-row baseline">
                       <span class="workload-label">Baseline</span>
-                      <div class="workload-track">
-                        <span class="workload-bar" style="--bar: 55%"></span>
-                        <i style="--err-left: 41.7%; --err-width: 35%"></i>
-                        <b class="workload-value" style="--value-left: 78%">4.30</b>
+                      <div class="workload-track" style="--bar: 55%; --err-width: 35%; --value-left: 78%">
+                        <span class="workload-bar"></span>
+                        <i></i>
+                        <b class="workload-value">4.30</b>
                       </div>
                     </div>
                     <div class="workload-row edith">
                       <span class="workload-label">EDITH</span>
-                      <div class="workload-track">
-                        <span class="workload-bar" style="--bar: 20%"></span>
-                        <i style="--err-left: 13.3%; --err-width: 28.3%"></i>
-                        <b class="workload-value" style="--value-left: 43%">2.20</b>
+                      <div class="workload-track" style="--bar: 20%; --err-width: 28.3%; --value-left: 43%">
+                        <span class="workload-bar"></span>
+                        <i></i>
+                        <b class="workload-value">2.20</b>
                       </div>
                     </div>
                   </div>
@@ -527,7 +619,6 @@
                 </div>
               </div>
             </article>
-
             <article class="chart-panel insight-chart" data-animate>
               <div class="chart-header">
                 <div>
