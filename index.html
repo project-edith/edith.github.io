@@ -18,7 +18,7 @@
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
     <link rel="preload" as="image" href="assets/hero-edith.png">
     <link rel="preload" as="video" href="assets/videos/main.mp4" type="video/mp4">
-    <link rel="stylesheet" href="styles.css?v=equal-contribution-20260602">
+    <link rel="stylesheet" href="styles.css?v=section-title-labels-20260602">
   </head>
   <body class="classic-project-page">
     <main id="top">
@@ -87,8 +87,7 @@
 
         <div class="section-inner summary-grid">
           <article>
-            <p class="section-kicker">Abstract</p>
-            <h2>EDITH grounds robot policies in verbal and egocentric human signals.</h2>
+            <h2>Abstract</h2>
             <p>
               For natural human-robot interaction, a robot must understand human
               intent expressed not only through language but also through nonverbal
@@ -115,8 +114,10 @@
             </p>
           </article>
           <article class="approach-overview">
-            <p class="section-kicker">Approach Overview</p>
-            <h2>EDITH converts verbal and egocentric human signals into executable subtasks.</h2>
+            <h2>Approach Overview</h2>
+            <p class="section-lede">
+              EDITH converts verbal and egocentric human signals into executable subtasks.
+            </p>
             <figure class="overview-figure-frame">
               <img
                 src="assets/overview_figure.png"
@@ -124,50 +125,18 @@
               >
             </figure>
           </article>
-          <dl class="quick-facts">
-            <div>
-              <dt>Human Signals</dt>
-              <dd>First-person view, gaze, and speech from smart glasses</dd>
-            </div>
-            <div>
-              <dt>Policy</dt>
-              <dd>High-level VLM planner plus low-level VLA executor</dd>
-            </div>
-            <div>
-              <dt>Evaluation</dt>
-              <dd>3 HRI tasks, 48 trials per task per method</dd>
-            </div>
-          </dl>
-        </div>
-
-        <div class="section-inner contribution-grid" aria-label="Core paper contributions">
-          <article>
-            <span>01</span>
-            <h3>Natural interface</h3>
-            <p>Humans can say short phrases such as "this one" while gaze or gestures specify the target.</p>
-          </article>
-          <article>
-            <span>02</span>
-            <h3>Instruction-keyframe subtasks</h3>
-            <p>Each subtask pairs a fine-grained instruction with a keyframe that grounds the nonverbal cue.</p>
-          </article>
-          <article>
-            <span>03</span>
-            <h3>Asynchronous hierarchy</h3>
-            <p>The high-level policy appends subtasks to Q while the low-level policy executes the queue.</p>
-          </article>
         </div>
       </section>
 
       <section class="section method-section" id="method">
         <div class="section-inner">
           <div class="section-heading wide">
-            <p class="section-kicker">Method</p>
-            <h2>Hardware streams feed a hierarchical policy.</h2>
+            <h2>Method</h2>
             <p>
-              The method follows the paper's Section 3: EDITH first captures
+              Hardware streams feed a hierarchical policy. EDITH first captures
               human signals through smart glasses, then runs a high-level policy
-              and low-level policy asynchronously through a shared task queue.
+              and low-level policy asynchronously through a shared task queue,
+              following the paper's Section 3.
             </p>
           </div>
 
@@ -318,8 +287,10 @@
       <section class="section task-section" id="tasks">
         <div class="section-inner">
           <div class="section-heading wide">
-            <p class="section-kicker">Evaluation Tasks</p>
-            <h2>Three tasks require grounding underspecified language in nonverbal signals.</h2>
+            <h2>Evaluation Tasks</h2>
+            <p class="section-lede">
+              Three tasks require grounding underspecified language in nonverbal signals.
+            </p>
             <p>
               In each task, the language instruction is intentionally incomplete:
               the robot must interpret gaze or pointing gestures to identify the
@@ -370,8 +341,10 @@
       <section class="section result-section" id="results">
         <div class="section-inner">
           <div class="section-heading wide">
-            <p class="section-kicker">Results</p>
-            <h2>EDITH improves task success while reducing the user's instruction burden.</h2>
+            <h2>Results</h2>
+            <p class="section-lede">
+              EDITH improves task success while reducing the user's instruction burden.
+            </p>
             <p>
               Results are reported with success rate (SR) and task progress (TP)
               over 48 trials per task per method, plus a user study on instruction workload.
@@ -1055,8 +1028,10 @@
       <section class="section demo-section" id="demos">
         <div class="section-inner">
           <div class="section-heading wide">
-            <p class="section-kicker">Qualitative Demos</p>
-            <h2>Interactive videos show how EDITH uses egocentric signals during collaboration.</h2>
+            <h2>Qualitative Demos</h2>
+            <p class="section-lede">
+              Interactive videos show how EDITH uses egocentric signals during collaboration.
+            </p>
             <p>
               The demo viewer appears before evaluation so visitors can inspect
               the interactions before reading the task and result sections.
@@ -1069,9 +1044,7 @@
                 <p class="section-kicker" id="task-counter">Task 01 / 03</p>
                 <h3 id="task-title">Muffin Serving</h3>
               </div>
-              <p id="task-description">
-                Compare the language-only TextVLA baseline against EDITH on the same task.
-              </p>
+              <p id="task-description" hidden></p>
             </div>
 
             <div class="task-carousel-viewport">
@@ -1182,8 +1155,8 @@
       <section class="section resource-section" id="resources">
         <div class="section-inner">
           <div class="section-heading wide">
-            <p class="section-kicker">Resources</p>
-            <h2>Paper assets and release links.</h2>
+            <h2>Resources</h2>
+            <p class="section-lede">Paper assets and release links.</p>
           </div>
           <div class="resource-list" aria-label="Release resources">
             <a href="#resources" aria-disabled="true">
@@ -1209,11 +1182,10 @@
       <section class="section citation-section" id="citation">
         <div class="section-inner split">
           <div>
-            <p class="section-kicker">Citation</p>
-            <h2>BibTeX</h2>
+            <h2>Citation</h2>
             <p>
-              Replace this entry with the official citation after the paper is
-              accepted or uploaded.
+              BibTeX entry placeholder. Replace this entry with the official
+              citation after the paper is accepted or uploaded.
             </p>
           </div>
           <div class="citation-box">

@@ -396,6 +396,13 @@ section[id] {
   width: min(920px, 100%);
 }
 
+.section-lede {
+  margin: 0 0 14px;
+  font-size: 18px;
+  font-weight: 650;
+  line-height: 1.45;
+}
+
 .summary-grid p,
 .section-heading p,
 .demo-caption p,
@@ -3401,6 +3408,12 @@ pre {
   font-size: clamp(26px, 3vw, 36px);
   font-weight: 700;
   line-height: 1.2;
+}
+
+.classic-project-page .section-lede {
+  color: #333333;
+  font-size: 18px;
+  font-weight: 500;
 }
 
 .classic-project-page h3 {
