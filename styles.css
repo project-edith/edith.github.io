@@ -3510,6 +3510,13 @@ pre {
   background: #ffffff;
 }
 
+@media (max-width: 1280px) {
+  .classic-project-page .hero-player video {
+    object-fit: contain;
+    object-position: center;
+  }
+}
+
 @media (max-width: 980px) {
   .classic-project-page .architecture-canvas {
     left: auto;
@@ -3532,12 +3539,42 @@ pre {
     display: none;
   }
 
+  .classic-project-page .hero {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    min-height: auto;
+    overflow: visible;
+  }
+
+  .classic-project-page .hero::before {
+    display: none;
+  }
+
+  .classic-project-page .hero-player {
+    position: relative;
+    inset: auto;
+    order: 1;
+    aspect-ratio: 16 / 9;
+    height: auto;
+    overflow: hidden;
+  }
+
+  .classic-project-page .hero-player video {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+  }
+
   .classic-project-page .hero-content {
-    right: 0;
-    bottom: 118px;
+    position: relative;
+    order: 2;
+    right: auto;
+    bottom: auto;
     left: auto;
-    width: calc(100vw - 16px);
-    padding: 22px;
+    width: 100%;
+    padding: 22px 24px 28px;
   }
 
   .classic-project-page .quick-facts,
