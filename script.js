@@ -101,7 +101,7 @@ const taskComparisons = [
     description:
       "Compare the language-only TextVLA baseline against EDITH on visually similar muffin requests.",
     text: {
-      src: "assets/videos/muffin_text.mp4",
+      src: "assets/videos/muffin_textvla.mp4",
       poster: "assets/posters/muffin-text.jpg",
     },
     edith: {
@@ -114,7 +114,7 @@ const taskComparisons = [
     description:
       "Compare tool-passing behavior when language alone is underspecified versus EDITH with gaze grounding.",
     text: {
-      src: "assets/videos/passing_tool_text.mp4",
+      src: "assets/videos/passing_tool_textvla.mp4",
       poster: "assets/posters/passing-tool-text.jpg",
     },
     edith: {
@@ -127,7 +127,7 @@ const taskComparisons = [
     description:
       "Compare the text-only sorting instruction against EDITH's egocentric and nonverbal grounding.",
     text: {
-      src: "assets/videos/tumbler_text.mp4",
+      src: "assets/videos/tumbler_text_vla.mp4",
       poster: "assets/posters/tumbler-text.jpg",
     },
     edith: {
