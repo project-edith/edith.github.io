@@ -200,6 +200,7 @@ const taskComparisons = [
 ];
 
 const taskTrack = document.querySelector("#task-slide-track");
+const taskCarousel = document.querySelector(".task-carousel");
 const taskSlides = [...document.querySelectorAll(".task-slide")];
 const taskCounter = document.querySelector("#task-counter");
 const taskTitle = document.querySelector("#task-title");
@@ -207,9 +208,12 @@ const taskDescription = document.querySelector("#task-description");
 const taskPrev = document.querySelector("#task-prev");
 const taskNext = document.querySelector("#task-next");
 const taskDots = document.querySelector("#task-dots");
+const taskAudioToggle = document.querySelector("#task-audio-toggle");
+const taskAudioLabel = taskAudioToggle?.querySelector("[data-task-audio-label]");
 let activeTaskIndex = 0;
 let playbackToken = 0;
 let playbackRestartTimer = 0;
+let taskAudioEnabled = false;
 
 function updateTaskTrackPosition() {
   if (!taskTrack || !taskSlides.length) return;
@@ -217,6 +221,34 @@ function updateTaskTrackPosition() {
   const trackStyle = getComputedStyle(taskTrack);
   const gap = parseFloat(trackStyle.columnGap || trackStyle.gap || "0") || 0;
   taskTrack.style.transform = `translateX(${-activeTaskIndex * (slideWidth + gap)}px)`;
+}
+
+function scrollWithoutSmooth(deltaY) {
+  if (Math.abs(deltaY) < 1) return;
+
+  const root = document.documentElement;
+  const previousScrollBehavior = root.style.scrollBehavior;
+  root.style.scrollBehavior = "auto";
+  window.scrollBy(0, deltaY);
+  root.style.scrollBehavior = previousScrollBehavior;
+}
+
+function preserveTaskCarouselScroll(update) {
+  const previousTop = taskCarousel?.getBoundingClientRect().top;
+  update();
+
+  if (typeof previousTop !== "number") return;
+
+  const restorePosition = () => {
+    const nextTop = taskCarousel?.getBoundingClientRect().top;
+    if (typeof nextTop !== "number") return;
+    scrollWithoutSmooth(nextTop - previousTop);
+  };
+
+  window.requestAnimationFrame(() => {
+    restorePosition();
+    window.requestAnimationFrame(restorePosition);
+  });
 }
 
 function resetTaskVideo(video) {
@@ -232,7 +264,41 @@ function resetTaskVideo(video) {
 
 function playTaskVideo(video) {
   if (!video) return;
+  video.muted = !taskAudioEnabled;
+  video.volume = taskAudioEnabled ? 1 : 0;
   video.play().catch(() => {});
+}
+
+function syncTaskAudioState() {
+  taskSlides.forEach((slide) => {
+    slide.querySelectorAll("video").forEach((video) => {
+      video.muted = !taskAudioEnabled;
+      video.volume = taskAudioEnabled ? 1 : 0;
+    });
+  });
+
+  if (taskAudioToggle) {
+    taskAudioToggle.setAttribute("aria-pressed", String(taskAudioEnabled));
+    taskAudioToggle.setAttribute(
+      "aria-label",
+      taskAudioEnabled ? "Turn task video sound off" : "Turn task video sound on",
+    );
+    taskAudioToggle.classList.toggle("is-on", taskAudioEnabled);
+  }
+
+  if (taskAudioLabel) {
+    taskAudioLabel.textContent = taskAudioEnabled ? "Sound on" : "Sound off";
+  }
+}
+
+function setTaskAudioEnabled(isEnabled) {
+  taskAudioEnabled = isEnabled;
+  syncTaskAudioState();
+
+  const activeVideo = taskSlides[activeTaskIndex]?.querySelector(".comparison-panel.is-playing video");
+  if (taskAudioEnabled && activeVideo) {
+    activeVideo.play().catch(() => {});
+  }
 }
 
 function playCurrentTaskSequence() {
@@ -338,21 +404,35 @@ function setTaskComparison(index) {
   playCurrentTaskSequence();
 }
 
-taskPrev?.addEventListener("click", () => {
-  setTaskComparison(activeTaskIndex - 1);
-});
-
-taskNext?.addEventListener("click", () => {
-  setTaskComparison(activeTaskIndex + 1);
-});
-
-taskDots?.querySelectorAll("[data-task-index]").forEach((button) => {
-  button.addEventListener("click", () => {
-    setTaskComparison(Number(button.dataset.taskIndex));
+taskPrev?.addEventListener("click", (event) => {
+  event.preventDefault();
+  preserveTaskCarouselScroll(() => {
+    setTaskComparison(activeTaskIndex - 1);
   });
 });
 
+taskNext?.addEventListener("click", (event) => {
+  event.preventDefault();
+  preserveTaskCarouselScroll(() => {
+    setTaskComparison(activeTaskIndex + 1);
+  });
+});
+
+taskDots?.querySelectorAll("[data-task-index]").forEach((button) => {
+  button.addEventListener("click", (event) => {
+    event.preventDefault();
+    preserveTaskCarouselScroll(() => {
+      setTaskComparison(Number(button.dataset.taskIndex));
+    });
+  });
+});
+
+taskAudioToggle?.addEventListener("click", () => {
+  setTaskAudioEnabled(!taskAudioEnabled);
+});
+
 if (taskTrack && taskSlides.length) {
+  syncTaskAudioState();
   setTaskComparison(activeTaskIndex);
   window.addEventListener("resize", updateTaskTrackPosition);
 }
@@ -368,22 +448,121 @@ const methodFigureNotes = {
   signals: {
     title: "Human Signals",
     text:
-      "EDITH reads recent first-person context C<sup>ego</sup><sub>t-H:t</sub> and speech &ell;<sub>t-H:t</sub>, with gaze overlaid on the RGB stream to expose nonverbal target cues.",
+      `<div class="method-signal-demo">
+        <video class="method-note-video" autoplay muted loop playsinline preload="metadata" aria-label="Egocentric input stream with gaze and speech">
+          <source src="assets/videos/ego_input.mp4" type="video/mp4">
+        </video>
+      </div>
+      <p>
+        EDITH reads recent first-person context C<sup>ego</sup><sub>t-H:t</sub>
+        and speech &ell;<sub>t-H:t</sub>, with gaze overlaid on the RGB stream
+        to expose nonverbal target cues.
+      </p>`,
   },
   "high-level": {
     title: "High-level Policy",
     text:
-      "&pi;<sub>h</sub> periodically infers intent from the human signal window and outputs subtasks ([TASK]<sub>i</sub>, C<sup>key</sup><sub>i</sub>), pairing each fine-grained instruction with the keyframe where the cue is clearest.",
+      `<div class="high-level-keyframe-demo">
+        <figure class="high-level-input-video">
+          <video data-keyframe-video autoplay muted loop playsinline preload="metadata" aria-label="Egocentric input stream used by the high-level policy">
+            <source src="assets/videos/ego_input.mp4" type="video/mp4">
+          </video>
+          <figcaption>Human signal stream</figcaption>
+        </figure>
+        <div class="subtask-board" aria-label="Generated subtasks">
+          <h4>Subtasks</h4>
+          <article class="subtask-card" data-keyframe-time="3">
+            <div class="subtask-keyframe">
+              <span>Keyframe C<sup>key</sup><sub>1</sub></span>
+              <img src="assets/keyframe1.png" alt="Keyframe for screwdriver request">
+            </div>
+            <div class="subtask-task">
+              <span>[TASK]<sub>1</sub></span>
+              <p>Pick up the screwdriver and pass it to human.</p>
+            </div>
+          </article>
+          <article class="subtask-card" data-keyframe-time="10">
+            <div class="subtask-keyframe">
+              <span>Keyframe C<sup>key</sup><sub>2</sub></span>
+              <img src="assets/keyframe2.png" alt="Keyframe for metal profile request">
+            </div>
+            <div class="subtask-task">
+              <span>[TASK]<sub>2</sub></span>
+              <p>Pick up the 10 cm metal profile.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+      <p>
+        &pi;<sub>h</sub> periodically infers intent from the human signal window
+        and generates instruction-keyframe subtasks when the relevant nonverbal
+        cue appears in the stream.
+      </p>`,
   },
   queue: {
     title: "Task Queue",
     text:
-      "Q connects the planner and executor asynchronously: &pi;<sub>h</sub> appends newly identified subtasks while &pi;<sub>l</sub> executes the subtask at the head of the queue.",
+      `<div class="task-queue-demo" aria-label="Task queue animation">
+        <div class="queue-flow-stage">
+          <div class="queue-target-panel">
+            <div class="queue-panel-header">
+              <span>Task Queue Q</span>
+              <strong>asynchronous subtask buffer</strong>
+            </div>
+            <div class="queue-stack" aria-hidden="true">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+            <article class="queue-existing-task">
+              <div class="queue-thumb-placeholder"></div>
+              <div class="queue-task-text">
+                <span>[TASK]</span>
+                <p>Pick up the bolt.</p>
+              </div>
+            </article>
+          </div>
+
+          <div class="queue-source-subtasks" aria-label="Subtasks appended to Task Q">
+            <h4>Subtasks</h4>
+            <div class="queue-source-card queue-source-card-one">
+              <div class="queue-source-keyframe">
+                <span>Keyframe C<sup>key</sup><sub>1</sub></span>
+                <img src="assets/keyframe1.png" alt="Keyframe for screwdriver request">
+              </div>
+              <div class="queue-source-task">
+                <span>[TASK]<sub>1</sub></span>
+                <p>Pick up the screwdriver and pass it to human.</p>
+              </div>
+            </div>
+            <div class="queue-source-card queue-source-card-two">
+              <div class="queue-source-keyframe">
+                <span>Keyframe C<sup>key</sup><sub>2</sub></span>
+                <img src="assets/keyframe2.png" alt="Keyframe for metal profile request">
+              </div>
+              <div class="queue-source-task">
+                <span>[TASK]<sub>2</sub></span>
+                <p>Pick up the 10 cm metal profile.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p>
+        Q stores subtasks generated by &pi;<sub>h</sub>. As &pi;<sub>l</sub>
+        pops the current head task, the remaining tasks move up and newly
+        generated subtasks are appended to the queue.
+      </p>`,
   },
   "low-level": {
     title: "Low-level Policy",
     text:
-      "&pi;<sub>l</sub> conditions on robot observation o<sub>t</sub>, [TASK], and C<sup>key</sup> to produce action a<sub>t</sub> and completion probability p<sub>t</sub>. Once p<sub>t</sub> crosses a threshold, it pops the next subtask from Q.",
+      `<p>
+        &pi;<sub>l</sub> conditions on robot observation o<sub>t</sub>, [TASK],
+        and C<sup>key</sup> to produce action a<sub>t</sub> and completion
+        probability p<sub>t</sub>. Once p<sub>t</sub> crosses a threshold, it
+        pops the next subtask from Q.
+      </p>`,
   },
 };
 
@@ -394,6 +573,40 @@ const methodFigureNoteText = document.querySelector("#method-figure-note-text");
 const methodFigureTabs = Array.from(document.querySelectorAll("[data-method-figure-step]"));
 let methodIntroTimer = 0;
 let methodFigureStep = "low-level";
+
+function setupMethodNoteMedia(step) {
+  if (!methodFigureNoteText) return;
+
+  methodFigureNoteText.querySelectorAll("video").forEach((video) => {
+    video.muted = true;
+    video.play().catch(() => {});
+  });
+
+  if (step !== "high-level") return;
+
+  const keyframeVideo = methodFigureNoteText.querySelector("[data-keyframe-video]");
+  const subtaskCards = Array.from(methodFigureNoteText.querySelectorAll("[data-keyframe-time]"));
+  if (!keyframeVideo || !subtaskCards.length) return;
+
+  try {
+    keyframeVideo.currentTime = 0;
+  } catch {
+    // The video may not be seekable until metadata is loaded.
+  }
+
+  const syncSubtasks = () => {
+    const currentTime = keyframeVideo.currentTime || 0;
+    subtaskCards.forEach((card) => {
+      const keyframeTime = Number(card.dataset.keyframeTime);
+      card.classList.toggle("is-generated", currentTime >= keyframeTime);
+    });
+  };
+
+  keyframeVideo.addEventListener("loadedmetadata", syncSubtasks);
+  keyframeVideo.addEventListener("timeupdate", syncSubtasks);
+  keyframeVideo.addEventListener("seeked", syncSubtasks);
+  syncSubtasks();
+}
 
 function setMethodFigure(step, options = {}) {
   const src = methodFigures[step];
@@ -415,6 +628,7 @@ function setMethodFigure(step, options = {}) {
   if (note && methodFigureNoteTitle && methodFigureNoteText) {
     methodFigureNoteTitle.textContent = note.title;
     methodFigureNoteText.innerHTML = note.text;
+    setupMethodNoteMedia(step);
   }
 
   const updateImage = () => {

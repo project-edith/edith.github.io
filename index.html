@@ -18,7 +18,7 @@
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
     <link rel="preload" as="image" href="assets/hero-edith.png">
     <link rel="preload" as="video" href="assets/videos/main.mp4" type="video/mp4">
-    <link rel="stylesheet" href="styles.css?v=results-detail-toggle-20260602">
+    <link rel="stylesheet" href="styles.css?v=method-queue-mobile-flow-20260603">
   </head>
   <body class="classic-project-page">
     <main id="top">
@@ -162,14 +162,14 @@
                     <source src="assets/videos/glass.mp4" type="video/mp4">
                   </video>
                   <figcaption>
-                    Capturing human signals via smart glasses.
+                    Capturing human signals via smartglasses.
                   </figcaption>
                 </figure>
                 <figure class="hardware-video-card">
                   <video autoplay muted loop playsinline preload="metadata">
                     <source src="assets/videos/robot.mp4" type="video/mp4">
                   </video>
-                  <figcaption>Dual arm Robot</figcaption>
+                  <figcaption>Dual robot arm</figcaption>
                 </figure>
               </div>
               <div class="hardware-signal-note">
@@ -262,12 +262,14 @@
                   <p class="method-figure-note-title" id="method-figure-note-title">
                     Low-level Policy
                   </p>
-                  <p id="method-figure-note-text">
-                    &pi;<sub>l</sub> conditions on robot observation o<sub>t</sub>,
-                    [TASK], and C<sup>key</sup> to produce action a<sub>t</sub>
-                    and completion probability p<sub>t</sub>. Once p<sub>t</sub>
-                    crosses a threshold, it pops the next subtask from Q.
-                  </p>
+                  <div class="method-figure-note-body" id="method-figure-note-text">
+                    <p>
+                      &pi;<sub>l</sub> conditions on robot observation o<sub>t</sub>,
+                      [TASK], and C<sup>key</sup> to produce action a<sub>t</sub>
+                      and completion probability p<sub>t</sub>. Once p<sub>t</sub>
+                      crosses a threshold, it pops the next subtask from Q.
+                    </p>
+                  </div>
                 </div>
               </div>
             </article>
@@ -1038,6 +1040,15 @@
               <div>
                 <p class="section-kicker" id="task-counter">Task 01 / 03</p>
                 <h3 id="task-title">Muffin-Serving</h3>
+                <button
+                  class="task-audio-toggle"
+                  id="task-audio-toggle"
+                  type="button"
+                  aria-label="Turn task video sound on"
+                  aria-pressed="false"
+                >
+                  <span data-task-audio-label>Sound off</span>
+                </button>
               </div>
               <p id="task-description" hidden></p>
             </div>
@@ -1203,6 +1214,6 @@
       <p><span id="year">2026</span></p>
     </footer>
 
-    <script src="script.js?v=policy-inline-links-20260602"></script>
+    <script src="script.js?v=method-queue-mobile-flow-20260603"></script>
   </body>
 </html>
