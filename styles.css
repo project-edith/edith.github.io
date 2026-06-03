@@ -2174,6 +2174,29 @@ section[id] {
   padding: 4px 0 2px;
 }
 
+.robustness-demo-video {
+  display: grid;
+  gap: 10px;
+  margin: 0 0 22px;
+}
+
+.robustness-demo-video video {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 4px;
+  background: #000000;
+  object-fit: cover;
+}
+
+.robustness-demo-video figcaption {
+  color: #333333;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.35;
+  text-align: center;
+}
+
 .robustness-metric {
   min-width: 300px;
 }
@@ -2628,6 +2651,27 @@ section[id] {
   overflow: visible;
 }
 
+.secondary-charts > .workload-chart {
+  order: 0;
+}
+
+.secondary-charts > .user-study-detail-chart {
+  grid-column: 1 / -1;
+  order: 1;
+}
+
+.secondary-charts > .ablation-chart {
+  order: 2;
+}
+
+.secondary-charts > .robustness-chart {
+  order: 3;
+}
+
+.secondary-charts > .appendix-chart {
+  order: 4;
+}
+
 .workload-bar-chart {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -2797,6 +2841,17 @@ section[id] {
 
 .workload-legend .edith::before {
   background: var(--paper-edith);
+}
+
+.workload-detail-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.detail-toggle-button {
+  min-height: 40px;
+  padding: 0 18px;
 }
 
 .js-enabled .workload-bar {

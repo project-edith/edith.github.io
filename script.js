@@ -449,6 +449,18 @@ document.querySelectorAll("[data-method-figure-link]").forEach((button) => {
   });
 });
 
+document.querySelectorAll("[data-detail-toggle]").forEach((button) => {
+  button.addEventListener("click", () => {
+    const target = document.querySelector(button.dataset.detailToggle);
+    if (!target) return;
+
+    const isExpanded = button.getAttribute("aria-expanded") === "true";
+    target.hidden = isExpanded;
+    button.setAttribute("aria-expanded", String(!isExpanded));
+    button.textContent = isExpanded ? "More detail results" : "Hide detail results";
+  });
+});
+
 if (methodFigureImage && methodFigureTabs.length) {
   setMethodFigure(methodFigureStep, { instant: true });
   methodIntroTimer = window.setTimeout(() => {

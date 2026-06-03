@@ -18,7 +18,7 @@
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
     <link rel="preload" as="image" href="assets/hero-edith.png">
     <link rel="preload" as="video" href="assets/videos/main.mp4" type="video/mp4">
-    <link rel="stylesheet" href="styles.css?v=policy-inline-links-20260602">
+    <link rel="stylesheet" href="styles.css?v=results-detail-toggle-20260602">
   </head>
   <body class="classic-project-page">
     <main id="top">
@@ -142,8 +142,7 @@
             <p>
               Hardware streams feed a hierarchical policy. EDITH first captures
               human signals through smart glasses, then runs a high-level policy
-              and low-level policy asynchronously through a shared task queue,
-              following the paper's Section 3.
+              and low-level policy asynchronously through a shared task queue.
             </p>
           </div>
 
@@ -557,6 +556,17 @@
                   <span class="edith">EDITH</span>
                 </div>
               </div>
+              <div class="workload-detail-actions">
+                <button
+                  class="button detail-toggle-button"
+                  type="button"
+                  aria-controls="workload-detail-results"
+                  aria-expanded="false"
+                  data-detail-toggle="#workload-detail-results"
+                >
+                  More detail results
+                </button>
+              </div>
             </article>
             <article class="chart-panel ablation-chart" data-animate>
               <div class="chart-header">
@@ -671,6 +681,13 @@
                 </div>
               </div>
 
+              <figure class="robustness-demo-video">
+                <video autoplay muted loop playsinline preload="metadata" aria-label="EDITH running under distracting human activity">
+                  <source src="assets/videos/edith_distraction.mp4" type="video/mp4">
+                </video>
+                <figcaption>EDITH under distracting human activity.</figcaption>
+              </figure>
+
               <div class="robustness-paper-chart" role="img" aria-label="Figure 9 style robustness to distraction on Muffin-Serving.">
                 <article class="robustness-metric">
                   <h4>Success Rate (%)</h4>
@@ -699,10 +716,10 @@
             <article class="chart-panel appendix-chart" data-animate>
               <div class="chart-header">
                 <div>
-                  <span>Appendix A</span>
+                  <span>Additional comparison</span>
                   <h3>EDITH surpasses fully specified language.</h3>
                 </div>
-                <div class="chart-legend method-legend" aria-label="Appendix fully specified legend">
+                <div class="chart-legend method-legend" aria-label="Fully specified language comparison legend">
                   <span class="legend-ablation">&pi;<sub>l</sub><sup>lang</sup> fully specified</span>
                   <span class="legend-edith">EDITH</span>
                 </div>
@@ -711,7 +728,7 @@
               <div
                 class="paper-result-chart paper-three-panel paper-two-method"
                 role="img"
-                aria-label="Appendix Figure 10 style comparison to fully specified language."
+                aria-label="Comparison to fully specified language."
               >
                 <div class="paper-result-scale" aria-hidden="true">
                   <span>100</span><span>80</span><span>60</span><span>40</span><span>20</span><span>0</span>
@@ -749,10 +766,10 @@
             <article class="chart-panel appendix-chart" data-animate>
               <div class="chart-header">
                 <div>
-                  <span>Appendix A</span>
+                  <span>Egocentric context</span>
                   <h3>Egocentric context is necessary for grounding.</h3>
                 </div>
-                <div class="chart-legend method-legend" aria-label="Appendix egocentric context legend">
+                <div class="chart-legend method-legend" aria-label="Egocentric context ablation legend">
                   <span class="legend-ablation">EDITH w/o egocentric context</span>
                   <span class="legend-edith">EDITH</span>
                 </div>
@@ -761,7 +778,7 @@
               <div
                 class="paper-result-chart paper-three-panel paper-two-method"
                 role="img"
-                aria-label="Appendix Figure 11 style egocentric context ablation."
+                aria-label="Egocentric context ablation."
               >
                 <div class="paper-result-scale" aria-hidden="true">
                   <span>100</span><span>80</span><span>60</span><span>40</span><span>20</span><span>0</span>
@@ -796,16 +813,16 @@
               </div>
             </article>
 
-            <article class="chart-panel appendix-workload-chart" data-animate>
+            <article class="chart-panel appendix-workload-chart user-study-detail-chart" id="workload-detail-results" hidden>
               <div class="chart-header">
                 <div>
-                  <span>Appendix D</span>
+                  <span>User study details</span>
                   <h3>Per-item workload also drops across tasks.</h3>
                 </div>
                 <strong>Lower workload is better</strong>
               </div>
 
-              <div class="likert-distribution-chart" role="img" aria-label="Appendix Figure 21 distribution of 7-point Likert workload responses for Serving Muffins and Passing Tools.">
+              <div class="likert-distribution-chart" role="img" aria-label="Distribution of 7-point Likert workload responses for Serving Muffins and Passing Tools.">
                 <article class="likert-task">
                   <h4>Serving Muffins</h4>
                   <div class="likert-header" aria-hidden="true">
