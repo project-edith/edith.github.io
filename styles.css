@@ -1702,6 +1702,72 @@ section[id] {
   background: #111111;
 }
 
+.detail-results-modal {
+  width: min(1120px, calc(100vw - 32px));
+  max-height: min(88vh, 920px);
+  padding: 0;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+}
+
+.detail-results-modal::backdrop {
+  background: rgba(0, 0, 0, 0.48);
+}
+
+.detail-results-modal-panel {
+  position: relative;
+  display: grid;
+  gap: 16px;
+  max-height: min(88vh, 920px);
+  padding: 22px;
+  border: 1px solid #d9d9d9;
+  background: #ffffff;
+  overflow: auto;
+}
+
+.detail-results-modal-panel h3 {
+  margin: 0;
+  padding-right: 42px;
+  color: #111111;
+  font-size: 24px;
+  line-height: 1.15;
+}
+
+.detail-results-modal-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  display: grid;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  place-items: center;
+  border: 1px solid #d0d0d0;
+  border-radius: 50%;
+  color: #111111;
+  background: #ffffff;
+  cursor: pointer;
+  font-size: 22px;
+  line-height: 1;
+}
+
+.detail-results-modal-close:hover,
+.detail-results-modal-close:focus-visible {
+  color: #ffffff;
+  background: #111111;
+}
+
+.detail-results-modal-body .chart-panel {
+  padding: 0;
+  border: 0;
+  box-shadow: none;
+}
+
+.detail-results-modal-body .chart-header {
+  padding-right: 42px;
+}
+
 .hardware-video-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -2720,7 +2786,7 @@ section[id] {
 }
 
 .result-narrative span,
-.chart-header span {
+.chart-header > div > span {
   color: var(--teal);
   font-size: 13px;
   font-weight: 900;
@@ -2779,6 +2845,32 @@ section[id] {
   margin: 6px 0 0;
 }
 
+.result-section .chart-header > div > span {
+  display: block;
+  color: #111111;
+  font-size: clamp(24px, 2.4vw, 32px);
+  font-weight: 800;
+  line-height: 1.12;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.result-section .performance-chart .chart-header > div > span {
+  font-size: clamp(30px, 3vw, 38px);
+}
+
+.result-section .chart-header h3 {
+  margin-top: 6px;
+  color: #333333;
+  font-size: 16px;
+  font-weight: 550;
+  line-height: 1.35;
+}
+
+.result-section .performance-chart .chart-header h3 {
+  font-size: 18px;
+}
+
 .chart-header strong {
   padding: 8px 12px;
   border-radius: 999px;
@@ -2799,6 +2891,9 @@ section[id] {
   position: relative;
   padding-left: 18px;
   color: var(--muted-ink);
+  font-size: 13px;
+  font-weight: 760;
+  line-height: 1.2;
   text-transform: none;
   white-space: nowrap;
 }
@@ -4898,9 +4993,27 @@ pre {
   align-items: flex-start;
 }
 
+.classic-project-page .result-section .chart-header > div > span {
+  color: #111111;
+  font-size: clamp(24px, 2.4vw, 32px);
+  font-weight: 800;
+  line-height: 1.12;
+  text-transform: none;
+}
+
+.classic-project-page .result-section .performance-chart .chart-header > div > span {
+  font-size: clamp(30px, 3vw, 38px);
+}
+
 .classic-project-page .chart-header h3 {
-  font-size: 22px;
-  font-weight: 700;
+  color: #333333;
+  font-size: 16px;
+  font-weight: 550;
+  line-height: 1.35;
+}
+
+.classic-project-page .result-section .performance-chart .chart-header h3 {
+  font-size: 18px;
 }
 
 .classic-project-page .bar-chart {

@@ -883,16 +883,57 @@ noisyModal?.addEventListener("close", () => {
   noisyModalVideo?.pause();
 });
 
+const detailResultsModal = document.querySelector("#detail-results-modal");
+const detailResultsModalBody = detailResultsModal?.querySelector("[data-detail-modal-body]");
+const detailResultsModalClose = detailResultsModal?.querySelector("[data-detail-modal-close]");
+let activeDetailToggle = null;
+
+function closeDetailResultsModal() {
+  if (!detailResultsModal) return;
+
+  if (typeof detailResultsModal.close === "function") {
+    detailResultsModal.close();
+  } else {
+    detailResultsModal.removeAttribute("open");
+    detailResultsModal.dispatchEvent(new Event("close"));
+  }
+}
+
 document.querySelectorAll("[data-detail-toggle]").forEach((button) => {
   button.addEventListener("click", () => {
     const target = document.querySelector(button.dataset.detailToggle);
-    if (!target) return;
+    if (!target || !detailResultsModal || !detailResultsModalBody) return;
 
-    const isExpanded = button.getAttribute("aria-expanded") === "true";
-    target.hidden = isExpanded;
-    button.setAttribute("aria-expanded", String(!isExpanded));
-    button.textContent = isExpanded ? "More detail results" : "Hide detail results";
+    const detailClone = target.cloneNode(true);
+    detailClone.removeAttribute("id");
+    detailClone.removeAttribute("hidden");
+    detailClone.hidden = false;
+    detailClone.classList.add("is-visible");
+
+    detailResultsModalBody.replaceChildren(detailClone);
+    activeDetailToggle = button;
+    button.setAttribute("aria-expanded", "true");
+
+    if (typeof detailResultsModal.showModal === "function") {
+      detailResultsModal.showModal();
+    } else {
+      detailResultsModal.setAttribute("open", "");
+    }
+
+    typesetMath(detailResultsModalBody);
   });
+});
+
+detailResultsModalClose?.addEventListener("click", closeDetailResultsModal);
+
+detailResultsModal?.addEventListener("click", (event) => {
+  if (event.target === detailResultsModal) closeDetailResultsModal();
+});
+
+detailResultsModal?.addEventListener("close", () => {
+  activeDetailToggle?.setAttribute("aria-expanded", "false");
+  activeDetailToggle = null;
+  detailResultsModalBody?.replaceChildren();
 });
 
 if (methodFigureImage && methodFigureTabs.length) {
