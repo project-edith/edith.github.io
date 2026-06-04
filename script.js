@@ -208,12 +208,14 @@ const taskDescription = document.querySelector("#task-description");
 const taskPrev = document.querySelector("#task-prev");
 const taskNext = document.querySelector("#task-next");
 const taskDots = document.querySelector("#task-dots");
+const evaluationTaskGrid = document.querySelector(".demo-section .task-grid");
+const evaluationTaskScrollCue = document.querySelector(".task-scroll-cue");
 const taskAudioToggle = document.querySelector("#task-audio-toggle");
 const taskAudioLabel = taskAudioToggle?.querySelector("[data-task-audio-label]");
 let activeTaskIndex = 0;
 let playbackToken = 0;
 let playbackRestartTimer = 0;
-let taskAudioEnabled = false;
+let taskAudioEnabled = true;
 
 function updateTaskTrackPosition() {
   if (!taskTrack || !taskSlides.length) return;
@@ -221,6 +223,25 @@ function updateTaskTrackPosition() {
   const trackStyle = getComputedStyle(taskTrack);
   const gap = parseFloat(trackStyle.columnGap || trackStyle.gap || "0") || 0;
   taskTrack.style.transform = `translateX(${-activeTaskIndex * (slideWidth + gap)}px)`;
+}
+
+function updateEvaluationTaskScrollCue() {
+  if (!evaluationTaskGrid || !evaluationTaskScrollCue) return;
+
+  const cueTrack = evaluationTaskScrollCue.querySelector("span");
+  if (!cueTrack) return;
+
+  const maxScroll = evaluationTaskGrid.scrollWidth - evaluationTaskGrid.clientWidth;
+  evaluationTaskScrollCue.classList.toggle("is-hidden", maxScroll <= 1);
+  if (maxScroll <= 1) return;
+
+  const trackWidth = cueTrack.getBoundingClientRect().width;
+  const thumbWidth = Math.max(18, Math.round(trackWidth * (evaluationTaskGrid.clientWidth / evaluationTaskGrid.scrollWidth)));
+  const progress = evaluationTaskGrid.scrollLeft / maxScroll;
+  const thumbX = Math.round((trackWidth - thumbWidth) * progress);
+
+  evaluationTaskScrollCue.style.setProperty("--task-scroll-thumb-width", `${thumbWidth}px`);
+  evaluationTaskScrollCue.style.setProperty("--task-scroll-thumb-x", `${thumbX}px`);
 }
 
 function scrollWithoutSmooth(deltaY) {
@@ -437,14 +458,30 @@ if (taskTrack && taskSlides.length) {
   window.addEventListener("resize", updateTaskTrackPosition);
 }
 
+if (evaluationTaskGrid && evaluationTaskScrollCue) {
+  updateEvaluationTaskScrollCue();
+  evaluationTaskGrid.addEventListener("scroll", updateEvaluationTaskScrollCue, { passive: true });
+  window.addEventListener("resize", updateEvaluationTaskScrollCue);
+  window.addEventListener("load", updateEvaluationTaskScrollCue);
+}
+
 const methodFigures = {
+  overall: "assets/figure_policy_input_output_0.png",
   signals: "assets/figure_policy_input_output_1.png",
-  "high-level": "assets/figure_policy_input_output_2.png",
-  queue: "assets/figure_policy_input_output_3.png",
-  "low-level": "assets/figure_policy_input_output_4.png",
+  "high-level": "assets/high_level_policy_edith_animation.gif",
+  "low-level": "assets/low_level_policy_updated.gif",
 };
 
 const methodFigureNotes = {
+  overall: {
+    title: "Overall Design",
+    text:
+      `<p>
+        EDITH converts verbal instructions and egocentric context into
+        instruction-keyframe subtasks, stores them in \\(Q\\), and executes
+        each subtask with the robot policy.
+      </p>`,
+  },
   signals: {
     title: "Human Signals",
     text:
@@ -454,8 +491,8 @@ const methodFigureNotes = {
         </video>
       </div>
       <p>
-        EDITH reads recent first-person context C<sup>ego</sup><sub>t-H:t</sub>
-        and speech &ell;<sub>t-H:t</sub>, with gaze overlaid on the RGB stream
+        EDITH reads recent first-person context \\(C_{t-H:t}^{\\mathrm{ego}}\\)
+        and speech \\(\\ell_{t-H:t}\\), with gaze overlaid on the RGB stream
         to expose nonverbal target cues.
       </p>`,
   },
@@ -473,40 +510,36 @@ const methodFigureNotes = {
           <h4>Subtasks</h4>
           <article class="subtask-card" data-keyframe-time="3">
             <div class="subtask-keyframe">
-              <span>Keyframe C<sup>key</sup><sub>1</sub></span>
+              <span>Keyframe \\(C_1^{\\mathrm{key}}\\)</span>
               <img src="assets/keyframe1.png" alt="Keyframe for screwdriver request">
             </div>
             <div class="subtask-task">
-              <span>[TASK]<sub>1</sub></span>
+              <span>\\([\\mathrm{TASK}]_1\\)</span>
               <p>Pick up the screwdriver and pass it to human.</p>
             </div>
           </article>
           <article class="subtask-card" data-keyframe-time="10">
             <div class="subtask-keyframe">
-              <span>Keyframe C<sup>key</sup><sub>2</sub></span>
+              <span>Keyframe \\(C_2^{\\mathrm{key}}\\)</span>
               <img src="assets/keyframe2.png" alt="Keyframe for metal profile request">
             </div>
             <div class="subtask-task">
-              <span>[TASK]<sub>2</sub></span>
+              <span>\\([\\mathrm{TASK}]_2\\)</span>
               <p>Pick up the 10 cm metal profile.</p>
             </div>
           </article>
         </div>
       </div>
       <p>
-        &pi;<sub>h</sub> periodically infers intent from the human signal window
+        \\(\\pi_h\\) periodically infers intent from the human signal window
         and generates instruction-keyframe subtasks when the relevant nonverbal
         cue appears in the stream.
-      </p>`,
-  },
-  queue: {
-    title: "Task Queue",
-    text:
-      `<div class="task-queue-demo" aria-label="Task queue animation">
+      </p>
+      <div class="task-queue-demo" aria-label="Task queue animation">
         <div class="queue-flow-stage">
           <div class="queue-target-panel">
             <div class="queue-panel-header">
-              <span>Task Queue Q</span>
+              <span>Task Queue \\(Q\\)</span>
               <strong>asynchronous subtask buffer</strong>
             </div>
             <div class="queue-stack" aria-hidden="true">
@@ -517,7 +550,7 @@ const methodFigureNotes = {
             <article class="queue-existing-task">
               <div class="queue-thumb-placeholder"></div>
               <div class="queue-task-text">
-                <span>[TASK]</span>
+                <span>\\([\\mathrm{TASK}]\\)</span>
                 <p>Pick up the bolt.</p>
               </div>
             </article>
@@ -527,21 +560,21 @@ const methodFigureNotes = {
             <h4>Subtasks</h4>
             <div class="queue-source-card queue-source-card-one">
               <div class="queue-source-keyframe">
-                <span>Keyframe C<sup>key</sup><sub>1</sub></span>
+                <span>Keyframe \\(C_1^{\\mathrm{key}}\\)</span>
                 <img src="assets/keyframe1.png" alt="Keyframe for screwdriver request">
               </div>
               <div class="queue-source-task">
-                <span>[TASK]<sub>1</sub></span>
+                <span>\\([\\mathrm{TASK}]_1\\)</span>
                 <p>Pick up the screwdriver and pass it to human.</p>
               </div>
             </div>
             <div class="queue-source-card queue-source-card-two">
               <div class="queue-source-keyframe">
-                <span>Keyframe C<sup>key</sup><sub>2</sub></span>
+                <span>Keyframe \\(C_2^{\\mathrm{key}}\\)</span>
                 <img src="assets/keyframe2.png" alt="Keyframe for metal profile request">
               </div>
               <div class="queue-source-task">
-                <span>[TASK]<sub>2</sub></span>
+                <span>\\([\\mathrm{TASK}]_2\\)</span>
                 <p>Pick up the 10 cm metal profile.</p>
               </div>
             </div>
@@ -549,7 +582,7 @@ const methodFigureNotes = {
         </div>
       </div>
       <p>
-        Q stores subtasks generated by &pi;<sub>h</sub>. As &pi;<sub>l</sub>
+        \\(Q\\) stores subtasks generated by \\(\\pi_h\\). As \\(\\pi_l\\)
         pops the current head task, the remaining tasks move up and newly
         generated subtasks are appended to the queue.
       </p>`,
@@ -558,11 +591,35 @@ const methodFigureNotes = {
     title: "Low-level Policy",
     text:
       `<p>
-        &pi;<sub>l</sub> conditions on robot observation o<sub>t</sub>, [TASK],
-        and C<sup>key</sup> to produce action a<sub>t</sub> and completion
-        probability p<sub>t</sub>. Once p<sub>t</sub> crosses a threshold, it
-        pops the next subtask from Q.
-      </p>`,
+        \\(\\pi_l\\) conditions on robot observation \\(o_t\\), \\([\\mathrm{TASK}]\\),
+        and \\(C^{\\mathrm{key}}\\) to produce action \\(a_t\\) and completion
+        probability \\(p_t\\). Once \\(p_t\\) crosses a threshold, it
+        pops the next subtask from \\(Q\\).
+      </p>
+      <div class="low-level-policy-demo" data-low-level-policy-demo>
+        <div class="low-level-input-row" aria-label="Low-level policy inputs">
+          <article class="low-level-subtask-card subtask-card is-generated" aria-label="Current low-level subtask">
+            <div class="subtask-keyframe low-level-subtask-keyframe">
+              <span data-low-level-keyframe-label>Keyframe C<sup>key</sup><sub>1</sub></span>
+              <img data-low-level-keyframe src="assets/keyframe1.png" alt="Current keyframe input 1">
+            </div>
+            <div class="subtask-task low-level-subtask-task">
+              <span data-low-level-task-label>[TASK]<sub>1</sub></span>
+              <p data-low-level-task>Pick up the screwdriver and pass it to human.</p>
+            </div>
+          </article>
+          <figure class="low-level-center-demo">
+            <video class="low-level-center-video" data-low-level-observation autoplay muted loop playsinline preload="metadata" aria-label="Robot observation video for the low-level policy">
+              <source src="assets/videos/low_center_rgb_top.mp4" type="video/mp4">
+            </video>
+            <figcaption>Robot obs.</figcaption>
+          </figure>
+        </div>
+        <div class="low-level-action-stream" aria-label="Robot action stream">
+          <p>Robot Action \\(a_t\\)</p>
+          <pre data-low-level-action>loading action</pre>
+        </div>
+      </div>`,
   },
 };
 
@@ -571,16 +628,131 @@ const methodFigureStage = document.querySelector(".method-figure-stage");
 const methodFigureNoteTitle = document.querySelector("#method-figure-note-title");
 const methodFigureNoteText = document.querySelector("#method-figure-note-text");
 const methodFigureTabs = Array.from(document.querySelectorAll("[data-method-figure-step]"));
-let methodIntroTimer = 0;
-let methodFigureStep = "low-level";
+let methodFigureStep = "overall";
+let lowLevelPolicyFrameRequest = null;
+
+function typesetMath(root = document.body) {
+  if (!window.MathJax?.typesetPromise) return;
+
+  window.MathJax.typesetPromise([root]).catch(() => {});
+}
+
+function stopLowLevelPolicyDemo() {
+  if (!lowLevelPolicyFrameRequest) return;
+
+  window.cancelAnimationFrame(lowLevelPolicyFrameRequest);
+  lowLevelPolicyFrameRequest = null;
+}
+
+function formatLowLevelAction(action) {
+  if (!Array.isArray(action) || !action.length) return "[action unavailable]";
+
+  const values = action.map((value) => Number(value).toFixed(6));
+  if (values.length <= 4) return `[${values.join(", ")}]`;
+
+  return `[${values.slice(0, 2).join(", ")}, ..., ${values.slice(-2).join(", ")}]`;
+}
+
+function setupLowLevelPolicyDemo() {
+  const demo = methodFigureNoteText?.querySelector("[data-low-level-policy-demo]");
+  if (!demo) return;
+
+  const video = demo.querySelector("[data-low-level-observation]");
+  const actionOutput = demo.querySelector("[data-low-level-action]");
+  const keyframeImage = demo.querySelector("[data-low-level-keyframe]");
+  const keyframeLabel = demo.querySelector("[data-low-level-keyframe-label]");
+  const taskLabel = demo.querySelector("[data-low-level-task-label]");
+  const taskText = demo.querySelector("[data-low-level-task]");
+  const actionData = window.EDITH_LOW_LEVEL_ACTIONS;
+  const actions = actionData?.values || [];
+  const fps = actionData?.fps || 15;
+  const completionTime = 8;
+
+  if (!video || !actionOutput || !actions.length) return;
+
+  let lastFrameIndex = -1;
+  let lastKeyframeIndex = -1;
+
+  const syncOutputs = () => {
+    const currentTime = video.currentTime || 0;
+    const fallbackDuration = actions.length / fps;
+    const videoDuration =
+      Number.isFinite(video.duration) && video.duration > 0 ? video.duration : fallbackDuration;
+    const frameIndex = Math.min(
+      actions.length - 1,
+      Math.max(0, Math.floor((currentTime / videoDuration) * actions.length)),
+    );
+    const keyframeIndex = currentTime >= completionTime ? 2 : 1;
+
+    if (frameIndex !== lastFrameIndex) {
+      actionOutput.textContent = formatLowLevelAction(actions[frameIndex]);
+      lastFrameIndex = frameIndex;
+    }
+
+    if (keyframeIndex !== lastKeyframeIndex) {
+      if (keyframeImage) {
+        keyframeImage.src = keyframeIndex === 2 ? "assets/keyframe2.png" : "assets/keyframe1.png";
+        keyframeImage.alt = `Current keyframe input ${keyframeIndex}`;
+      }
+
+      if (keyframeLabel) {
+        keyframeLabel.innerHTML = `Keyframe C<sup>key</sup><sub>${keyframeIndex}</sub>`;
+      }
+
+      if (taskLabel) {
+        taskLabel.innerHTML = `[TASK]<sub>${keyframeIndex}</sub>`;
+      }
+
+      if (taskText) {
+        taskText.textContent =
+          keyframeIndex === 2
+            ? "Pick up the 10 cm metal profile."
+            : "Pick up the screwdriver and pass it to human.";
+      }
+
+      lastKeyframeIndex = keyframeIndex;
+    }
+  };
+
+  const tick = () => {
+    syncOutputs();
+    lowLevelPolicyFrameRequest = window.requestAnimationFrame(tick);
+  };
+
+  try {
+    video.currentTime = 0;
+  } catch {
+    // The video may not be seekable until metadata is loaded.
+  }
+
+  video.addEventListener("loadedmetadata", syncOutputs);
+  video.addEventListener("timeupdate", syncOutputs);
+  video.addEventListener("seeked", syncOutputs);
+  video.addEventListener("ended", () => {
+    video.currentTime = 0;
+    syncOutputs();
+    video.play().catch(() => {});
+  });
+
+  syncOutputs();
+  video.play().catch(() => {});
+  tick();
+}
 
 function setupMethodNoteMedia(step) {
   if (!methodFigureNoteText) return;
+
+  stopLowLevelPolicyDemo();
 
   methodFigureNoteText.querySelectorAll("video").forEach((video) => {
     video.muted = true;
     video.play().catch(() => {});
   });
+
+  if (step === "low-level") {
+    setupLowLevelPolicyDemo();
+    return;
+  }
 
   if (step !== "high-level") return;
 
@@ -612,11 +784,6 @@ function setMethodFigure(step, options = {}) {
   const src = methodFigures[step];
   if (!src || !methodFigureImage) return;
 
-  if (methodIntroTimer) {
-    window.clearTimeout(methodIntroTimer);
-    methodIntroTimer = 0;
-  }
-
   methodFigureStep = step;
   methodFigureTabs.forEach((button) => {
     const isActive = button.dataset.methodFigureStep === step;
@@ -629,6 +796,7 @@ function setMethodFigure(step, options = {}) {
     methodFigureNoteTitle.textContent = note.title;
     methodFigureNoteText.innerHTML = note.text;
     setupMethodNoteMedia(step);
+    typesetMath(methodFigureNoteText);
   }
 
   const updateImage = () => {
@@ -663,6 +831,44 @@ document.querySelectorAll("[data-method-figure-link]").forEach((button) => {
   });
 });
 
+const noisyModal = document.querySelector("#noisy-modal");
+const noisyModalVideo = noisyModal?.querySelector("video");
+const noisyModalOpen = document.querySelector("[data-noisy-modal-open]");
+const noisyModalClose = noisyModal?.querySelector("[data-noisy-modal-close]");
+
+function openNoisyModal() {
+  if (!noisyModal) return;
+
+  if (typeof noisyModal.showModal === "function") {
+    noisyModal.showModal();
+  } else {
+    noisyModal.setAttribute("open", "");
+  }
+
+  noisyModalVideo?.play().catch(() => {});
+}
+
+function closeNoisyModal() {
+  if (!noisyModal) return;
+
+  if (typeof noisyModal.close === "function") {
+    noisyModal.close();
+  } else {
+    noisyModal.removeAttribute("open");
+  }
+}
+
+noisyModalOpen?.addEventListener("click", openNoisyModal);
+noisyModalClose?.addEventListener("click", closeNoisyModal);
+
+noisyModal?.addEventListener("click", (event) => {
+  if (event.target === noisyModal) closeNoisyModal();
+});
+
+noisyModal?.addEventListener("close", () => {
+  noisyModalVideo?.pause();
+});
+
 document.querySelectorAll("[data-detail-toggle]").forEach((button) => {
   button.addEventListener("click", () => {
     const target = document.querySelector(button.dataset.detailToggle);
@@ -677,9 +883,6 @@ document.querySelectorAll("[data-detail-toggle]").forEach((button) => {
 
 if (methodFigureImage && methodFigureTabs.length) {
   setMethodFigure(methodFigureStep, { instant: true });
-  methodIntroTimer = window.setTimeout(() => {
-    setMethodFigure("signals");
-  }, 1300);
 }
 
 document.querySelectorAll("[data-video-sequence]").forEach((video) => {
