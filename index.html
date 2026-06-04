@@ -18,7 +18,7 @@
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
     <link rel="preload" as="image" href="assets/hero-edith.png">
     <link rel="preload" as="video" href="assets/videos/main.mp4" type="video/mp4">
-    <link rel="stylesheet" href="styles.css?v=detail-results-modal-20260604">
+    <link rel="stylesheet" href="styles.css?v=analysis-answer-label-20260604">
     <script>
       window.MathJax = {
         tex: {
@@ -190,7 +190,7 @@
                   focused. Together, these streams provide cues for a robot policy to
                   infer the human's underlying intent and needs.
                 </p>
-                <p><strong>Capturing human signals via smart glasses.</strong></p>
+                <p><strong>Capturing human signals via smartglasses.</strong></p>
                 <p>
                   Using
                   <a href="https://www.projectaria.com/" target="_blank" rel="noreferrer">Project Aria glasses</a>,
@@ -312,16 +312,15 @@
             <article class="chart-panel performance-chart">
               <div class="chart-header">
                 <div>
-                  <span>Main Comparison</span>
-                  <h3>Success rate and task progress by task</h3>
-                </div>
-                <div class="chart-legend method-legend" aria-label="Chart legend">
-                  <span class="legend-lang">\(\pi_l^{\mathrm{lang}}\)</span>
-                  <span class="legend-ego">\(\pi_l^{\mathrm{ego+lang}}\)</span>
-                  <span class="legend-hierarchy">\(\pi_h^{\mathrm{lang}} + \pi_l^{\mathrm{lang}}\)</span>
-                  <span class="legend-edith">EDITH</span>
+                  <span>Main Results</span>
                 </div>
               </div>
+
+              <p class="main-results-claim">
+                EDITH achieves 59.7% average success rate and 84.7% task
+                progress by translating nonverbal human signals into
+                keyframe-grounded subtasks.
+              </p>
 
               <div
                 class="paper-result-chart"
@@ -463,41 +462,97 @@
                   </article>
                 </div>
               </div>
+              <div class="chart-legend method-legend" aria-label="Chart legend">
+                <span class="legend-lang">\(\pi_l^{\mathrm{lang}}\)</span>
+                <span class="legend-ego">\(\pi_l^{\mathrm{ego+lang}}\)</span>
+                <span class="legend-hierarchy">\(\pi_h^{\mathrm{lang}} + \pi_l^{\mathrm{lang}}\)</span>
+                <span class="legend-edith">EDITH</span>
+              </div>
+              <div class="main-results-analysis-copy">
+                <p>
+                  Language-only baselines, \(\pi_l^{\mathrm{lang}}\) and
+                  \(\pi_h^{\mathrm{lang}} + \pi_l^{\mathrm{lang}}\), do not use
+                  egocentric context and
+                  <strong class="result-inline-detail">
+                    perform poorly<button
+                      class="result-poorly-detail-button"
+                      type="button"
+                      aria-label="Open fully specified language comparison"
+                      aria-controls="fully-specified-detail-results"
+                      aria-expanded="false"
+                      data-detail-toggle="#fully-specified-detail-results"
+                      data-detail-title="Additional Analysis"
+                    >+</button>
+                  </strong>,
+                  highlighting the importance of egocentric context for grounding
+                  nonverbal intent.
+                </p>
+                <p>
+                  Directly conditioning an end-to-end policy on the current
+                  egocentric context yields inconsistent benefits: it helps only
+                  when gaze remains on the target, but degrades when attention is
+                  intermittent. EDITH handles both cases more consistently by
+                  monitoring intent separately through the high-level policy.
+                </p>
+              </div>
             </article>
-
-            <aside class="result-narrative">
-              <span>Average over 3 tasks</span>
-              <h3>EDITH separates intent inference from robot control.</h3>
-              <p>
-                The high-level VLM builds instruction-keyframe subtasks from
-                egocentric human signals, while the low-level VLA executes each
-                queued subtask with robot observations.
-              </p>
-              <dl>
-                <div>
-                  <dt>59.7%</dt>
-                  <dd>Average SR</dd>
-                </div>
-                <div>
-                  <dt>84.7%</dt>
-                  <dd>Average TP</dd>
-                </div>
-                <div>
-                  <dt>48</dt>
-                  <dd>Trials per task per method</dd>
-                </div>
-              </dl>
-            </aside>
           </div>
 
           <div class="secondary-charts">
             <article class="chart-panel workload-chart" data-animate>
               <div class="chart-header">
                 <div>
-                  <span>User Study</span>
+                  <div class="user-study-title-row">
+                    <span>User Study</span>
+                    <button
+                      class="detail-inline-button"
+                      type="button"
+                      aria-label="Open detailed user study results"
+                      aria-controls="workload-detail-results"
+                      aria-expanded="false"
+                      data-detail-toggle="#workload-detail-results"
+                      data-detail-title="User Study Details"
+                    >
+                      +
+                    </button>
+                  </div>
                   <h3>Instruction workload drops with EDITH</h3>
                 </div>
-                <strong>p &lt; 0.001</strong>
+              </div>
+
+              <div class="user-study-participants" data-user-study-carousel>
+                <div class="user-study-participants-copy">
+                  <span>
+                    We conducted the user study with 16 participants to evaluate
+                    the workload of conveying intent to the robot. The study was
+                    IRB-approved.
+                  </span>
+                </div>
+                <div class="user-study-carousel-viewport" aria-label="User study participant examples">
+                  <div class="user-study-carousel-track">
+                    <figure class="user-study-participant">
+                      <img src="assets/user_study/user1.jpg" alt="User study participant 1" loading="lazy" decoding="async">
+                    </figure>
+                    <figure class="user-study-participant">
+                      <img src="assets/user_study/user2.jpg" alt="User study participant 2" loading="lazy" decoding="async">
+                    </figure>
+                    <figure class="user-study-participant">
+                      <img src="assets/user_study/user3.jpg" alt="User study participant 3" loading="lazy" decoding="async">
+                    </figure>
+                    <figure class="user-study-participant">
+                      <img src="assets/user_study/user4.jpg" alt="User study participant 4" loading="lazy" decoding="async">
+                    </figure>
+                    <figure class="user-study-participant">
+                      <img src="assets/user_study/user5.jpg" alt="User study participant 5" loading="lazy" decoding="async">
+                    </figure>
+                    <figure class="user-study-participant">
+                      <img src="assets/user_study/user6.jpg" alt="User study participant 6" loading="lazy" decoding="async">
+                    </figure>
+                    <figure class="user-study-participant">
+                      <img src="assets/user_study/user7.jpg" alt="User study participant 7" loading="lazy" decoding="async">
+                    </figure>
+                  </div>
+                </div>
               </div>
 
               <div class="workload-bar-chart" aria-label="Instruction workload on a 7-point Likert scale. Lower is better.">
@@ -509,7 +564,6 @@
                   <h4>Muffin-Serving</h4>
                   <div class="workload-bars">
                     <div class="workload-row baseline">
-                      <span class="workload-label">Baseline</span>
                       <div class="workload-track" style="--bar: 63.8%; --err-width: 30%; --value-left: 87.5%">
                         <span class="workload-bar"></span>
                         <i></i>
@@ -517,7 +571,6 @@
                       </div>
                     </div>
                     <div class="workload-row edith">
-                      <span class="workload-label">EDITH</span>
                       <div class="workload-track" style="--bar: 23.5%; --err-width: 30%; --value-left: 48%">
                         <span class="workload-bar"></span>
                         <i></i>
@@ -544,7 +597,6 @@
                   <h4>Tool-Passing</h4>
                   <div class="workload-bars">
                     <div class="workload-row baseline">
-                      <span class="workload-label">Baseline</span>
                       <div class="workload-track" style="--bar: 55%; --err-width: 35%; --value-left: 78%">
                         <span class="workload-bar"></span>
                         <i></i>
@@ -552,7 +604,6 @@
                       </div>
                     </div>
                     <div class="workload-row edith">
-                      <span class="workload-label">EDITH</span>
                       <div class="workload-track" style="--bar: 20%; --err-width: 28.3%; --value-left: 43%">
                         <span class="workload-bar"></span>
                         <i></i>
@@ -571,32 +622,58 @@
                   </div>
                 </article>
 
+                <div class="workload-axis-title">
+                  Instruction Workload <span>(Lower is better &darr;)</span>
+                </div>
+
                 <div class="workload-legend" aria-hidden="true">
                   <span class="baseline">\(\pi_h^{\mathrm{lang}} + \pi_l^{\mathrm{lang}}\)</span>
                   <span class="edith">EDITH</span>
                 </div>
               </div>
-              <div class="workload-detail-actions">
-                <button
-                  class="button detail-toggle-button"
-                  type="button"
-                  aria-controls="workload-detail-results"
-                  aria-expanded="false"
-                  data-detail-toggle="#workload-detail-results"
-                >
-                  More detail results
-                </button>
+              <div class="workload-results-copy">
+                <p>
+                  EDITH reduces the effort users must spend to convey their intent.
+                  Compared with the \(\pi_h^{\mathrm{lang}} + \pi_l^{\mathrm{lang}}\)
+                  baseline, EDITH substantially lowers instruction workload on both
+                  Muffin-Serving and Tool-Passing, and the reduction is statistically
+                  significant (\(p &lt; 0.001\)).
+                </p>
+                <p>
+                  The baseline places much of the burden on the user: participants
+                  must verbally describe each target object precisely enough to
+                  disambiguate it, including attributes such as color, position, and
+                  surrounding objects. EDITH instead lets users pair brief utterances
+                  with nonverbal expressions such as gaze and pointing, removing the
+                  need to fully verbalize the target.
+                </p>
               </div>
             </article>
-            <article class="chart-panel ablation-chart" data-animate>
+            <div class="analysis-subsection-heading" data-animate>
+              <h3>Analysis</h3>
+              <p>
+                Following the paper structure, we analyze EDITH through question-answer studies
+                on design choices, robustness, and additional baselines.
+              </p>
+            </div>
+
+            <article class="chart-panel ablation-chart analysis-chart" data-animate>
               <div class="chart-header">
                 <div>
-                  <span>Ablation</span>
-                  <h3>Keyframes drive the gain.</h3>
-                </div>
-                <div class="chart-legend method-legend" aria-label="Ablation legend">
-                  <span class="legend-ablation">EDITH w/o \(C^{\mathrm{key}}\)</span>
-                  <span class="legend-edith">EDITH</span>
+                  <span>Q: What is the benefit of the keyframe?</span>
+                  <p class="analysis-answer">
+                    <span class="analysis-answer-label">A:</span>
+                    To isolate the keyframe's contribution, we compare EDITH with a
+                    hierarchical no-keyframe baseline: \(\pi_h\) still maps egocentric
+                    context and language into subtasks, but \(\pi_l\) receives only the
+                    subtask instruction. Removing the keyframe drops SR/TP by 49.9/51.5
+                    points on average. This happens because \(\pi_h\) can hallucinate the
+                    wrong target when verbalizing nonverbal signals, and semantically
+                    correct subtasks can be phrased in ways unseen during \(\pi_l\)'s
+                    training. Since EDITH retrieves the keyframe from the egocentric stream
+                    instead of generating it as text, it avoids both hallucination and
+                    ambiguous phrasing.
+                  </p>
                 </div>
               </div>
 
@@ -685,28 +762,31 @@
                   </article>
                 </div>
               </div>
+              <div class="chart-legend method-legend" aria-label="Ablation legend">
+                <span class="legend-ablation">EDITH w/o \(C^{\mathrm{key}}\)</span>
+                <span class="legend-edith">EDITH</span>
+              </div>
             </article>
 
-            <article class="chart-panel robustness-chart" data-animate>
+            <article class="chart-panel robustness-chart analysis-chart" data-animate>
               <div class="chart-header">
                 <div>
-                  <span>Robustness</span>
-                  <h3>Distraction remains small for EDITH.</h3>
-                </div>
-                <div class="chart-legend method-legend" aria-label="Robustness legend">
-                  <span class="legend-edith">EDITH</span>
-                  <span class="legend-edith-distract">EDITH w/ distract</span>
-                  <span class="legend-ablation">\(\pi_l^{\mathrm{ego+lang}}\)</span>
-                  <span class="legend-ablation-distract">\(\pi_l^{\mathrm{ego+lang}}\) w/ distract</span>
+                  <span>Q: How does EDITH perform when humans are distracted?</span>
+                  <p class="analysis-answer">
+                    <span class="analysis-answer-label">A:</span>
+                    In natural interaction, human attention can shift to unrelated
+                    activities such as briefly checking a phone. We test this in
+                    Muffin-Serving by having the human alternate between checking a text
+                    message and requesting muffins until all three are requested. EDITH's
+                    SR and TP remain comparable to the non-distracted setting, with only a
+                    0.5% relative drop in task progress. In contrast,
+                    \(\pi_l^{\mathrm{ego+lang}}\), which directly feeds egocentric context
+                    to an end-to-end policy, shows a 17.8% relative drop under distraction.
+                    This underscores the value of the hierarchical design, where \(\pi_h\)
+                    captures the moments when the human expresses intent.
+                  </p>
                 </div>
               </div>
-
-              <figure class="robustness-demo-video">
-                <video autoplay muted loop playsinline preload="metadata" aria-label="EDITH running under distracting human activity">
-                  <source src="assets/videos/edith_distraction.mp4" type="video/mp4">
-                </video>
-                <figcaption>EDITH under distracting human activity.</figcaption>
-              </figure>
 
               <div class="robustness-paper-chart" role="img" aria-label="Figure 9 style robustness to distraction on Muffin-Serving.">
                 <article class="robustness-metric">
@@ -731,18 +811,52 @@
                   <div class="robust-axis" aria-hidden="true"><span>0</span><span>25</span><span>50</span><span>75</span><span>100</span></div>
                 </article>
               </div>
+              <div class="chart-legend method-legend" aria-label="Robustness legend">
+                <span class="legend-edith">EDITH</span>
+                <span class="legend-edith-distract">EDITH w/ distract</span>
+                <span class="legend-ablation">\(\pi_l^{\mathrm{ego+lang}}\)</span>
+                <span class="legend-ablation-distract">\(\pi_l^{\mathrm{ego+lang}}\) w/ distract</span>
+              </div>
+              <figure class="robustness-demo-video">
+                <video autoplay muted loop playsinline preload="metadata" aria-label="EDITH running under distracting human activity">
+                  <source src="assets/videos/edith_distraction.mp4" type="video/mp4">
+                </video>
+                <figcaption>EDITH under distracting human activity.</figcaption>
+              </figure>
             </article>
 
-            <article class="chart-panel appendix-chart" data-animate>
+            <article class="chart-panel appendix-chart analysis-chart fully-specified-detail-chart" id="fully-specified-detail-results" hidden>
               <div class="chart-header">
                 <div>
-                  <span>Additional Comparison</span>
-                  <h3>EDITH surpasses fully specified language.</h3>
+                  <h3>
+                    Comparison to \(\pi_l^{\mathrm{lang}}\) provided with a
+                    fully-specified language instruction.
+                  </h3>
                 </div>
-                <div class="chart-legend method-legend" aria-label="Fully specified language comparison legend">
-                  <span class="legend-ablation">\(\pi_l^{\mathrm{lang}}\) fully specified</span>
-                  <span class="legend-edith">EDITH</span>
-                </div>
+              </div>
+
+              <div class="fully-specified-detail-copy">
+                <p>
+                  We also evaluate \(\pi_l^{\mathrm{lang}}\) with fully specified
+                  instructions that explicitly name each target object, and compare
+                  it with EDITH using underspecified language accompanied by
+                  nonverbal signals.
+                </p>
+                <p>
+                  Even without fully specified language, EDITH achieves higher
+                  success rate, showing that it effectively leverages nonverbal
+                  signals to capture human intent. In contrast,
+                  \(\pi_l^{\mathrm{lang}}\) often fails even with detailed verbal
+                  instructions because the evaluation scenes contain densely
+                  cluttered and visually similar targets.
+                </p>
+                <p>
+                  In Tool-Passing, for example, multiple screwdrivers look similar;
+                  in Muffin-Serving, muffins differ only by small toppings. Requiring
+                  users to fully verbalize these details also imposes substantial
+                  workload. EDITH matches or surpasses fully specified language
+                  without requiring that burden.
+                </p>
               </div>
 
               <div
@@ -781,73 +895,121 @@
                   </article>
                 </div>
               </div>
-            </article>
-
-            <article class="chart-panel appendix-chart" data-animate>
-              <div class="chart-header">
-                <div>
-                  <span>Egocentric Context</span>
-                  <h3>Egocentric context is necessary for grounding.</h3>
-                </div>
-                <div class="chart-legend method-legend" aria-label="Egocentric context ablation legend">
-                  <span class="legend-ablation">EDITH w/o egocentric context</span>
-                  <span class="legend-edith">EDITH</span>
-                </div>
-              </div>
-
-              <div
-                class="paper-result-chart paper-three-panel paper-two-method"
-                role="img"
-                aria-label="Egocentric context ablation."
-              >
-                <div class="paper-result-scale" aria-hidden="true">
-                  <span>100</span><span>80</span><span>60</span><span>40</span><span>20</span><span>0</span>
-                </div>
-
-                <div class="paper-task-grid">
-                  <article class="paper-task-panel">
-                    <h4>Muffin-Serving</h4>
-                    <div class="paper-panel-plot">
-                      <div class="paper-grid-lines" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
-                      <div class="paper-metric"><div class="paper-bars"><span class="chart-bar method-ablation" style="--value: 8.3"><b>8.3</b></span><span class="chart-bar method-edith" style="--value: 50.0"><b>50.0</b></span></div><strong>SR (%)</strong></div>
-                      <div class="paper-metric"><div class="paper-bars"><span class="chart-bar method-ablation" style="--value: 38.2"><b>38.2</b></span><span class="chart-bar method-edith" style="--value: 80.6"><b>80.6</b></span></div><strong>TP (%)</strong></div>
-                    </div>
-                  </article>
-                  <article class="paper-task-panel">
-                    <h4>Tumbler-Sorting</h4>
-                    <div class="paper-panel-plot">
-                      <div class="paper-grid-lines" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
-                      <div class="paper-metric"><div class="paper-bars"><span class="chart-bar method-ablation" style="--value: 30.0"><b>30.0</b></span><span class="chart-bar method-edith" style="--value: 45.8"><b>45.8</b></span></div><strong>SR (%)</strong></div>
-                      <div class="paper-metric"><div class="paper-bars"><span class="chart-bar method-ablation" style="--value: 63.5"><b>63.5</b></span><span class="chart-bar method-edith" style="--value: 83.0"><b>83.0</b></span></div><strong>TP (%)</strong></div>
-                    </div>
-                  </article>
-                  <article class="paper-task-panel">
-                    <h4>Tool-Passing</h4>
-                    <div class="paper-panel-plot">
-                      <div class="paper-grid-lines" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
-                      <div class="paper-metric"><div class="paper-bars"><span class="chart-bar method-ablation" style="--value: 8.3"><b>8.3</b></span><span class="chart-bar method-edith" style="--value: 83.3"><b>83.3</b></span></div><strong>SR (%)</strong></div>
-                      <div class="paper-metric"><div class="paper-bars"><span class="chart-bar method-ablation" style="--value: 25.0"><b>25.0</b></span><span class="chart-bar method-edith" style="--value: 90.6"><b>90.6</b></span></div><strong>TP (%)</strong></div>
-                    </div>
-                  </article>
-                </div>
+              <div class="chart-legend method-legend" aria-label="Fully specified language comparison legend">
+                <span class="legend-ablation">\(\pi_l^{\mathrm{lang}}\) fully specified</span>
+                <span class="legend-edith">EDITH</span>
               </div>
             </article>
 
             <article class="chart-panel appendix-workload-chart user-study-detail-chart" id="workload-detail-results" hidden>
-              <div class="chart-header">
-                <div>
-                  <span>User Study Details</span>
-                  <h3>Per-item workload also drops across tasks.</h3>
-                </div>
-                <strong>Lower workload is better</strong>
+              <div class="user-study-detail-summary">
+                <section>
+                  <h4>Participants</h4>
+                  <p>
+                    We recruited 16 participants (6 female, 10 male; ages 20-40).
+                    All participants were native Korean speakers with no or limited
+                    prior experience interacting with collaborative robots. Each
+                    participant was compensated 10,000 KRW for approximately 30
+                    minutes of participation.
+                  </p>
+                </section>
+
+                <section>
+                  <h4>Procedure</h4>
+                  <figure class="user-study-procedure-figure">
+                    <img src="assets/userstudy_procedure.png" alt="Overview of the user study procedure">
+                  </figure>
+                  <p>
+                    Each participant experienced both methods across the two tasks
+                    in a within-subjects design.
+                  </p>
+                  <p>
+                    <strong>Orientation.</strong> Participants first attended a brief
+                    orientation session that introduced the study purpose and procedure,
+                    then watched videos of the robot performing the tasks to become
+                    familiar with the setup. To reduce potential bias, the two methods
+                    were referred to only as color labels: System Blue for the baseline
+                    \(\pi_h^{\mathrm{lang}} + \pi_l^{\mathrm{lang}}\), and System
+                    Purple for EDITH.
+                  </p>
+                  <p>
+                    <strong>Condition-specific instructions.</strong> In the baseline
+                    condition, participants used verbal instructions alone, including
+                    attributes such as color, location, and name, without gestures or
+                    gaze. In the EDITH condition, they used brief verbal references
+                    together with nonverbal signals such as pointing gestures and gaze.
+                  </p>
+                  <p>
+                    <strong>Tasks and goal presentation.</strong> At the beginning of
+                    each trial, participants were shown a goal image. Muffin-Serving
+                    goals showed a specified muffin served on a plate, while Passing
+                    Tools goals showed an assembly instruction diagram. Goals were
+                    shown as images, not text, so participants would express intent in
+                    their own words rather than copy written instructions.
+                  </p>
+                  <p>
+                    <strong>Trials and survey.</strong> For each task-condition
+                    combination, participants performed three trials with different
+                    goals. Task and condition order were counterbalanced. After each
+                    condition, participants completed the survey, resulting in 12 trials
+                    and 4 survey responses per participant.
+                  </p>
+                </section>
+
+                <section>
+                  <h4>Survey Items</h4>
+                  <p>
+                    <strong>Instruction workload.</strong> We adapted four items
+                    corresponding to NASA-TLX dimensions relevant to our context and
+                    converted them to a 7-point Likert scale (1 = strongly disagree,
+                    7 = strongly agree). The survey was administered in Korean; we
+                    report English translations of the items below.
+                  </p>
+                  <ol>
+                    <li>Expressing my intention to the robot required a lot of mental effort.</li>
+                    <li>It was difficult to successfully convey what I wanted to the robot.</li>
+                    <li>I had to put in a lot of effort to get the robot to perform the behavior I wanted.</li>
+                    <li>I felt frustrated, annoyed, or irritated while expressing my intention to the robot.</li>
+                  </ol>
+                </section>
+
+                <section>
+                  <h4>Statistical Analysis</h4>
+                  <p>
+                    Because Likert responses may not satisfy the normality assumption,
+                    we used the Wilcoxon signed-rank test for paired comparisons
+                    between the two conditions. Effect sizes are reported as
+                    \(r = Z / \sqrt{N}\).
+                  </p>
+                </section>
+
+                <section>
+                  <h4>Survey Results</h4>
+                  <p>
+                    EDITH produced lower workload scores than the baseline on all four
+                    survey items and both tasks, with every comparison statistically
+                    significant (p &lt; 0.01). Effect sizes ranged from \(r = 0.74\) to
+                    \(0.89\), indicating large effects.
+                  </p>
+                  <p>
+                    The largest effects appeared for mental demand and successful intent
+                    conveyance, suggesting that precisely verbalizing target attributes
+                    is a major source of workload in the language-only baseline. Under
+                    EDITH, workload stayed consistently low across tasks, indicating
+                    that nonverbal cues reduced the burden of conveying intent.
+                  </p>
+                </section>
               </div>
 
+              <p class="likert-significance-note">
+                *** p &lt; 0.001, ** p &lt; 0.01.
+              </p>
               <div class="likert-distribution-chart" role="img" aria-label="Distribution of 7-point Likert workload responses for Serving Muffins and Passing Tools.">
                 <article class="likert-task">
                   <h4>Serving Muffins</h4>
                   <div class="likert-header" aria-hidden="true">
                     <span></span>
-                    <span>Number of Responses</span>
+                    <span></span>
                     <span>Mean(SD)</span>
                   </div>
 
@@ -912,13 +1074,14 @@
                   </div>
 
                   <div class="likert-count-axis" aria-hidden="true"><span>0</span><span>4</span><span>8</span><span>12</span><span>16</span></div>
+                  <div class="likert-count-axis-title">Number of Responses</div>
                 </article>
 
                 <article class="likert-task">
                   <h4>Passing Tools</h4>
                   <div class="likert-header" aria-hidden="true">
                     <span></span>
-                    <span>Number of Responses</span>
+                    <span></span>
                     <span>Mean(SD)</span>
                   </div>
 
@@ -983,6 +1146,7 @@
                   </div>
 
                   <div class="likert-count-axis" aria-hidden="true"><span>0</span><span>4</span><span>8</span><span>12</span><span>16</span></div>
+                  <div class="likert-count-axis-title">Number of Responses</div>
                 </article>
 
                 <div class="likert-legend" aria-label="Likert response scale legend">
@@ -1077,7 +1241,7 @@
                   <div class="comparison-videos">
                     <article class="comparison-panel text-panel is-playing" data-method="text">
                       <div class="comparison-label">
-                        <span>\(\pi_{0.5}\) <small>(language-conditioned policy)</small></span>
+                        <span><span class="method-symbol">&pi;<sub>0.5</sub></span><small>(language-conditioned policy)</small></span>
                         <strong>Fully-specified verbal instruction</strong>
                       </div>
                       <div class="comparison-media">
@@ -1105,7 +1269,7 @@
                   <div class="comparison-videos">
                     <article class="comparison-panel text-panel" data-method="text">
                       <div class="comparison-label">
-                        <span>\(\pi_{0.5}\) <small>(language-conditioned policy)</small></span>
+                        <span><span class="method-symbol">&pi;<sub>0.5</sub></span><small>(language-conditioned policy)</small></span>
                         <strong>Fully-specified verbal instruction</strong>
                       </div>
                       <div class="comparison-media">
@@ -1133,7 +1297,7 @@
                   <div class="comparison-videos">
                     <article class="comparison-panel text-panel" data-method="text">
                       <div class="comparison-label">
-                        <span>\(\pi_{0.5}\) <small>(language-conditioned policy)</small></span>
+                        <span><span class="method-symbol">&pi;<sub>0.5</sub></span><small>(language-conditioned policy)</small></span>
                         <strong>Fully-specified verbal instruction</strong>
                       </div>
                       <div class="comparison-media">
@@ -1256,6 +1420,6 @@
     </footer>
 
     <script src="assets/episode_000000_actions.js?v=episode-action-20260604"></script>
-    <script src="script.js?v=detail-results-modal-20260604"></script>
+    <script src="script.js?v=additional-analysis-popup-20260604"></script>
   </body>
 </html>

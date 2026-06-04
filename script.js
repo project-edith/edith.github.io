@@ -244,6 +244,70 @@ function updateEvaluationTaskScrollCue() {
   evaluationTaskScrollCue.style.setProperty("--task-scroll-thumb-x", `${thumbX}px`);
 }
 
+const resultScrollCueSelector = [
+  ".paper-result-chart",
+  ".workload-bar-chart",
+  ".robustness-paper-chart",
+  ".likert-task",
+  ".bar-chart",
+].join(",");
+const resultScrollCueReady = new WeakSet();
+
+function updateResultScrollCue(scroller, cue) {
+  if (!scroller || !cue) return;
+
+  const cueTrack = cue.querySelector("span");
+  if (!cueTrack) return;
+
+  const maxScroll = scroller.scrollWidth - scroller.clientWidth;
+  cue.classList.toggle("is-hidden", maxScroll <= 1);
+  if (maxScroll <= 1) return;
+
+  const trackWidth = cueTrack.getBoundingClientRect().width;
+  if (!trackWidth) return;
+
+  const thumbWidth = Math.max(18, Math.round(trackWidth * (scroller.clientWidth / scroller.scrollWidth)));
+  const progress = scroller.scrollLeft / maxScroll;
+  const thumbX = Math.round((trackWidth - thumbWidth) * progress);
+
+  cue.style.setProperty("--result-scroll-thumb-width", `${thumbWidth}px`);
+  cue.style.setProperty("--result-scroll-thumb-x", `${thumbX}px`);
+}
+
+function updateAllResultScrollCues(root = document) {
+  root.querySelectorAll(".result-scroll-surface").forEach((scroller) => {
+    const cue = scroller.nextElementSibling?.classList.contains("result-scroll-cue")
+      ? scroller.nextElementSibling
+      : null;
+    updateResultScrollCue(scroller, cue);
+  });
+}
+
+function setupResultScrollCues(root = document) {
+  root.querySelectorAll(resultScrollCueSelector).forEach((scroller) => {
+    scroller.classList.add("result-scroll-surface");
+
+    let cue = scroller.nextElementSibling?.classList.contains("result-scroll-cue")
+      ? scroller.nextElementSibling
+      : null;
+
+    if (!cue) {
+      cue = document.createElement("div");
+      cue.className = "result-scroll-cue";
+      cue.setAttribute("aria-hidden", "true");
+      cue.appendChild(document.createElement("span"));
+      scroller.insertAdjacentElement("afterend", cue);
+    }
+
+    if (!resultScrollCueReady.has(scroller)) {
+      resultScrollCueReady.add(scroller);
+      scroller.addEventListener("scroll", () => updateResultScrollCue(scroller, cue), { passive: true });
+    }
+
+    requestAnimationFrame(() => updateResultScrollCue(scroller, cue));
+  });
+}
+
 function scrollWithoutSmooth(deltaY) {
   if (Math.abs(deltaY) < 1) return;
 
@@ -464,6 +528,10 @@ if (evaluationTaskGrid && evaluationTaskScrollCue) {
   window.addEventListener("resize", updateEvaluationTaskScrollCue);
   window.addEventListener("load", updateEvaluationTaskScrollCue);
 }
+
+setupResultScrollCues(document.querySelector("#results") || document);
+window.addEventListener("resize", () => updateAllResultScrollCues(), { passive: true });
+window.addEventListener("load", () => updateAllResultScrollCues(), { passive: true });
 
 const methodFigures = {
   overall: "assets/figure_policy_input_output_0.png",
@@ -886,6 +954,7 @@ noisyModal?.addEventListener("close", () => {
 const detailResultsModal = document.querySelector("#detail-results-modal");
 const detailResultsModalBody = detailResultsModal?.querySelector("[data-detail-modal-body]");
 const detailResultsModalClose = detailResultsModal?.querySelector("[data-detail-modal-close]");
+const detailResultsModalTitle = detailResultsModal?.querySelector("#detail-results-modal-title");
 let activeDetailToggle = null;
 
 function closeDetailResultsModal() {
@@ -911,6 +980,9 @@ document.querySelectorAll("[data-detail-toggle]").forEach((button) => {
     detailClone.classList.add("is-visible");
 
     detailResultsModalBody.replaceChildren(detailClone);
+    if (detailResultsModalTitle) {
+      detailResultsModalTitle.textContent = button.dataset.detailTitle || "Detailed Results";
+    }
     activeDetailToggle = button;
     button.setAttribute("aria-expanded", "true");
 
@@ -921,6 +993,11 @@ document.querySelectorAll("[data-detail-toggle]").forEach((button) => {
     }
 
     typesetMath(detailResultsModalBody);
+    setupResultScrollCues(detailResultsModalBody);
+    requestAnimationFrame(() => {
+      updateAllResultScrollCues(detailResultsModalBody);
+      requestAnimationFrame(() => updateAllResultScrollCues(detailResultsModalBody));
+    });
   });
 });
 
@@ -963,6 +1040,78 @@ document.querySelectorAll("[data-video-sequence]").forEach((video) => {
 
   video.addEventListener("ended", advance);
   video.addEventListener("error", advance);
+});
+
+document.querySelectorAll("[data-user-study-carousel]").forEach((carousel) => {
+  const track = carousel.querySelector(".user-study-carousel-track");
+  const originalSlides = Array.from(track?.children || []);
+
+  if (!track || originalSlides.length < 2) return;
+
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  let slideIndex = 0;
+  let slideStep = 0;
+  let slideTimer = 0;
+
+  originalSlides.forEach((slide) => {
+    const clone = slide.cloneNode(true);
+    clone.setAttribute("aria-hidden", "true");
+    track.appendChild(clone);
+  });
+
+  const setCarouselTransform = (animate) => {
+    track.style.transition = animate
+      ? "transform 600ms cubic-bezier(0.2, 0.82, 0.2, 1)"
+      : "none";
+    track.style.transform = `translate3d(${-slideIndex * slideStep}px, 0, 0)`;
+  };
+
+  const measureCarousel = () => {
+    const firstSlide = track.children[0];
+    if (!firstSlide) return;
+
+    const trackStyle = window.getComputedStyle(track);
+    const gap = Number.parseFloat(trackStyle.columnGap || trackStyle.gap || "0") || 0;
+    slideStep = firstSlide.getBoundingClientRect().width + gap;
+    setCarouselTransform(false);
+  };
+
+  const advanceCarousel = () => {
+    if (!slideStep || reducedMotion.matches) return;
+    slideIndex += 1;
+    setCarouselTransform(true);
+  };
+
+  const startCarousel = () => {
+    if (slideTimer || reducedMotion.matches) return;
+    slideTimer = window.setInterval(advanceCarousel, 2000);
+  };
+
+  const stopCarousel = () => {
+    if (!slideTimer) return;
+    window.clearInterval(slideTimer);
+    slideTimer = 0;
+  };
+
+  track.addEventListener("transitionend", () => {
+    if (slideIndex < originalSlides.length) return;
+    slideIndex = 0;
+    setCarouselTransform(false);
+  });
+
+  window.addEventListener("resize", measureCarousel, { passive: true });
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) {
+      stopCarousel();
+    } else {
+      startCarousel();
+    }
+  });
+
+  requestAnimationFrame(() => {
+    measureCarousel();
+    startCarousel();
+  });
 });
 
 document.querySelectorAll("[data-copy]").forEach((button) => {
