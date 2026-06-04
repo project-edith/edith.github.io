@@ -597,28 +597,40 @@ const methodFigureNotes = {
         pops the next subtask from \\(Q\\).
       </p>
       <div class="low-level-policy-demo" data-low-level-policy-demo>
-        <div class="low-level-input-row" aria-label="Low-level policy inputs">
-          <article class="low-level-subtask-card subtask-card is-generated" aria-label="Current low-level subtask">
-            <div class="subtask-keyframe low-level-subtask-keyframe">
-              <span data-low-level-keyframe-label>Keyframe C<sup>key</sup><sub>1</sub></span>
-              <img data-low-level-keyframe src="assets/keyframe1.png" alt="Current keyframe input 1">
+        <section class="low-level-vla-input" aria-label="VLA input">
+          <h4>VLA Input</h4>
+          <div class="low-level-input-row">
+            <article class="low-level-subtask-card subtask-card is-generated" aria-label="Current low-level subtask">
+              <div class="subtask-keyframe low-level-subtask-keyframe">
+                <span data-low-level-keyframe-label>Keyframe C<sup>key</sup><sub>1</sub></span>
+                <img data-low-level-keyframe src="assets/keyframe1.png" alt="Current keyframe input 1">
+              </div>
+              <div class="subtask-task low-level-subtask-task">
+                <span data-low-level-task-label>[TASK]<sub>1</sub></span>
+                <p data-low-level-task>Pick up the screwdriver and pass it to human.</p>
+              </div>
+            </article>
+            <figure class="low-level-center-demo">
+              <figcaption>Robot obs.</figcaption>
+              <video class="low-level-center-video" data-low-level-observation autoplay muted loop playsinline preload="metadata" aria-label="Robot observation video for the low-level policy">
+                <source src="assets/videos/low_center_rgb_top.mp4" type="video/mp4">
+              </video>
+            </figure>
+          </div>
+        </section>
+        <section class="low-level-vla-output" aria-label="VLA output">
+          <h4>Output</h4>
+          <div class="low-level-output-row">
+            <div class="low-level-output-item low-level-action-stream">
+              <p>Robot Action \\(a_t\\)</p>
+              <pre data-low-level-action>loading action</pre>
             </div>
-            <div class="subtask-task low-level-subtask-task">
-              <span data-low-level-task-label>[TASK]<sub>1</sub></span>
-              <p data-low-level-task>Pick up the screwdriver and pass it to human.</p>
+            <div class="low-level-output-item low-level-completion-stream">
+              <p>Completion \\(p_t\\)</p>
+              <output data-low-level-completion>0</output>
             </div>
-          </article>
-          <figure class="low-level-center-demo">
-            <video class="low-level-center-video" data-low-level-observation autoplay muted loop playsinline preload="metadata" aria-label="Robot observation video for the low-level policy">
-              <source src="assets/videos/low_center_rgb_top.mp4" type="video/mp4">
-            </video>
-            <figcaption>Robot obs.</figcaption>
-          </figure>
-        </div>
-        <div class="low-level-action-stream" aria-label="Robot action stream">
-          <p>Robot Action \\(a_t\\)</p>
-          <pre data-low-level-action>loading action</pre>
-        </div>
+          </div>
+        </section>
       </div>`,
   },
 };
@@ -630,6 +642,7 @@ const methodFigureNoteText = document.querySelector("#method-figure-note-text");
 const methodFigureTabs = Array.from(document.querySelectorAll("[data-method-figure-step]"));
 let methodFigureStep = "overall";
 let lowLevelPolicyFrameRequest = null;
+const lowLevelActionDisplayIndices = [2, 9, 7, 1];
 
 function typesetMath(root = document.body) {
   if (!window.MathJax?.typesetPromise) return;
@@ -647,10 +660,11 @@ function stopLowLevelPolicyDemo() {
 function formatLowLevelAction(action) {
   if (!Array.isArray(action) || !action.length) return "[action unavailable]";
 
-  const values = action.map((value) => Number(value).toFixed(6));
-  if (values.length <= 4) return `[${values.join(", ")}]`;
+  const values = lowLevelActionDisplayIndices
+    .filter((index) => index < action.length)
+    .map((index) => `a_${index}=${Number(action[index]).toFixed(6)}`);
 
-  return `[${values.slice(0, 2).join(", ")}, ..., ${values.slice(-2).join(", ")}]`;
+  return `[${values.join(", ")}]`;
 }
 
 function setupLowLevelPolicyDemo() {
@@ -659,6 +673,7 @@ function setupLowLevelPolicyDemo() {
 
   const video = demo.querySelector("[data-low-level-observation]");
   const actionOutput = demo.querySelector("[data-low-level-action]");
+  const completionOutput = demo.querySelector("[data-low-level-completion]");
   const keyframeImage = demo.querySelector("[data-low-level-keyframe]");
   const keyframeLabel = demo.querySelector("[data-low-level-keyframe-label]");
   const taskLabel = demo.querySelector("[data-low-level-task-label]");
@@ -668,10 +683,11 @@ function setupLowLevelPolicyDemo() {
   const fps = actionData?.fps || 15;
   const completionTime = 8;
 
-  if (!video || !actionOutput || !actions.length) return;
+  if (!video || !actionOutput || !completionOutput || !actions.length) return;
 
   let lastFrameIndex = -1;
   let lastKeyframeIndex = -1;
+  let lastCompletion = -1;
 
   const syncOutputs = () => {
     const currentTime = video.currentTime || 0;
@@ -683,10 +699,17 @@ function setupLowLevelPolicyDemo() {
       Math.max(0, Math.floor((currentTime / videoDuration) * actions.length)),
     );
     const keyframeIndex = currentTime >= completionTime ? 2 : 1;
+    const completion = currentTime >= completionTime ? 1 : 0;
 
     if (frameIndex !== lastFrameIndex) {
       actionOutput.textContent = formatLowLevelAction(actions[frameIndex]);
       lastFrameIndex = frameIndex;
+    }
+
+    if (completion !== lastCompletion) {
+      completionOutput.value = String(completion);
+      completionOutput.textContent = String(completion);
+      lastCompletion = completion;
     }
 
     if (keyframeIndex !== lastKeyframeIndex) {
