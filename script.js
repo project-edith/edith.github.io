@@ -536,8 +536,8 @@ window.addEventListener("load", () => updateAllResultScrollCues(), { passive: tr
 const methodFigures = {
   overall: "assets/figure_policy_input_output_0.png",
   signals: "assets/figure_policy_input_output_1.png",
-  "high-level": "assets/high_level_policy_edith_animation.gif",
-  "low-level": "assets/low_level_policy_updated.gif",
+  "high-level": "assets/videos/high_level_policy.mp4",
+  "low-level": "assets/videos/low_level_policy_updated.mp4",
 };
 
 const methodFigureNotes = {
@@ -656,6 +656,7 @@ const methodFigureNotes = {
 };
 
 const methodFigureImage = document.querySelector("#method-figure-image");
+const methodFigureVideo = document.querySelector("#method-figure-video");
 const methodFigureStage = document.querySelector(".method-figure-stage");
 const methodFigureNoteTitle = document.querySelector("#method-figure-note-title");
 const methodFigureNoteText = document.querySelector("#method-figure-note-text");
@@ -864,7 +865,8 @@ function setupMethodNoteMedia(step) {
 
 function setMethodFigure(step, options = {}) {
   const src = methodFigures[step];
-  if (!src || !methodFigureImage) return;
+  if (!src || !methodFigureImage || !methodFigureVideo) return;
+  const isVideo = src.endsWith(".mp4");
 
   methodFigureStep = step;
   methodFigureTabs.forEach((button) => {
@@ -881,19 +883,43 @@ function setMethodFigure(step, options = {}) {
     typesetMath(methodFigureNoteText);
   }
 
-  const updateImage = () => {
-    methodFigureImage.src = src;
-    methodFigureImage.alt = `${buttonLabelForMethodFigure(step)} method figure`;
+  const updateMedia = () => {
+    const label = buttonLabelForMethodFigure(step);
+    if (isVideo) {
+      methodFigureImage.hidden = true;
+      methodFigureVideo.hidden = false;
+      if (methodFigureVideo.getAttribute("src") !== src) {
+        methodFigureVideo.src = src;
+      }
+      methodFigureVideo.setAttribute("aria-label", `${label} method video`);
+      try {
+        methodFigureVideo.currentTime = 0;
+      } catch {
+        // The video may not be seekable until metadata is loaded.
+      }
+      methodFigureVideo.play().catch(() => {});
+    } else {
+      methodFigureVideo.pause();
+      methodFigureVideo.removeAttribute("src");
+      methodFigureVideo.load();
+      methodFigureVideo.hidden = true;
+      methodFigureImage.hidden = false;
+      methodFigureImage.src = src;
+      methodFigureImage.alt = `${label} method figure`;
+    }
     methodFigureStage?.classList.remove("is-changing");
   };
 
-  if (options.instant || methodFigureImage.src.endsWith(src)) {
-    updateImage();
+  const activeSrc = isVideo
+    ? methodFigureVideo.getAttribute("src")
+    : methodFigureImage.getAttribute("src");
+  if (options.instant || activeSrc === src) {
+    updateMedia();
     return;
   }
 
   methodFigureStage?.classList.add("is-changing");
-  window.setTimeout(updateImage, 120);
+  window.setTimeout(updateMedia, 120);
 }
 
 function buttonLabelForMethodFigure(step) {

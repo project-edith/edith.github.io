@@ -1958,7 +1958,8 @@ section[id] {
   background: #ffffff;
 }
 
-.method-figure-stage img {
+.method-figure-stage img,
+.method-figure-stage video {
   display: block;
   width: 100%;
   height: auto;
@@ -1969,7 +1970,13 @@ section[id] {
   transition: opacity 180ms ease;
 }
 
-.method-figure-stage.is-changing img {
+.method-figure-stage video {
+  aspect-ratio: 2013 / 800;
+  object-fit: contain;
+}
+
+.method-figure-stage.is-changing img,
+.method-figure-stage.is-changing video {
   opacity: 0;
 }
 
