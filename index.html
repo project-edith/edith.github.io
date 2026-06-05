@@ -95,15 +95,14 @@
             <span><sup>2</sup> Seoul National University</span>
             <span><sup>3</sup> Config</span>
           </p>
-          <p class="paper-venue">Under review</p>
           <nav class="paper-links" aria-label="Project resources">
             <a href="#resources">Paper</a>
           </nav>
         </div>
 
         <div class="section-inner intro-video-block" aria-label="Introduction video">
-          <video controls muted playsinline preload="metadata" poster="assets/posters/main.jpg">
-            <source src="assets/videos/main.mp4" type="video/mp4">
+          <video controls playsinline preload="metadata">
+            <source src="assets/videos/edith_5min_presentation_final.mp4" type="video/mp4">
           </video>
         </div>
 
@@ -118,12 +117,14 @@
             </figure>
             <div class="overview-caption-grid" aria-label="Approach overview comparison">
               <p class="section-lede">
-                Language-conditioned policies require fully verbalized text,
-                which is often cumbersome and imprecise.
+                Language-conditioned policies require humans to fully verbalize
+                their intent through language, which is often cumbersome and
+                imprecise.
               </p>
               <p class="section-lede">
-                We leverage human egocentric view and gaze to capture nonverbal
-                signals for natural human-robot interaction.
+                To enable robots to understand human nonverbal signals as well,
+                we use the human's egocentric view and gaze as inputs to the
+                robot control policy.
               </p>
             </div>
           </article>
@@ -134,11 +135,6 @@
         <div class="section-inner">
           <div class="section-heading wide">
             <h2>Method</h2>
-            <p>
-              Hardware streams feed a hierarchical policy. EDITH first captures
-              human signals through smart glasses, then runs a high-level policy
-              and low-level policy asynchronously through a shared task queue.
-            </p>
           </div>
 
           <div class="method-section-stack">
@@ -219,24 +215,22 @@
                 <h3>Policy Design</h3>
               </div>
               <p class="method-subsection-copy">
-                Human signals are rich but noisy<button
+                Human signals contain rich information but are often noisy and
+                transient<button
                   class="noisy-help-button"
                   type="button"
                   data-noisy-modal-open
                   aria-label="Why are human signals noisy?"
-                >?</button>, so EDITH uses a hierarchical
-                architecture that separates <span class="text-nowrap">intent inference</span> from robot control.
-                It consists of a
+                >?</button>. To effectively process such signals, we propose a
+                hierarchical policy that decouples inferring the human's intent
+                from producing low-level actions. It consists of a
                 <button class="method-inline-step-link" type="button" data-method-figure-link="high-level">
-                  high-level planner \(\pi_h\)
+                  high-level policy \(\pi_h\)
                 </button>
                 and a
                 <button class="method-inline-step-link" type="button" data-method-figure-link="low-level">
                   low-level policy \(\pi_l\)
                 </button>.
-                The planner turns human signals into instruction-keyframe subtasks,
-                queues them in \(Q\), and the low-level policy converts each subtask
-                into robot actions.
               </p>
               <div class="method-figure-viewer">
                 <figure class="method-figure-stage">
@@ -301,6 +295,24 @@
               Results are reported with success rate (SR) and task progress (TP)
               over 48 trials per task per method, plus a user study on instruction workload.
             </p>
+          </div>
+
+          <div class="baseline-definitions" data-animate>
+            <h3>Baselines</h3>
+            <dl>
+              <div class="baseline-item">
+                <dt>\(\pi_l^{\mathrm{lang}}\)</dt>
+                <dd>\(\pi_{0.5}\) finetuned with task-specific demonstration data.</dd>
+              </div>
+              <div class="baseline-item">
+                <dt>\(\pi_h^{\mathrm{lang}} + \pi_l^{\mathrm{lang}}\)</dt>
+                <dd>Hierarchical policy employing a VLM as the high-level planner, similar to Hi Robot.</dd>
+              </div>
+              <div class="baseline-item">
+                <dt>\(\pi_l^{\mathrm{ego+lang}}\)</dt>
+                <dd>\(\pi_{0.5}\) finetuned with task-specific demonstration data, additionally conditioned on egocentric context.</dd>
+              </div>
+            </dl>
           </div>
 
           <div class="animated-results" data-animate>
@@ -646,16 +658,65 @@
             </article>
             <div class="analysis-subsection-heading" data-animate>
               <h3>Analysis</h3>
-              <p>
-                Following the paper structure, we analyze EDITH through question-answer studies
-                on design choices, robustness, and additional baselines.
-              </p>
             </div>
+
+            <article class="chart-panel robustness-chart analysis-chart" data-animate>
+              <div class="chart-header">
+                <div>
+                  <span>Q: How does EDITH perform when humans are distracted?</span>
+                  <p class="analysis-answer">
+                    <span class="analysis-answer-label">A:</span>
+                    In natural interaction, human attention can shift to unrelated
+                    activities such as briefly checking a phone. We test this in
+                    Muffin-Serving by having the human alternate between checking a text
+                    message and requesting muffins until all three are requested. EDITH's
+                    SR and TP remain comparable to the non-distracted setting, with only a
+                    0.5% relative drop in task progress.
+                  </p>
+                </div>
+              </div>
+
+              <div class="robustness-paper-chart" role="img" aria-label="Figure 9 style robustness to distraction on Muffin-Serving.">
+                <article class="robustness-metric">
+                  <h4>Success Rate (%)</h4>
+                  <div class="robustness-bars">
+                    <div class="robust-row edith"><span>EDITH</span><div class="robust-track"><i style="--value: 50.0"><b>50.0</b></i></div></div>
+                    <div class="robust-row edith distract"><span>EDITH w/ Distract</span><div class="robust-track"><i style="--value: 47.9"><b>47.9</b></i></div></div>
+                    <div class="robust-row ablation"><span>\(\pi_l^{\mathrm{ego+lang}}\)</span><div class="robust-track"><i style="--value: 4.2"><b>4.2</b></i></div></div>
+                    <div class="robust-row ablation distract"><span>\(\pi_l^{\mathrm{ego+lang}}\) w/ Distract</span><div class="robust-track"><i style="--value: 0"><b>0.0</b></i></div></div>
+                  </div>
+                  <div class="robust-axis" aria-hidden="true"><span>0</span><span>25</span><span>50</span><span>75</span><span>100</span></div>
+                </article>
+
+                <article class="robustness-metric">
+                  <h4>Task Progress (%)</h4>
+                  <div class="robustness-bars">
+                    <div class="robust-row edith"><span>EDITH</span><div class="robust-track"><i style="--value: 80.6"><b>80.6</b></i></div></div>
+                    <div class="robust-row edith distract"><span>EDITH w/ Distract</span><div class="robust-track"><i style="--value: 80.2"><b>80.2</b></i></div></div>
+                    <div class="robust-row ablation"><span>\(\pi_l^{\mathrm{ego+lang}}\)</span><div class="robust-track"><i style="--value: 25.3"><b>25.3</b></i></div></div>
+                    <div class="robust-row ablation distract"><span>\(\pi_l^{\mathrm{ego+lang}}\) w/ Distract</span><div class="robust-track"><i style="--value: 20.8"><b>20.8</b></i></div></div>
+                  </div>
+                  <div class="robust-axis" aria-hidden="true"><span>0</span><span>25</span><span>50</span><span>75</span><span>100</span></div>
+                </article>
+              </div>
+              <div class="chart-legend method-legend" aria-label="Robustness legend">
+                <span class="legend-edith">EDITH</span>
+                <span class="legend-edith-distract">EDITH w/ distract</span>
+                <span class="legend-ablation">\(\pi_l^{\mathrm{ego+lang}}\)</span>
+                <span class="legend-ablation-distract">\(\pi_l^{\mathrm{ego+lang}}\) w/ distract</span>
+              </div>
+              <figure class="robustness-demo-video">
+                <video autoplay muted loop playsinline preload="metadata" aria-label="EDITH running under distracting human activity">
+                  <source src="assets/videos/edith_distraction.mp4" type="video/mp4">
+                </video>
+                <figcaption>EDITH under distracting human activity.</figcaption>
+              </figure>
+            </article>
 
             <article class="chart-panel ablation-chart analysis-chart" data-animate>
               <div class="chart-header">
                 <div>
-                  <span>Q: What is the benefit of the keyframe?</span>
+                  <span>Q: What is the effect of using keyframe as a subtask representation?</span>
                   <p class="analysis-answer">
                     <span class="analysis-answer-label">A:</span>
                     To isolate the keyframe's contribution, we compare EDITH with a
@@ -761,63 +822,6 @@
                 <span class="legend-ablation">EDITH w/o \(C^{\mathrm{key}}\)</span>
                 <span class="legend-edith">EDITH</span>
               </div>
-            </article>
-
-            <article class="chart-panel robustness-chart analysis-chart" data-animate>
-              <div class="chart-header">
-                <div>
-                  <span>Q: How does EDITH perform when humans are distracted?</span>
-                  <p class="analysis-answer">
-                    <span class="analysis-answer-label">A:</span>
-                    In natural interaction, human attention can shift to unrelated
-                    activities such as briefly checking a phone. We test this in
-                    Muffin-Serving by having the human alternate between checking a text
-                    message and requesting muffins until all three are requested. EDITH's
-                    SR and TP remain comparable to the non-distracted setting, with only a
-                    0.5% relative drop in task progress. In contrast,
-                    \(\pi_l^{\mathrm{ego+lang}}\), which directly feeds egocentric context
-                    to an end-to-end policy, shows a 17.8% relative drop under distraction.
-                    This underscores the value of the hierarchical design, where \(\pi_h\)
-                    captures the moments when the human expresses intent.
-                  </p>
-                </div>
-              </div>
-
-              <div class="robustness-paper-chart" role="img" aria-label="Figure 9 style robustness to distraction on Muffin-Serving.">
-                <article class="robustness-metric">
-                  <h4>Success Rate (%)</h4>
-                  <div class="robustness-bars">
-                    <div class="robust-row edith"><span>EDITH</span><div class="robust-track"><i style="--value: 50.0"><b>50.0</b></i></div></div>
-                    <div class="robust-row edith distract"><span>EDITH w/ Distract</span><div class="robust-track"><i style="--value: 47.9"><b>47.9</b></i></div></div>
-                    <div class="robust-row ablation"><span>\(\pi_l^{\mathrm{ego+lang}}\)</span><div class="robust-track"><i style="--value: 4.2"><b>4.2</b></i></div></div>
-                    <div class="robust-row ablation distract"><span>\(\pi_l^{\mathrm{ego+lang}}\) w/ Distract</span><div class="robust-track"><i style="--value: 0"><b>0.0</b></i></div></div>
-                  </div>
-                  <div class="robust-axis" aria-hidden="true"><span>0</span><span>25</span><span>50</span><span>75</span><span>100</span></div>
-                </article>
-
-                <article class="robustness-metric">
-                  <h4>Task Progress (%)</h4>
-                  <div class="robustness-bars">
-                    <div class="robust-row edith"><span>EDITH</span><div class="robust-track"><i style="--value: 80.6"><b>80.6</b></i></div></div>
-                    <div class="robust-row edith distract"><span>EDITH w/ Distract</span><div class="robust-track"><i style="--value: 80.2"><b>80.2</b></i></div></div>
-                    <div class="robust-row ablation"><span>\(\pi_l^{\mathrm{ego+lang}}\)</span><div class="robust-track"><i style="--value: 25.3"><b>25.3</b></i></div></div>
-                    <div class="robust-row ablation distract"><span>\(\pi_l^{\mathrm{ego+lang}}\) w/ Distract</span><div class="robust-track"><i style="--value: 20.8"><b>20.8</b></i></div></div>
-                  </div>
-                  <div class="robust-axis" aria-hidden="true"><span>0</span><span>25</span><span>50</span><span>75</span><span>100</span></div>
-                </article>
-              </div>
-              <div class="chart-legend method-legend" aria-label="Robustness legend">
-                <span class="legend-edith">EDITH</span>
-                <span class="legend-edith-distract">EDITH w/ distract</span>
-                <span class="legend-ablation">\(\pi_l^{\mathrm{ego+lang}}\)</span>
-                <span class="legend-ablation-distract">\(\pi_l^{\mathrm{ego+lang}}\) w/ distract</span>
-              </div>
-              <figure class="robustness-demo-video">
-                <video autoplay muted loop playsinline preload="metadata" aria-label="EDITH running under distracting human activity">
-                  <source src="assets/videos/edith_distraction.mp4" type="video/mp4">
-                </video>
-                <figcaption>EDITH under distracting human activity.</figcaption>
-              </figure>
             </article>
 
             <article class="chart-panel appendix-chart analysis-chart fully-specified-detail-chart" id="fully-specified-detail-results" hidden>
@@ -1167,9 +1171,9 @@
               Three tasks require grounding underspecified language in nonverbal signals.
             </p>
             <p>
-              In each task, the language instruction is intentionally incomplete:
-              the robot must interpret gaze or pointing gestures to identify the
-              target objects and complete the requested subtasks.
+              In each task, the language instruction does not fully specify the
+              target: the robot must interpret the human's eye gaze or gestures
+              to identify the target objects and complete the requested task.
             </p>
           </div>
 
@@ -1181,8 +1185,8 @@
               <p class="metric-label">Task 01</p>
               <h3>Muffin-Serving</h3>
               <p>
-                Six muffins are densely arranged. The human requests three with
-                a single instruction while pointing at each target.
+                Six muffins are densely arranged. The human requests three
+                muffins while consecutively pointing at each one.
               </p>
             </article>
             <article class="task-card">
@@ -1203,8 +1207,9 @@
               <p class="metric-label">Task 03</p>
               <h3>Tool-Passing</h3>
               <p>
-                While assembling a metal stand, the human briefly asks for a
-                driver and a metal profile; gaze identifies the intended tools.
+                While the human is assembling something with both hands, they
+                request the tool they need through a brief utterance and a
+                glance, and the robot hands it over.
               </p>
             </article>
           </div>

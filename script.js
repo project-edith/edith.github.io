@@ -747,9 +747,10 @@ const methodFigureNotes = {
     title: "Human Signals",
     text:
       `<p>
-        EDITH reads recent first-person context \\(C_{t-H:t}^{\\mathrm{ego}}\\)
-        and speech \\(\\ell_{t-H:t}\\), with gaze overlaid on the RGB stream
-        to expose nonverbal target cues.
+        Recent windows of the human's egocentric context
+        \\(C_{t-H:t}^{\\mathrm{ego}}\\) and utterance \\(\\ell_{t-H:t}\\) are
+        read, and preprocessed into a captioned video before being fed into the
+        high-level policy (VLM).
       </p>
       <div class="method-signal-demo">
         <video class="method-note-video" autoplay muted loop playsinline preload="metadata" aria-label="Egocentric input stream with gaze and speech">
@@ -761,12 +762,16 @@ const methodFigureNotes = {
     title: "High-level Policy",
     text:
       `<p>
-        \\(\\pi_h\\) periodically infers intent from the human signal window
-        and generates instruction-keyframe subtasks when the relevant nonverbal
-        cue appears in the stream. The generated subtasks are stored in
-        \\(Q\\), an asynchronous queue consumed by \\(\\pi_l\\): once the
-        current head task is completed, \\(\\pi_l\\) pops the next subtask and
-        continues execution.
+        From the human's signals, \\(\\pi_h\\) (VLM) infers the human's intent
+        and generates subtasks, each pairing a keyframe with a subtask
+        instruction. If no specific intent is detected, it may produce no
+        subtask at all. These subtasks are pushed into the task queue \\(Q\\)
+        and are then carried out one by one by the low-level policy.
+      </p>
+      <p>
+        In parallel with the low-level policy, the high-level policy keeps
+        monitoring the human's signals periodically, and its only role is to
+        push subtasks into the queue.
       </p>
       <div class="high-level-keyframe-demo">
         <figure class="high-level-input-video">
@@ -780,7 +785,18 @@ const methodFigureNotes = {
           <article class="subtask-card" data-keyframe-time="3">
             <div class="subtask-keyframe">
               <span>Keyframe \\(C_1^{\\mathrm{key}}\\)</span>
-              <img src="assets/keyframe1.png" alt="Keyframe for screwdriver request">
+              <div class="keyframe-image">
+                <img src="assets/keyframe1.png" alt="Keyframe for screwdriver request">
+                <span class="gaze-marker" aria-hidden="true">
+                  <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="20" cy="20" r="11" fill="none" stroke="#39ff14" stroke-width="2"/>
+                    <circle cx="20" cy="20" r="8" fill="none" stroke="#ff5a1f" stroke-width="2.5"/>
+                    <line x1="20" y1="1" x2="20" y2="39" stroke="#39ff14" stroke-width="2.5"/>
+                    <line x1="1" y1="20" x2="39" y2="20" stroke="#39ff14" stroke-width="2.5"/>
+                    <circle cx="20" cy="20" r="2.3" fill="#39ff14"/>
+                  </svg>
+                </span>
+              </div>
             </div>
             <div class="subtask-task">
               <span>\\([\\mathrm{TASK}]_1\\)</span>
@@ -790,7 +806,18 @@ const methodFigureNotes = {
           <article class="subtask-card" data-keyframe-time="10">
             <div class="subtask-keyframe">
               <span>Keyframe \\(C_2^{\\mathrm{key}}\\)</span>
-              <img src="assets/keyframe2.png" alt="Keyframe for metal profile request">
+              <div class="keyframe-image">
+                <img src="assets/keyframe2.png" alt="Keyframe for metal profile request">
+                <span class="gaze-marker" aria-hidden="true">
+                  <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="20" cy="20" r="11" fill="none" stroke="#39ff14" stroke-width="2"/>
+                    <circle cx="20" cy="20" r="8" fill="none" stroke="#ff5a1f" stroke-width="2.5"/>
+                    <line x1="20" y1="1" x2="20" y2="39" stroke="#39ff14" stroke-width="2.5"/>
+                    <line x1="1" y1="20" x2="39" y2="20" stroke="#39ff14" stroke-width="2.5"/>
+                    <circle cx="20" cy="20" r="2.3" fill="#39ff14"/>
+                  </svg>
+                </span>
+              </div>
             </div>
             <div class="subtask-task">
               <span>\\([\\mathrm{TASK}]_2\\)</span>
@@ -804,10 +831,13 @@ const methodFigureNotes = {
     title: "Low-level Policy",
     text:
       `<p>
-        \\(\\pi_l\\) conditions on robot observation \\(o_t\\), \\([\\mathrm{TASK}]\\),
-        and \\(C^{\\mathrm{key}}\\) to produce action \\(a_t\\) and completion
-        probability \\(p_t\\). Once \\(p_t\\) crosses a threshold, it
-        pops the next subtask from \\(Q\\).
+        The low-level policy runs asynchronously with the high-level policy,
+        carrying out the subtasks accumulated in the queue one by one.
+        Specifically, conditioned on the robot observation \\(o_t\\) and the
+        keyframe-augmented subtask \\(([\\mathrm{TASK}], C^{\\mathrm{key}})\\),
+        it produces an action \\(a_t\\) and, at the same time, predicts whether
+        the current subtask is complete via \\(p_t\\). Once \\(p_t\\) crosses a
+        threshold, it pops the current subtask and moves on to the next one.
       </p>
       <div class="low-level-policy-demo" data-low-level-policy-demo>
         <section class="low-level-vla-input" aria-label="VLA input">

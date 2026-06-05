@@ -507,7 +507,8 @@ section[id] {
 }
 
 .demo-section .task-grid {
-  margin-bottom: 38px;
+  width: min(1000px, 100%);
+  margin: 0 auto 38px;
 }
 
 .task-scroll-cue,
@@ -1899,6 +1900,8 @@ section[id] {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 18px;
+  width: min(760px, 100%);
+  margin: 0 auto;
 }
 
 .hardware-video-card {
@@ -2342,8 +2345,8 @@ section[id] {
   background: #f8f9fb;
 }
 
-.subtask-keyframe span,
-.subtask-task span {
+.subtask-keyframe > span,
+.subtask-task > span {
   display: block;
   padding: 5px 7px;
   color: #111111;
@@ -2359,6 +2362,31 @@ section[id] {
   width: 100%;
   aspect-ratio: 1 / 1;
   object-fit: cover;
+}
+
+.keyframe-image {
+  position: relative;
+  line-height: 0;
+}
+
+.gaze-marker {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  background: none;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  line-height: 0;
+}
+
+.gaze-marker svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 0 2px rgba(57, 255, 20, 0.85));
 }
 
 .subtask-task {
@@ -3134,6 +3162,55 @@ section[id] {
   font-size: 17px;
   font-weight: 550;
   line-height: 1.45;
+}
+
+.baseline-definitions {
+  margin: 0 0 28px;
+  padding: 20px 22px;
+  border: 1px solid #dddddd;
+  background: #fafafa;
+}
+
+.baseline-definitions h3 {
+  margin: 0 0 14px;
+  color: #1a1a1a;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.baseline-definitions dl {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+}
+
+.baseline-item {
+  display: grid;
+  grid-template-columns: minmax(120px, max-content) 1fr;
+  gap: 8px 20px;
+  align-items: baseline;
+}
+
+.baseline-item dt {
+  margin: 0;
+  color: #1a1a1a;
+  font-weight: 700;
+}
+
+.baseline-item dd {
+  margin: 0;
+  color: #444444;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+@media (max-width: 620px) {
+  .baseline-item {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
 }
 
 .main-results-analysis-copy {
