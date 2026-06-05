@@ -794,6 +794,13 @@ section[id] {
   margin-left: calc(50% - 50vw);
   padding: 6px 0 28px;
   overflow: hidden;
+  cursor: grab;
+  touch-action: pan-y;
+  user-select: none;
+}
+
+.task-carousel-viewport:active {
+  cursor: grabbing;
 }
 
 .task-slide-track {
@@ -803,6 +810,10 @@ section[id] {
   padding-inline: max(24px, calc((100vw - 1180px) / 2));
   transition: transform 520ms cubic-bezier(0.2, 0.82, 0.2, 1);
   will-change: transform;
+}
+
+.task-slide-track.is-dragging {
+  transition: none;
 }
 
 .task-slide {
@@ -954,6 +965,35 @@ section[id] {
   justify-content: center;
   gap: 14px;
   margin-top: 40px;
+}
+
+.task-carousel-cue {
+  display: flex;
+  justify-content: center;
+  margin: 0 0 22px;
+}
+
+.task-carousel-cue span {
+  position: relative;
+  display: block;
+  width: 78px;
+  height: 4px;
+  border-radius: 999px;
+  background: #d8d8d8;
+  overflow: hidden;
+}
+
+.task-carousel-cue span::after {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: var(--task-carousel-thumb-width, 26px);
+  height: 100%;
+  border-radius: inherit;
+  background: #111111;
+  content: "";
+  transform: translateX(var(--task-carousel-thumb-x, 0));
+  transition: transform 220ms ease;
 }
 
 .carousel-arrow {
@@ -1958,7 +1998,8 @@ section[id] {
   background: #ffffff;
 }
 
-.method-figure-stage img {
+.method-figure-stage img,
+.method-figure-stage video {
   display: block;
   width: 100%;
   height: auto;
@@ -1969,7 +2010,16 @@ section[id] {
   transition: opacity 180ms ease;
 }
 
-.method-figure-stage.is-changing img {
+.method-figure-stage [hidden] {
+  display: none !important;
+}
+
+.method-figure-stage video {
+  object-fit: contain;
+}
+
+.method-figure-stage.is-changing img,
+.method-figure-stage.is-changing video {
   opacity: 0;
 }
 
@@ -4663,32 +4713,28 @@ pre {
   }
 
   .task-carousel-viewport {
-    width: 100%;
-    max-width: 100%;
-    margin: 0;
-    padding: 0;
-    overflow: visible;
+    width: 100vw;
+    max-width: none;
+    margin-right: calc(50% - 50vw);
+    margin-left: calc(50% - 50vw);
+    padding: 6px 0 24px;
+    overflow: hidden;
   }
 
   .task-slide-track {
-    display: block;
-    width: 100%;
-    max-width: 100%;
-    padding-inline: 0;
-    transform: none !important;
+    display: flex;
+    width: auto;
+    max-width: none;
+    padding-inline: 22px;
   }
 
   .task-slide {
-    display: none;
-    width: 100%;
+    flex-basis: calc(100vw - 44px);
+    width: auto;
     max-width: 100%;
     padding: 12px;
     opacity: 1;
     transform: none;
-  }
-
-  .task-slide.is-active {
-    display: block;
   }
 
   .comparison-label {

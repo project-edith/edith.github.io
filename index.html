@@ -30,7 +30,7 @@
     <link rel="apple-touch-icon" href="assets/icon.png?v=20260605">
     <link rel="preload" as="image" href="assets/hero-edith.png">
     <link rel="preload" as="video" href="assets/videos/main.mp4" type="video/mp4">
-    <link rel="stylesheet" href="styles.css?v=policy-gif-viewer-20260605">
+    <link rel="stylesheet" href="styles.css?v=task-carousel-drag-20260605">
     <script>
       window.MathJax = {
         tex: {
@@ -247,6 +247,16 @@
                     width="2013"
                     height="800"
                   >
+                  <video
+                    id="method-figure-video"
+                    autoplay
+                    muted
+                    loop
+                    playsinline
+                    preload="metadata"
+                    hidden
+                    aria-label="EDITH method policy video"
+                  ></video>
                 </figure>
                 <div class="method-figure-controls" role="tablist" aria-label="Method figure steps">
                   <button class="method-figure-tab is-active" type="button" data-method-figure-step="overall" role="tab" aria-selected="true">
@@ -1224,7 +1234,7 @@
               <div class="task-slide-track" id="task-slide-track" aria-label="Task video comparison">
                 <article class="task-slide is-active" data-task-index="0" aria-label="Muffin-Serving comparison">
                   <div class="comparison-videos">
-                    <article class="comparison-panel text-panel is-playing" data-method="text">
+                    <article class="comparison-panel text-panel" data-method="text">
                       <div class="comparison-label">
                         <span><span class="method-symbol">&pi;<sub>0.5</sub></span><small>(language-conditioned policy)</small></span>
                         <strong>Fully-specified verbal instruction</strong>
@@ -1306,6 +1316,9 @@
                   </div>
                 </article>
               </div>
+            </div>
+            <div class="task-carousel-cue" aria-hidden="true">
+              <span></span>
             </div>
 
             <div class="carousel-controls" aria-label="Task carousel controls">
@@ -1405,6 +1418,6 @@
     </footer>
 
     <script src="assets/episode_000000_actions.js?v=episode-action-20260604"></script>
-    <script src="script.js?v=policy-gif-viewer-20260605"></script>
+    <script src="script.js?v=task-audio-default-on-20260605"></script>
   </body>
 </html>

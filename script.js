@@ -201,6 +201,8 @@ const taskComparisons = [
 
 const taskTrack = document.querySelector("#task-slide-track");
 const taskCarousel = document.querySelector(".task-carousel");
+const taskCarouselViewport = document.querySelector(".task-carousel-viewport");
+const taskCarouselCue = document.querySelector(".task-carousel-cue");
 const taskSlides = [...document.querySelectorAll(".task-slide")];
 const taskCounter = document.querySelector("#task-counter");
 const taskTitle = document.querySelector("#task-title");
@@ -216,13 +218,46 @@ let activeTaskIndex = 0;
 let playbackToken = 0;
 let playbackRestartTimer = 0;
 let taskAudioEnabled = true;
+let isTaskCarouselInView = false;
+let taskDragState = null;
+let taskAudioPlaybackRetryQueued = false;
 
-function updateTaskTrackPosition() {
-  if (!taskTrack || !taskSlides.length) return;
+function clamp(value, min, max) {
+  return Math.min(Math.max(value, min), max);
+}
+
+function getTaskSlideStep() {
+  if (!taskTrack || !taskSlides.length) return 0;
+
   const slideWidth = taskSlides[0].getBoundingClientRect().width;
   const trackStyle = getComputedStyle(taskTrack);
   const gap = parseFloat(trackStyle.columnGap || trackStyle.gap || "0") || 0;
-  taskTrack.style.transform = `translateX(${-activeTaskIndex * (slideWidth + gap)}px)`;
+  return slideWidth + gap;
+}
+
+function updateTaskCarouselCue(visualIndex = activeTaskIndex) {
+  if (!taskCarouselCue || !taskSlides.length) return;
+
+  const cueTrack = taskCarouselCue.querySelector("span");
+  if (!cueTrack) return;
+
+  const trackWidth = cueTrack.getBoundingClientRect().width;
+  if (!trackWidth) return;
+
+  const thumbWidth = Math.max(18, Math.round(trackWidth / taskSlides.length));
+  const maxIndex = Math.max(1, taskSlides.length - 1);
+  const progress = clamp(visualIndex / maxIndex, 0, 1);
+  const thumbX = Math.round((trackWidth - thumbWidth) * progress);
+
+  taskCarouselCue.style.setProperty("--task-carousel-thumb-width", `${thumbWidth}px`);
+  taskCarouselCue.style.setProperty("--task-carousel-thumb-x", `${thumbX}px`);
+}
+
+function updateTaskTrackPosition(offset = 0) {
+  if (!taskTrack || !taskSlides.length) return;
+  const step = getTaskSlideStep();
+  taskTrack.style.transform = `translateX(${-activeTaskIndex * step + offset}px)`;
+  updateTaskCarouselCue(activeTaskIndex - (step ? offset / step : 0));
 }
 
 function updateEvaluationTaskScrollCue() {
@@ -336,6 +371,84 @@ function preserveTaskCarouselScroll(update) {
   });
 }
 
+function getBoundedTaskDragOffset(deltaX, startIndex, step) {
+  if (!step || !taskSlides.length) return 0;
+
+  const minOffset = -(taskSlides.length - 1 - startIndex) * step;
+  const maxOffset = startIndex * step;
+  if (deltaX < minOffset) return minOffset + (deltaX - minOffset) * 0.22;
+  if (deltaX > maxOffset) return maxOffset + (deltaX - maxOffset) * 0.22;
+  return deltaX;
+}
+
+function finishTaskDrag(event, isCanceled = false) {
+  if (!taskDragState || !taskTrack) return;
+
+  if (event?.pointerId === taskDragState.pointerId) {
+    try {
+      taskCarouselViewport?.releasePointerCapture?.(event.pointerId);
+    } catch {
+      // Pointer capture may already be released by the browser.
+    }
+  }
+
+  const { startIndex, startX, lastX } = taskDragState;
+  const step = getTaskSlideStep();
+  const deltaX = lastX - startX;
+  const boundedOffset = getBoundedTaskDragOffset(deltaX, startIndex, step);
+  const threshold = Math.min(150, Math.max(54, step * 0.16));
+  let nextIndex = startIndex;
+
+  if (!isCanceled) {
+    if (Math.abs(deltaX) >= threshold) {
+      nextIndex = startIndex + (deltaX < 0 ? 1 : -1);
+    } else {
+      nextIndex = Math.round(startIndex - boundedOffset / (step || 1));
+    }
+  }
+
+  nextIndex = clamp(nextIndex, 0, taskSlides.length - 1);
+  taskDragState = null;
+  taskTrack.classList.remove("is-dragging");
+
+  if (nextIndex !== activeTaskIndex) {
+    preserveTaskCarouselScroll(() => setTaskComparison(nextIndex));
+  } else {
+    updateTaskTrackPosition();
+  }
+}
+
+function setupTaskCarouselDrag() {
+  if (!taskCarouselViewport || !taskTrack || !taskSlides.length) return;
+
+  taskCarouselViewport.addEventListener("pointerdown", (event) => {
+    if (event.button !== 0 && event.pointerType === "mouse") return;
+
+    taskDragState = {
+      pointerId: event.pointerId,
+      startX: event.clientX,
+      lastX: event.clientX,
+      startIndex: activeTaskIndex,
+    };
+    taskTrack.classList.add("is-dragging");
+    taskCarouselViewport.setPointerCapture?.(event.pointerId);
+  });
+
+  taskCarouselViewport.addEventListener("pointermove", (event) => {
+    if (!taskDragState || event.pointerId !== taskDragState.pointerId) return;
+
+    taskDragState.lastX = event.clientX;
+    const step = getTaskSlideStep();
+    const deltaX = taskDragState.lastX - taskDragState.startX;
+    const offset = getBoundedTaskDragOffset(deltaX, taskDragState.startIndex, step);
+    updateTaskTrackPosition(offset);
+  });
+
+  taskCarouselViewport.addEventListener("pointerup", (event) => finishTaskDrag(event));
+  taskCarouselViewport.addEventListener("pointercancel", (event) => finishTaskDrag(event, true));
+  taskCarouselViewport.addEventListener("lostpointercapture", () => finishTaskDrag(null, true));
+}
+
 function resetTaskVideo(video) {
   if (!video) return;
   video.onended = null;
@@ -347,11 +460,54 @@ function resetTaskVideo(video) {
   }
 }
 
+function resetTaskPlayback() {
+  playbackToken += 1;
+  if (playbackRestartTimer) {
+    window.clearTimeout(playbackRestartTimer);
+    playbackRestartTimer = 0;
+  }
+
+  taskSlides.forEach((slide) => {
+    slide.querySelectorAll(".comparison-panel").forEach((panel) => {
+      panel.classList.remove("is-playing", "is-complete");
+    });
+    slide.querySelectorAll("video").forEach(resetTaskVideo);
+  });
+}
+
 function playTaskVideo(video) {
   if (!video) return;
   video.muted = !taskAudioEnabled;
   video.volume = taskAudioEnabled ? 1 : 0;
-  video.play().catch(() => {});
+  video.play().catch(() => {
+    if (taskAudioEnabled) queueTaskAudioPlaybackRetry();
+  });
+}
+
+const taskAudioRetryEvents = ["pointerdown", "keydown", "touchstart"];
+
+function retryTaskAudioPlayback() {
+  taskAudioRetryEvents.forEach((eventName) => {
+    window.removeEventListener(eventName, retryTaskAudioPlayback, true);
+  });
+  taskAudioPlaybackRetryQueued = false;
+
+  if (!taskAudioEnabled || !isTaskCarouselInView) return;
+
+  const activeVideo = taskSlides[activeTaskIndex]?.querySelector(".comparison-panel.is-playing video");
+  if (activeVideo) {
+    playTaskVideo(activeVideo);
+  } else {
+    playCurrentTaskSequence();
+  }
+}
+
+function queueTaskAudioPlaybackRetry() {
+  if (taskAudioPlaybackRetryQueued) return;
+  taskAudioPlaybackRetryQueued = true;
+  taskAudioRetryEvents.forEach((eventName) => {
+    window.addEventListener(eventName, retryTaskAudioPlayback, { capture: true, once: true });
+  });
 }
 
 function syncTaskAudioState() {
@@ -382,7 +538,7 @@ function setTaskAudioEnabled(isEnabled) {
 
   const activeVideo = taskSlides[activeTaskIndex]?.querySelector(".comparison-panel.is-playing video");
   if (taskAudioEnabled && activeVideo) {
-    activeVideo.play().catch(() => {});
+    activeVideo.play().catch(() => queueTaskAudioPlaybackRetry());
   }
 }
 
@@ -486,7 +642,11 @@ function setTaskComparison(index) {
   if (taskPrev) taskPrev.disabled = activeTaskIndex === 0;
   if (taskNext) taskNext.disabled = activeTaskIndex === taskComparisons.length - 1;
   updateTaskTrackPosition();
-  playCurrentTaskSequence();
+  if (isTaskCarouselInView) {
+    playCurrentTaskSequence();
+  } else {
+    resetTaskPlayback();
+  }
 }
 
 taskPrev?.addEventListener("click", (event) => {
@@ -516,10 +676,43 @@ taskAudioToggle?.addEventListener("click", () => {
   setTaskAudioEnabled(!taskAudioEnabled);
 });
 
+function setupTaskPlaybackObserver() {
+  if (!taskCarousel || !taskSlides.length) return;
+
+  if (!("IntersectionObserver" in window)) {
+    isTaskCarouselInView = true;
+    playCurrentTaskSequence();
+    return;
+  }
+
+  const taskPlaybackObserver = new IntersectionObserver(
+    (entries) => {
+      const entry = entries[0];
+      const shouldPlay = Boolean(entry?.isIntersecting && entry.intersectionRatio >= 0.2);
+      if (shouldPlay === isTaskCarouselInView) return;
+
+      isTaskCarouselInView = shouldPlay;
+      if (isTaskCarouselInView) {
+        playCurrentTaskSequence();
+      } else {
+        resetTaskPlayback();
+      }
+    },
+    {
+      rootMargin: "0px 0px -10% 0px",
+      threshold: [0, 0.2, 0.5],
+    },
+  );
+
+  taskPlaybackObserver.observe(taskCarousel);
+}
+
 if (taskTrack && taskSlides.length) {
   syncTaskAudioState();
   setTaskComparison(activeTaskIndex);
-  window.addEventListener("resize", updateTaskTrackPosition);
+  setupTaskPlaybackObserver();
+  setupTaskCarouselDrag();
+  window.addEventListener("resize", () => updateTaskTrackPosition());
 }
 
 if (evaluationTaskGrid && evaluationTaskScrollCue) {
@@ -536,8 +729,8 @@ window.addEventListener("load", () => updateAllResultScrollCues(), { passive: tr
 const methodFigures = {
   overall: "assets/figure_policy_input_output_0.png",
   signals: "assets/figure_policy_input_output_1.png",
-  "high-level": "assets/high_level_policy.gif?v=gif-20260605",
-  "low-level": "assets/low_level_policy_updated.gif?v=gif-20260605",
+  "high-level": "assets/videos/high_level_policy.mp4?v=hd-20260605",
+  "low-level": "assets/videos/low_level_policy_updated.mp4?v=hd-20260605",
 };
 
 const methodFigureNotes = {
@@ -574,7 +767,38 @@ const methodFigureNotes = {
         \\(Q\\), an asynchronous queue consumed by \\(\\pi_l\\): once the
         current head task is completed, \\(\\pi_l\\) pops the next subtask and
         continues execution.
-      </p>`,
+      </p>
+      <div class="high-level-keyframe-demo">
+        <figure class="high-level-input-video">
+          <video data-keyframe-video autoplay muted loop playsinline preload="metadata" aria-label="Egocentric input stream used by the high-level policy">
+            <source src="assets/videos/ego_input.mp4" type="video/mp4">
+          </video>
+          <figcaption>Human signal stream</figcaption>
+        </figure>
+        <div class="subtask-board" aria-label="Generated subtasks">
+          <h4>Subtasks</h4>
+          <article class="subtask-card" data-keyframe-time="3">
+            <div class="subtask-keyframe">
+              <span>Keyframe \\(C_1^{\\mathrm{key}}\\)</span>
+              <img src="assets/keyframe1.png" alt="Keyframe for screwdriver request">
+            </div>
+            <div class="subtask-task">
+              <span>\\([\\mathrm{TASK}]_1\\)</span>
+              <p>Pick up the screwdriver and pass it to human.</p>
+            </div>
+          </article>
+          <article class="subtask-card" data-keyframe-time="10">
+            <div class="subtask-keyframe">
+              <span>Keyframe \\(C_2^{\\mathrm{key}}\\)</span>
+              <img src="assets/keyframe2.png" alt="Keyframe for metal profile request">
+            </div>
+            <div class="subtask-task">
+              <span>\\([\\mathrm{TASK}]_2\\)</span>
+              <p>Pick up the 10 cm metal profile.</p>
+            </div>
+          </article>
+        </div>
+      </div>`,
   },
   "low-level": {
     title: "Low-level Policy",
@@ -584,11 +808,48 @@ const methodFigureNotes = {
         and \\(C^{\\mathrm{key}}\\) to produce action \\(a_t\\) and completion
         probability \\(p_t\\). Once \\(p_t\\) crosses a threshold, it
         pops the next subtask from \\(Q\\).
-      </p>`,
+      </p>
+      <div class="low-level-policy-demo" data-low-level-policy-demo>
+        <section class="low-level-vla-input" aria-label="VLA input">
+          <h4>VLA Input</h4>
+          <div class="low-level-input-row">
+            <article class="low-level-subtask-card subtask-card is-generated" aria-label="Current low-level subtask">
+              <div class="subtask-keyframe low-level-subtask-keyframe">
+                <span data-low-level-keyframe-label>Keyframe C<sup>key</sup><sub>1</sub></span>
+                <img data-low-level-keyframe src="assets/keyframe1.png" alt="Current keyframe input 1">
+              </div>
+              <div class="subtask-task low-level-subtask-task">
+                <span data-low-level-task-label>[TASK]<sub>1</sub></span>
+                <p data-low-level-task>Pick up the screwdriver and pass it to human.</p>
+              </div>
+            </article>
+            <figure class="low-level-center-demo">
+              <figcaption>Robot observation \\(o_t\\)</figcaption>
+              <video class="low-level-center-video" data-low-level-observation autoplay muted loop playsinline preload="metadata" aria-label="Robot observation video for the low-level policy">
+                <source src="assets/videos/low_center_rgb_top.mp4" type="video/mp4">
+              </video>
+            </figure>
+          </div>
+        </section>
+        <section class="low-level-vla-output" aria-label="VLA output">
+          <h4>Output</h4>
+          <div class="low-level-output-row">
+            <div class="low-level-output-item low-level-action-stream">
+              <p>Robot Action \\(a_t\\)</p>
+              <pre data-low-level-action>loading action</pre>
+            </div>
+            <div class="low-level-output-item low-level-completion-stream">
+              <p>Completion \\(p_t\\)</p>
+              <output data-low-level-completion>0</output>
+            </div>
+          </div>
+        </section>
+      </div>`,
   },
 };
 
 const methodFigureImage = document.querySelector("#method-figure-image");
+const methodFigureVideo = document.querySelector("#method-figure-video");
 const methodFigureStage = document.querySelector(".method-figure-stage");
 const methodFigureNoteTitle = document.querySelector("#method-figure-note-title");
 const methodFigureNoteText = document.querySelector("#method-figure-note-text");
@@ -797,7 +1058,8 @@ function setupMethodNoteMedia(step) {
 
 function setMethodFigure(step, options = {}) {
   const src = methodFigures[step];
-  if (!src || !methodFigureImage) return;
+  if (!src || !methodFigureImage || !methodFigureVideo) return;
+  const isVideo = src.includes(".mp4");
 
   methodFigureStep = step;
   methodFigureTabs.forEach((button) => {
@@ -814,20 +1076,44 @@ function setMethodFigure(step, options = {}) {
     typesetMath(methodFigureNoteText);
   }
 
-  const updateImage = () => {
+  const updateMedia = () => {
     const label = buttonLabelForMethodFigure(step);
-    methodFigureImage.src = src;
-    methodFigureImage.alt = `${label} method figure`;
+    if (isVideo) {
+      methodFigureImage.hidden = true;
+      methodFigureVideo.hidden = false;
+      if (methodFigureVideo.getAttribute("src") !== src) {
+        methodFigureVideo.src = src;
+        methodFigureVideo.load();
+      }
+      methodFigureVideo.setAttribute("aria-label", `${label} method video`);
+      try {
+        methodFigureVideo.currentTime = 0;
+      } catch {
+        // The video may not be seekable until metadata is loaded.
+      }
+      methodFigureVideo.play().catch(() => {});
+    } else {
+      methodFigureVideo.pause();
+      methodFigureVideo.removeAttribute("src");
+      methodFigureVideo.load();
+      methodFigureVideo.hidden = true;
+      methodFigureImage.hidden = false;
+      methodFigureImage.src = src;
+      methodFigureImage.alt = `${label} method figure`;
+    }
     methodFigureStage?.classList.remove("is-changing");
   };
 
-  if (options.instant || methodFigureImage.getAttribute("src") === src) {
-    updateImage();
+  const activeSrc = isVideo
+    ? methodFigureVideo.getAttribute("src")
+    : methodFigureImage.getAttribute("src");
+  if (options.instant || activeSrc === src) {
+    updateMedia();
     return;
   }
 
   methodFigureStage?.classList.add("is-changing");
-  window.setTimeout(updateImage, 120);
+  window.setTimeout(updateMedia, 120);
 }
 
 function buttonLabelForMethodFigure(step) {
