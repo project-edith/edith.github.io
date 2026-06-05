@@ -536,8 +536,8 @@ window.addEventListener("load", () => updateAllResultScrollCues(), { passive: tr
 const methodFigures = {
   overall: "assets/figure_policy_input_output_0.png",
   signals: "assets/figure_policy_input_output_1.png",
-  "high-level": "assets/videos/high_level_policy.mp4",
-  "low-level": "assets/videos/low_level_policy_updated.mp4",
+  "high-level": "assets/high_level_policy.gif?v=gif-20260605",
+  "low-level": "assets/low_level_policy_updated.gif?v=gif-20260605",
 };
 
 const methodFigureNotes = {
@@ -574,38 +574,7 @@ const methodFigureNotes = {
         \\(Q\\), an asynchronous queue consumed by \\(\\pi_l\\): once the
         current head task is completed, \\(\\pi_l\\) pops the next subtask and
         continues execution.
-      </p>
-      <div class="high-level-keyframe-demo">
-        <figure class="high-level-input-video">
-          <video data-keyframe-video autoplay muted loop playsinline preload="metadata" aria-label="Egocentric input stream used by the high-level policy">
-            <source src="assets/videos/ego_input.mp4" type="video/mp4">
-          </video>
-          <figcaption>Human signal stream</figcaption>
-        </figure>
-        <div class="subtask-board" aria-label="Generated subtasks">
-          <h4>Subtasks</h4>
-          <article class="subtask-card" data-keyframe-time="3">
-            <div class="subtask-keyframe">
-              <span>Keyframe \\(C_1^{\\mathrm{key}}\\)</span>
-              <img src="assets/keyframe1.png" alt="Keyframe for screwdriver request">
-            </div>
-            <div class="subtask-task">
-              <span>\\([\\mathrm{TASK}]_1\\)</span>
-              <p>Pick up the screwdriver and pass it to human.</p>
-            </div>
-          </article>
-          <article class="subtask-card" data-keyframe-time="10">
-            <div class="subtask-keyframe">
-              <span>Keyframe \\(C_2^{\\mathrm{key}}\\)</span>
-              <img src="assets/keyframe2.png" alt="Keyframe for metal profile request">
-            </div>
-            <div class="subtask-task">
-              <span>\\([\\mathrm{TASK}]_2\\)</span>
-              <p>Pick up the 10 cm metal profile.</p>
-            </div>
-          </article>
-        </div>
-      </div>`,
+      </p>`,
   },
   "low-level": {
     title: "Low-level Policy",
@@ -615,48 +584,11 @@ const methodFigureNotes = {
         and \\(C^{\\mathrm{key}}\\) to produce action \\(a_t\\) and completion
         probability \\(p_t\\). Once \\(p_t\\) crosses a threshold, it
         pops the next subtask from \\(Q\\).
-      </p>
-      <div class="low-level-policy-demo" data-low-level-policy-demo>
-        <section class="low-level-vla-input" aria-label="VLA input">
-          <h4>VLA Input</h4>
-          <div class="low-level-input-row">
-            <article class="low-level-subtask-card subtask-card is-generated" aria-label="Current low-level subtask">
-              <div class="subtask-keyframe low-level-subtask-keyframe">
-                <span data-low-level-keyframe-label>Keyframe C<sup>key</sup><sub>1</sub></span>
-                <img data-low-level-keyframe src="assets/keyframe1.png" alt="Current keyframe input 1">
-              </div>
-              <div class="subtask-task low-level-subtask-task">
-                <span data-low-level-task-label>[TASK]<sub>1</sub></span>
-                <p data-low-level-task>Pick up the screwdriver and pass it to human.</p>
-              </div>
-            </article>
-            <figure class="low-level-center-demo">
-              <figcaption>Robot observation \\(o_t\\)</figcaption>
-              <video class="low-level-center-video" data-low-level-observation autoplay muted loop playsinline preload="metadata" aria-label="Robot observation video for the low-level policy">
-                <source src="assets/videos/low_center_rgb_top.mp4" type="video/mp4">
-              </video>
-            </figure>
-          </div>
-        </section>
-        <section class="low-level-vla-output" aria-label="VLA output">
-          <h4>Output</h4>
-          <div class="low-level-output-row">
-            <div class="low-level-output-item low-level-action-stream">
-              <p>Robot Action \\(a_t\\)</p>
-              <pre data-low-level-action>loading action</pre>
-            </div>
-            <div class="low-level-output-item low-level-completion-stream">
-              <p>Completion \\(p_t\\)</p>
-              <output data-low-level-completion>0</output>
-            </div>
-          </div>
-        </section>
-      </div>`,
+      </p>`,
   },
 };
 
 const methodFigureImage = document.querySelector("#method-figure-image");
-const methodFigureVideo = document.querySelector("#method-figure-video");
 const methodFigureStage = document.querySelector(".method-figure-stage");
 const methodFigureNoteTitle = document.querySelector("#method-figure-note-title");
 const methodFigureNoteText = document.querySelector("#method-figure-note-text");
@@ -865,8 +797,7 @@ function setupMethodNoteMedia(step) {
 
 function setMethodFigure(step, options = {}) {
   const src = methodFigures[step];
-  if (!src || !methodFigureImage || !methodFigureVideo) return;
-  const isVideo = src.endsWith(".mp4");
+  if (!src || !methodFigureImage) return;
 
   methodFigureStep = step;
   methodFigureTabs.forEach((button) => {
@@ -883,43 +814,20 @@ function setMethodFigure(step, options = {}) {
     typesetMath(methodFigureNoteText);
   }
 
-  const updateMedia = () => {
+  const updateImage = () => {
     const label = buttonLabelForMethodFigure(step);
-    if (isVideo) {
-      methodFigureImage.hidden = true;
-      methodFigureVideo.hidden = false;
-      if (methodFigureVideo.getAttribute("src") !== src) {
-        methodFigureVideo.src = src;
-      }
-      methodFigureVideo.setAttribute("aria-label", `${label} method video`);
-      try {
-        methodFigureVideo.currentTime = 0;
-      } catch {
-        // The video may not be seekable until metadata is loaded.
-      }
-      methodFigureVideo.play().catch(() => {});
-    } else {
-      methodFigureVideo.pause();
-      methodFigureVideo.removeAttribute("src");
-      methodFigureVideo.load();
-      methodFigureVideo.hidden = true;
-      methodFigureImage.hidden = false;
-      methodFigureImage.src = src;
-      methodFigureImage.alt = `${label} method figure`;
-    }
+    methodFigureImage.src = src;
+    methodFigureImage.alt = `${label} method figure`;
     methodFigureStage?.classList.remove("is-changing");
   };
 
-  const activeSrc = isVideo
-    ? methodFigureVideo.getAttribute("src")
-    : methodFigureImage.getAttribute("src");
-  if (options.instant || activeSrc === src) {
-    updateMedia();
+  if (options.instant || methodFigureImage.getAttribute("src") === src) {
+    updateImage();
     return;
   }
 
   methodFigureStage?.classList.add("is-changing");
-  window.setTimeout(updateMedia, 120);
+  window.setTimeout(updateImage, 120);
 }
 
 function buttonLabelForMethodFigure(step) {

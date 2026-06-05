@@ -6,12 +6,12 @@
     <title>EDITH | Hierarchical Policies from Verbal and Egocentric Human Signals for Natural Human-Robot Interaction</title>
     <meta
       name="description"
-      content="EDITH lets robots interpret brief verbal requests by grounding speech in first-person view, gaze, and nonverbal human signals."
+      content="EDITH helps robots infer human intent from first-person view, gaze, and speech, then act on that intent through a hierarchical policy."
     >
     <meta property="og:title" content="EDITH | Hierarchical Policies from Verbal and Egocentric Human Signals for Natural Human-Robot Interaction">
     <meta
       property="og:description"
-      content="EDITH lets robots interpret brief verbal requests by grounding speech in first-person view, gaze, and nonverbal human signals."
+      content="EDITH helps robots infer human intent from first-person view, gaze, and speech, then act on that intent through a hierarchical policy."
     >
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://project-edith.github.io/">
@@ -23,14 +23,14 @@
     <meta name="twitter:title" content="EDITH | Hierarchical Policies from Verbal and Egocentric Human Signals for Natural Human-Robot Interaction">
     <meta
       name="twitter:description"
-      content="EDITH lets robots interpret brief verbal requests by grounding speech in first-person view, gaze, and nonverbal human signals."
+      content="EDITH helps robots infer human intent from first-person view, gaze, and speech, then act on that intent through a hierarchical policy."
     >
     <meta name="twitter:image" content="https://project-edith.github.io/assets/preview.png">
     <link rel="icon" href="assets/icon.png?v=20260605" type="image/png">
     <link rel="apple-touch-icon" href="assets/icon.png?v=20260605">
     <link rel="preload" as="image" href="assets/hero-edith.png">
     <link rel="preload" as="video" href="assets/videos/main.mp4" type="video/mp4">
-    <link rel="stylesheet" href="styles.css?v=policy-videos-20260604">
+    <link rel="stylesheet" href="styles.css?v=policy-gif-viewer-20260605">
     <script>
       window.MathJax = {
         tex: {
@@ -108,35 +108,8 @@
         </div>
 
         <div class="section-inner summary-grid">
-          <article>
-            <h2>Abstract</h2>
-            <p>
-              For natural human-robot interaction, a robot must understand human
-              intent expressed not only through language but also through nonverbal
-              signals such as gestures and gaze. However, current robot policies
-              rely on language instructions as the sole interface for conveying
-              intent, leaving nonverbal signals unused and placing the full burden
-              of communication. In this work, we present EDITH, a robot framework
-              that captures the human's nonverbal signals through continuous
-              streams of first-person view and gaze from smart glasses, and uses
-              them alongside language instructions as inputs to the robot policy.
-              Our hardware system streams the human's first-person view, gaze, and
-              speech to the robot in real time, transcribing the speech into
-              language instructions. To handle these rich but noisy signals, we
-              design a hierarchical policy in which a high-level policy infers the
-              human's intent and produces a sequence of subtasks, where each
-              subtask is represented as a fine-grained instruction paired with a
-              keyframe that grounds the intent in the scene, such as the frame
-              where the human points at the target object. A low-level policy then
-              executes these subtasks. In our experiments on human-robot
-              interactive tasks, EDITH enables the robot to act on the human's
-              nonverbal signals even when intent is expressed only briefly, and
-              significantly reduces user effort to convey intent compared to using
-              language instructions alone.
-            </p>
-          </article>
           <article class="approach-overview">
-            <h2>Approach Overview</h2>
+            <h2>Motivation &amp; Key Idea</h2>
             <figure class="overview-figure-frame">
               <img
                 src="assets/overview_figure.png"
@@ -274,16 +247,6 @@
                     width="2013"
                     height="800"
                   >
-                  <video
-                    id="method-figure-video"
-                    autoplay
-                    muted
-                    loop
-                    playsinline
-                    preload="metadata"
-                    hidden
-                    aria-label="EDITH method policy video"
-                  ></video>
                 </figure>
                 <div class="method-figure-controls" role="tablist" aria-label="Method figure steps">
                   <button class="method-figure-tab is-active" type="button" data-method-figure-step="overall" role="tab" aria-selected="true">
@@ -1442,6 +1405,6 @@
     </footer>
 
     <script src="assets/episode_000000_actions.js?v=episode-action-20260604"></script>
-    <script src="script.js?v=additional-analysis-popup-20260604"></script>
+    <script src="script.js?v=policy-gif-viewer-20260605"></script>
   </body>
 </html>
