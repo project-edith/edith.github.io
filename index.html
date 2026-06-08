@@ -30,6 +30,13 @@
     <link rel="apple-touch-icon" href="assets/icon.png?v=20260605">
     <link rel="preload" as="image" href="assets/hero-edith.png">
     <link rel="preload" as="video" href="assets/videos/main.mp4" type="video/mp4">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-WE48BRQSDJ"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag("js", new Date());
+      gtag("config", "G-WE48BRQSDJ");
+    </script>
     <link rel="stylesheet" href="styles.css?v=task-carousel-drag-20260605">
     <script>
       window.MathJax = {
@@ -58,7 +65,7 @@
             <a class="button primary" href="#method">Explore Method</a>
             <a class="button secondary" href="#results">View Results</a>
             <a class="button secondary" href="#demos">Watch Demos</a>
-            <a class="button secondary" href="#resources">Paper Soon</a>
+            <a class="button secondary" href="#resources" data-analytics-event="click_paper" data-resource-kind="paper">Paper Soon</a>
           </div>
         </div>
         <div class="hero-player" aria-label="Featured EDITH demo">
@@ -96,7 +103,7 @@
             <span><sup>3</sup> Config</span>
           </p>
           <nav class="paper-links" aria-label="Project resources">
-            <a href="#resources">Paper</a>
+            <a href="#resources" data-analytics-event="click_paper" data-resource-kind="paper">Paper</a>
           </nav>
         </div>
 
@@ -1350,7 +1357,7 @@
             <p class="section-lede">Paper PDF.</p>
           </div>
           <div class="resource-list" aria-label="Release resources">
-            <a href="#resources" aria-disabled="true">
+            <a href="#resources" aria-disabled="true" data-analytics-event="click_paper" data-resource-kind="paper">
               <span>Paper PDF</span>
               <strong>Coming Soon</strong>
             </a>
@@ -1423,6 +1430,6 @@
     </footer>
 
     <script src="assets/episode_000000_actions.js?v=episode-action-20260604"></script>
-    <script src="script.js?v=task-audio-default-on-20260605"></script>
+    <script src="script.js?v=analytics-events-20260608"></script>
   </body>
 </html>

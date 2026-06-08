@@ -5,6 +5,19 @@ if (year) {
   year.textContent = String(new Date().getFullYear());
 }
 
+function trackAnalyticsEvent(eventName, parameters = {}) {
+  if (typeof window.gtag !== "function") return;
+
+  window.gtag("event", eventName, {
+    page_path: window.location.pathname,
+    ...parameters,
+  });
+}
+
+function getAnalyticsLabel(element) {
+  return element.textContent.trim().replace(/\s+/g, " ").slice(0, 80);
+}
+
 const navLinks = Array.from(document.querySelectorAll(".site-nav a"));
 const sections = navLinks
   .map((link) => document.querySelector(link.getAttribute("href")))
@@ -102,6 +115,83 @@ if ("IntersectionObserver" in window && sections.length) {
 
   sections.forEach((section) => observer.observe(section));
 }
+
+const analyticsSectionTargets = [
+  { selector: ".hero", eventName: "view_hero", sectionName: "Hero" },
+  { selector: "#overview", eventName: "view_overview", sectionName: "Motivation & Key Idea" },
+  { selector: "#method", eventName: "view_method", sectionName: "Method" },
+  { selector: "#results", eventName: "view_results", sectionName: "Results" },
+  { selector: "#demos", eventName: "view_evaluation_tasks", sectionName: "Evaluation Tasks" },
+  { selector: "#resources", eventName: "view_resources", sectionName: "Resources" },
+  { selector: "#citation", eventName: "view_citation", sectionName: "Citation" },
+];
+
+if ("IntersectionObserver" in window) {
+  const viewedAnalyticsSections = new Set();
+  const analyticsSectionObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+
+        const target = analyticsSectionTargets.find((section) => entry.target.matches(section.selector));
+        if (!target || viewedAnalyticsSections.has(target.eventName)) return;
+
+        viewedAnalyticsSections.add(target.eventName);
+        trackAnalyticsEvent(target.eventName, {
+          section_name: target.sectionName,
+          section_selector: target.selector,
+        });
+        analyticsSectionObserver.unobserve(entry.target);
+      });
+    },
+    {
+      rootMargin: "0px 0px -25% 0px",
+      threshold: [0.2, 0.45],
+    },
+  );
+
+  analyticsSectionTargets.forEach((target) => {
+    const element = document.querySelector(target.selector);
+    if (element) analyticsSectionObserver.observe(element);
+  });
+}
+
+document.addEventListener("click", (event) => {
+  if (!(event.target instanceof Element)) return;
+
+  const target = event.target.closest("a, button");
+  if (!target) return;
+
+  const href = target instanceof HTMLAnchorElement ? target.getAttribute("href") || "" : "";
+  const resourceKind = target.dataset.resourceKind || "";
+  const explicitEventName = target.dataset.analyticsEvent || "";
+  const label = getAnalyticsLabel(target);
+  const eventParameters = {
+    link_text: label,
+    link_url: href,
+    resource_kind: resourceKind || undefined,
+  };
+
+  if (explicitEventName) {
+    trackAnalyticsEvent(explicitEventName, eventParameters);
+  }
+
+  if (/\.pdf(?:[?#].*)?$/i.test(href)) {
+    trackAnalyticsEvent("download_pdf", {
+      ...eventParameters,
+      file_extension: "pdf",
+      file_name: href.split("/").pop() || href,
+    });
+  }
+
+  if (!explicitEventName && target.closest(".hero-actions")) {
+    trackAnalyticsEvent("click_hero_cta", eventParameters);
+  }
+
+  if (target.matches("[data-copy]")) {
+    trackAnalyticsEvent("click_copy_bibtex", eventParameters);
+  }
+});
 
 const animatedElements = Array.from(document.querySelectorAll("[data-animate]"));
 if ("IntersectionObserver" in window && animatedElements.length) {
@@ -412,6 +502,7 @@ function finishTaskDrag(event, isCanceled = false) {
   taskTrack.classList.remove("is-dragging");
 
   if (nextIndex !== activeTaskIndex) {
+    trackTaskNavigation("drag", nextIndex);
     preserveTaskCarouselScroll(() => setTaskComparison(nextIndex));
   } else {
     updateTaskTrackPosition();
@@ -649,8 +740,21 @@ function setTaskComparison(index) {
   }
 }
 
+function trackTaskNavigation(action, nextIndex) {
+  const clampedIndex = Math.min(Math.max(nextIndex, 0), taskComparisons.length - 1);
+  const task = taskComparisons[clampedIndex];
+  if (!task) return;
+
+  trackAnalyticsEvent("select_evaluation_task", {
+    interaction_type: action,
+    task_index: clampedIndex + 1,
+    task_name: task.title,
+  });
+}
+
 taskPrev?.addEventListener("click", (event) => {
   event.preventDefault();
+  trackTaskNavigation("previous_button", activeTaskIndex - 1);
   preserveTaskCarouselScroll(() => {
     setTaskComparison(activeTaskIndex - 1);
   });
@@ -658,6 +762,7 @@ taskPrev?.addEventListener("click", (event) => {
 
 taskNext?.addEventListener("click", (event) => {
   event.preventDefault();
+  trackTaskNavigation("next_button", activeTaskIndex + 1);
   preserveTaskCarouselScroll(() => {
     setTaskComparison(activeTaskIndex + 1);
   });
@@ -666,6 +771,7 @@ taskNext?.addEventListener("click", (event) => {
 taskDots?.querySelectorAll("[data-task-index]").forEach((button) => {
   button.addEventListener("click", (event) => {
     event.preventDefault();
+    trackTaskNavigation("task_button", Number(button.dataset.taskIndex));
     preserveTaskCarouselScroll(() => {
       setTaskComparison(Number(button.dataset.taskIndex));
     });
@@ -673,6 +779,10 @@ taskDots?.querySelectorAll("[data-task-index]").forEach((button) => {
 });
 
 taskAudioToggle?.addEventListener("click", () => {
+  trackAnalyticsEvent("toggle_task_video_sound", {
+    enabled: !taskAudioEnabled,
+    task_name: taskComparisons[activeTaskIndex]?.title,
+  });
   setTaskAudioEnabled(!taskAudioEnabled);
 });
 
@@ -1153,12 +1263,21 @@ function buttonLabelForMethodFigure(step) {
 
 methodFigureTabs.forEach((button) => {
   button.addEventListener("click", () => {
+    trackAnalyticsEvent("select_method_step", {
+      method_step: button.dataset.methodFigureStep,
+      method_label: getAnalyticsLabel(button),
+    });
     setMethodFigure(button.dataset.methodFigureStep);
   });
 });
 
 document.querySelectorAll("[data-method-figure-link]").forEach((button) => {
   button.addEventListener("click", () => {
+    trackAnalyticsEvent("select_method_step", {
+      interaction_type: "inline_link",
+      method_step: button.dataset.methodFigureLink,
+      method_label: getAnalyticsLabel(button),
+    });
     setMethodFigure(button.dataset.methodFigureLink);
   });
 });
@@ -1190,7 +1309,10 @@ function closeNoisyModal() {
   }
 }
 
-noisyModalOpen?.addEventListener("click", openNoisyModal);
+noisyModalOpen?.addEventListener("click", () => {
+  trackAnalyticsEvent("open_noisy_signal_detail");
+  openNoisyModal();
+});
 noisyModalClose?.addEventListener("click", closeNoisyModal);
 
 noisyModal?.addEventListener("click", (event) => {
@@ -1222,6 +1344,11 @@ document.querySelectorAll("[data-detail-toggle]").forEach((button) => {
   button.addEventListener("click", () => {
     const target = document.querySelector(button.dataset.detailToggle);
     if (!target || !detailResultsModal || !detailResultsModalBody) return;
+
+    trackAnalyticsEvent("open_detail_results", {
+      detail_title: button.dataset.detailTitle || "Detailed Results",
+      detail_target: button.dataset.detailToggle,
+    });
 
     const detailClone = target.cloneNode(true);
     detailClone.removeAttribute("id");
@@ -1262,6 +1389,18 @@ detailResultsModal?.addEventListener("close", () => {
   activeDetailToggle = null;
   detailResultsModalBody?.replaceChildren();
 });
+
+const introVideo = document.querySelector(".intro-video-block video");
+if (introVideo) {
+  let hasTrackedIntroVideoPlay = false;
+  introVideo.addEventListener("play", () => {
+    if (hasTrackedIntroVideoPlay) return;
+    hasTrackedIntroVideoPlay = true;
+    trackAnalyticsEvent("play_intro_video", {
+      video_src: introVideo.currentSrc || introVideo.querySelector("source")?.getAttribute("src") || "",
+    });
+  });
+}
 
 if (methodFigureImage && methodFigureTabs.length) {
   setMethodFigure(methodFigureStep, { instant: true });
