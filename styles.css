@@ -362,10 +362,11 @@ section[id] {
 .intro-video-block video {
   display: block;
   width: 100%;
-  aspect-ratio: 16 / 9;
+  height: auto;
+  aspect-ratio: 1280 / 820;
   border-radius: var(--radius);
   background: #000000;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .approach-overview {
