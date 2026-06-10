@@ -839,8 +839,8 @@ window.addEventListener("load", () => updateAllResultScrollCues(), { passive: tr
 const methodFigures = {
   overall: "assets/figure_policy_input_output_0.png",
   signals: "assets/figure_policy_input_output_1.png",
-  "high-level": "assets/videos/high_level_policy.mp4?v=hd-20260605",
-  "low-level": "assets/videos/low_level_policy_updated.mp4?v=hd-20260605",
+  "high-level": "assets/videos/high_level_policy_animation.mp4?v=anim-20260610",
+  "low-level": "assets/videos/low_level_policy_animation.mp4?v=anim-20260610",
 };
 
 const methodFigureNotes = {
@@ -862,10 +862,44 @@ const methodFigureNotes = {
         read, and preprocessed into a captioned video before being fed into the
         high-level policy (VLM).
       </p>
-      <div class="method-signal-demo">
-        <video class="method-note-video" autoplay muted loop playsinline preload="metadata" aria-label="Egocentric input stream with gaze and speech">
-          <source src="assets/videos/ego_input.mp4" type="video/mp4">
-        </video>
+      <div class="signal-fusion">
+        <figure class="signal-input signal-ego">
+          <div class="signal-ego-crop">
+            <video autoplay muted loop playsinline preload="metadata" aria-label="Egocentric context video">
+              <source src="assets/videos/ego_input.mp4" type="video/mp4">
+            </video>
+          </div>
+          <figcaption>Egocentric context \\(C_{t-H:t}^{\\mathrm{ego}}\\)</figcaption>
+        </figure>
+
+        <div class="hl-flow-arrow signal-merge-arrow signal-merge-arrow-top" aria-hidden="true"><span></span></div>
+
+        <figure class="signal-input signal-speech">
+          <div class="signal-speech-bubble">
+            <svg class="signal-speech-icon" viewBox="0 0 24 24" fill="none" stroke="#41546e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="9" y="2" width="6" height="11" rx="3"></rect>
+              <path d="M5 10a7 7 0 0 0 14 0"></path>
+              <line x1="12" y1="17" x2="12" y2="21"></line>
+              <line x1="8" y1="21" x2="16" y2="21"></line>
+            </svg>
+            <p class="signal-speech-text">
+              <span class="sp-phrase">Give me that screwdriver.</span>
+              <span class="sp-vad">VAD</span>
+              <span class="sp-vad">VAD</span>
+              <span class="sp-phrase">Also give me that metal profile.</span>
+            </p>
+          </div>
+          <figcaption>Speech \\(\\ell_{t-H:t}\\)</figcaption>
+        </figure>
+
+        <div class="hl-flow-arrow signal-merge-arrow signal-merge-arrow-bottom" aria-hidden="true"><span></span></div>
+
+        <figure class="signal-result">
+          <video class="method-note-video" autoplay muted loop playsinline preload="metadata" aria-label="Captioned egocentric video">
+            <source src="assets/videos/ego_input.mp4" type="video/mp4">
+          </video>
+          <figcaption>Captioned egocentric video</figcaption>
+        </figure>
       </div>`,
   },
   "high-level": {
@@ -888,8 +922,14 @@ const methodFigureNotes = {
           <video data-keyframe-video autoplay muted loop playsinline preload="metadata" aria-label="Egocentric input stream used by the high-level policy">
             <source src="assets/videos/ego_input.mp4" type="video/mp4">
           </video>
-          <figcaption>Human signal stream</figcaption>
+          <figcaption>Streams of egocentric context and speech</figcaption>
         </figure>
+        <div class="hl-flow-arrow" aria-hidden="true"><span></span></div>
+        <div class="hl-vlm-box" aria-label="High-level policy generates subtasks">
+          <strong>High-level policy</strong>
+          <small>\\(\\pi_h\\) (VLM)</small>
+        </div>
+        <div class="hl-flow-arrow" aria-hidden="true"><span></span></div>
         <div class="subtask-board" aria-label="Generated subtasks">
           <h4>Subtasks</h4>
           <article class="subtask-card" data-keyframe-time="3">
@@ -955,11 +995,22 @@ const methodFigureNotes = {
           <div class="low-level-input-row">
             <article class="low-level-subtask-card subtask-card is-generated" aria-label="Current low-level subtask">
               <div class="subtask-keyframe low-level-subtask-keyframe">
-                <span data-low-level-keyframe-label>Keyframe C<sup>key</sup><sub>1</sub></span>
-                <img data-low-level-keyframe src="assets/keyframe1.png" alt="Current keyframe input 1">
+                <span data-low-level-keyframe-label>Keyframe \\(C^{\\mathrm{key}}_{1}\\)</span>
+                <div class="keyframe-image">
+                  <img data-low-level-keyframe src="assets/keyframe1.png" alt="Current keyframe input 1">
+                  <span class="gaze-marker" aria-hidden="true">
+                    <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+                      <circle cx="20" cy="20" r="11" fill="none" stroke="#39ff14" stroke-width="2"/>
+                      <circle cx="20" cy="20" r="8" fill="none" stroke="#ff5a1f" stroke-width="2.5"/>
+                      <line x1="20" y1="1" x2="20" y2="39" stroke="#39ff14" stroke-width="2.5"/>
+                      <line x1="1" y1="20" x2="39" y2="20" stroke="#39ff14" stroke-width="2.5"/>
+                      <circle cx="20" cy="20" r="2.3" fill="#39ff14"/>
+                    </svg>
+                  </span>
+                </div>
               </div>
               <div class="subtask-task low-level-subtask-task">
-                <span data-low-level-task-label>[TASK]<sub>1</sub></span>
+                <span data-low-level-task-label>\\([\\mathrm{TASK}]_{1}\\)</span>
                 <p data-low-level-task>Pick up the screwdriver and pass it to human.</p>
               </div>
             </article>
@@ -971,16 +1022,26 @@ const methodFigureNotes = {
             </figure>
           </div>
         </section>
+        <div class="ll-flow" aria-hidden="true">
+          <div class="ll-flow-arrow-v"><span></span></div>
+          <div class="hl-vlm-box ll-vla-box">
+            <strong>Low-level policy</strong>
+            <small>\\(\\pi_l\\) (VLA)</small>
+          </div>
+          <div class="ll-flow-arrow-v"><span></span></div>
+        </div>
         <section class="low-level-vla-output" aria-label="VLA output">
           <h4>Output</h4>
-          <div class="low-level-output-row">
-            <div class="low-level-output-item low-level-action-stream">
-              <p>Robot Action \\(a_t\\)</p>
-              <pre data-low-level-action>loading action</pre>
-            </div>
-            <div class="low-level-output-item low-level-completion-stream">
-              <p>Completion \\(p_t\\)</p>
-              <output data-low-level-completion>0</output>
+          <div class="low-level-output-box">
+            <div class="low-level-output-row">
+              <div class="low-level-output-item low-level-action-stream">
+                <p>Robot Action \\(a_t\\)</p>
+                <pre data-low-level-action>loading action</pre>
+              </div>
+              <div class="low-level-output-item low-level-completion-stream">
+                <p>Completion \\(p_t\\)</p>
+                <output data-low-level-completion>0</output>
+              </div>
             </div>
           </div>
         </section>
@@ -1112,11 +1173,13 @@ function setupLowLevelPolicyDemo() {
       }
 
       if (keyframeLabel) {
-        keyframeLabel.innerHTML = `Keyframe C<sup>key</sup><sub>${keyframeIndex}</sub>`;
+        keyframeLabel.innerHTML = `Keyframe \\(C^{\\mathrm{key}}_{${keyframeIndex}}\\)`;
+        typesetMath(keyframeLabel);
       }
 
       if (taskLabel) {
-        taskLabel.innerHTML = `[TASK]<sub>${keyframeIndex}</sub>`;
+        taskLabel.innerHTML = `\\([\\mathrm{TASK}]_{${keyframeIndex}}\\)`;
+        typesetMath(taskLabel);
       }
 
       if (taskText) {
